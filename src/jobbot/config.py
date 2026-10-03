@@ -73,12 +73,7 @@ def _read_yaml(path: Path) -> dict[str, Any]:
 
 
 def load_profile(path: Path | None = None) -> Profile:
-    """profile.yaml if present, otherwise profile.example.yaml so dry runs work out of the box."""
-    if path is None:
-        path = CONFIG_DIR / "profile.yaml"
-        if not path.exists():
-            path = CONFIG_DIR / "profile.example.yaml"
-    return Profile.model_validate(_read_yaml(path))
+    return Profile.model_validate(_read_yaml(path or CONFIG_DIR / "profile.yaml"))
 
 
 def load_sources(path: Path | None = None) -> SourcesConfig:

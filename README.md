@@ -14,9 +14,15 @@ an EU-based candidate in Latvia, and emails a ranked digest of what is new via R
 ## Quick start
 ```bash
 uv sync --all-extras
-cp config/profile.example.yaml config/profile.yaml   # edit: home_country, email, keyword boosts
 uv run jobbot sources
-uv run jobbot crawl --source remotive --limit 5 --dry-run
+uv run jobbot crawl --source remotive --limit 5 --dry-run   # raw postings, nothing stored
+uv run jobbot run --no-send --db /tmp/jobbot.sqlite --out-dir /tmp/out   # full run, digest on disk
+```
+
+Edit `config/profile.yaml` to tune filters and scoring. Set `RESEND_API_KEY`, `DIGEST_FROM`
+and `DIGEST_TO` (see `.env.example`) to receive the digest by email.
+
+```bash
 ```
 
 ## Licence

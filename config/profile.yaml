@@ -1,0 +1,15 @@
+# The owner's profile. Committed on purpose: it holds preferences, not secrets.
+# The recipient address comes from the DIGEST_TO secret in CI; `digest.to` is the local fallback.
+eligible_regions: [WORLDWIDE, EU, EEA, EUROPE]
+home_country: LV
+languages: [en, fr, lv, es]
+role_families: [software_dev, devops_cloud, data_ml_ai, it_ops_qa_product]
+seniority: [intern, junior, mid]
+employment_types: [full_time, part_time, contract, freelance, internship]
+keyword_boosts: [python, typescript, react, postgres, aws]   # TODO owner: replace with your stack
+exclude_companies: []
+exclude_title_patterns: ["\\bsales\\b", "recruiter", "account executive"]
+digest:
+  min_score: 50
+  max_items: 150
+  to: []
