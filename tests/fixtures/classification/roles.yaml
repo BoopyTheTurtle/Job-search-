@@ -65,3 +65,19 @@
 - title: Registered Nurse
   description: ""
   expected: other
+- title: Remote Office Assistant
+  description: >
+    Coalition Technologies is a web design and SEO agency. You will schedule meetings, keep
+    the WordPress intranet tidy, and occasionally touch HTML in our email templates.
+  expected: other
+- title: Content Reviewer - United States
+  description: Review user generated content; familiarity with web tools and Python scripts helps.
+  expected: other
+- title: Engineer
+  description: >
+    You will design REST APIs in Python with FastAPI, write unit tests, review pull requests
+    on GitHub and ship through our CI/CD pipeline. Experience with Postgres is a plus.
+  expected: software_dev
+- title: Accounts Receivable Clerk
+  description: Canonical uses Ubuntu and Python internally.
+  expected: other

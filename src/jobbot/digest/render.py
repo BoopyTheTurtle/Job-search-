@@ -58,6 +58,8 @@ def _env() -> Environment:
         autoescape=lambda name: bool(name) and ".html" in str(name),  # html.j2 only
         trim_blocks=True,
         lstrip_blocks=True,
+        # Included per-job partials must keep their final newline, or list items run together.
+        keep_trailing_newline=True,
     )
     env.filters["region"] = region_label
     env.filters["jobtype"] = type_label

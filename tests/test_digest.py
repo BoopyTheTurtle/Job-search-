@@ -89,6 +89,17 @@ def test_render_markdown() -> None:
     assert "Filtered out: not eligible (1), role family other (1)." in md
 
 
+def test_render_markdown_separates_list_items() -> None:
+    jobs = [_job(f"s{i}", title=f"Senior Dev {i}", seniority=Seniority.SENIOR) for i in range(3)]
+    jobs += [_job(f"p{i}") for i in range(2)]
+    digest, _ = build_digest(jobs, PROFILE, run_id="r", since=None, now=NOW)
+    md = render_markdown(digest)
+    lines = md.splitlines()
+    item_lines = [ln for ln in lines if ln.startswith("- **[")]
+    assert len(item_lines) == 5, md
+    assert not any("score 9" in ln and "- **[" in ln[5:] for ln in lines), "items ran together"
+
+
 def test_render_html_and_text() -> None:
     digest, _ = _digest()
     html = render_html(digest)

@@ -42,6 +42,7 @@ def write_outputs(
     stamp = date.strftime("%Y-%m-%d")
     digest_path = digests / f"{stamp}.md"
     digest_path.write_text(markdown, encoding="utf-8")
+    summary.digest_path = str(digest_path)
     payload = {**asdict(summary), "date": date.isoformat(), "sources": sources}
     (runs / f"{stamp}.json").write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
     return digest_path

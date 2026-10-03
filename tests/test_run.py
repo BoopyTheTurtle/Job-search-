@@ -46,6 +46,7 @@ def test_run_all_writes_digest_and_sends(tmp_path: Path, monkeypatch: pytest.Mon
     assert "Junior Python Developer" in digest_md.read_text(encoding="utf-8")
     run_json = json.loads((tmp_path / "out" / "runs" / "2026-10-07.json").read_text())
     assert run_json["email"] == "sent:msg_42"
+    assert run_json["digest_path"] == result.digest_path
     assert run_json["sources"][0]["source"] == "remotive"
 
 

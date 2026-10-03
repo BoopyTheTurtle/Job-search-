@@ -24,3 +24,9 @@ that should the source be flipped to `enabled: true` in `config/sources.yaml`.
 | jobicy | `jobicy/sample.json` | synthetic |
 | weworkremotely | `weworkremotely/sample.rss`, `weworkremotely/devops.rss` | synthetic |
 | workingnomads | `workingnomads/sample.json` | synthetic |
+
+
+Live check 2026-10-03: the manual-smoke run on `main` returned real postings from all six
+connectors with the expected field mappings (ids, tz-aware dates, remote_hint, employment
+type, salary). The fixtures below are still synthetic because the dev environment cannot
+download workflow artifacts; replace them with trimmed real responses when convenient.
