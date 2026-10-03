@@ -1,8 +1,10 @@
-"""Remotive public API. Docs: https://remotive.com/api-documentation
+"""Remotive public API. Docs: https://github.com/remotive-com/remote-jobs-api
 
-Endpoint: GET https://remotive.com/api/remote-jobs?category=<slug>&limit=<n>
-Keyless. Remotive asks for at most a few requests per day and to link back to the job
-page, which the digest does. Every posting is remote by definition.
+Endpoint: GET https://remotive.com/api/remote-jobs[?limit=<n>]
+Keyless. Remotive asks for at most a few requests per day and blocks bursts, so this
+connector makes exactly one unfiltered request per run; role filtering happens later in
+the enrich stage. Remotive requires a link back to the job page, which the digest does.
+Every posting is remote by definition (`remote_hint=True`).
 """
 
 from __future__ import annotations
@@ -18,7 +20,6 @@ from jobbot.models import RawJob
 from jobbot.sources import register
 
 API_URL = "https://remotive.com/api/remote-jobs"
-DEFAULT_CATEGORIES = ["software-dev", "devops", "data", "qa", "product"]
 
 
 class Remotive:
@@ -26,28 +27,22 @@ class Remotive:
 
     def __init__(self, client: httpx.Client, params: dict[str, Any]) -> None:
         self._client = client
-        cats = params.get("categories") or DEFAULT_CATEGORIES
-        self._categories: list[str] = [str(c) for c in cats]
+        self._params = params
 
     def fetch(self, since: datetime | None, limit: int | None = None) -> Iterable[RawJob]:
-        seen: set[str] = set()
+        query: dict[str, Any] = {}
+        if limit:
+            query["limit"] = limit
+        payload = get_json(self._client, API_URL, params=query or None)
         emitted = 0
-        for category in self._categories:
-            query: dict[str, Any] = {"category": category}
-            if limit:
-                query["limit"] = limit
-            payload = get_json(self._client, API_URL, params=query)
-            for item in payload.get("jobs", []):
-                job = self._to_raw(item)
-                if job.source_id in seen:
-                    continue
-                if since and job.posted_at and job.posted_at < since:
-                    continue
-                seen.add(job.source_id)
-                yield job
-                emitted += 1
-                if limit and emitted >= limit:
-                    return
+        for item in payload.get("jobs", []):
+            job = self._to_raw(item)
+            if since and job.posted_at and job.posted_at < since:
+                continue
+            yield job
+            emitted += 1
+            if limit and emitted >= limit:
+                return
 
     @staticmethod
     def _to_raw(item: dict[str, Any]) -> RawJob:

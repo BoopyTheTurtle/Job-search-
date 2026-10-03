@@ -17,11 +17,12 @@ def _payload() -> dict[str, object]:
 
 @respx.mock
 def test_remotive_maps_fields() -> None:
-    respx.get(API_URL).mock(return_value=httpx.Response(200, json=_payload()))
+    route = respx.get(API_URL).mock(return_value=httpx.Response(200, json=_payload()))
     with httpx.Client() as client:
-        src = build("remotive", client, {"categories": ["software-dev"]})
+        src = build("remotive", client, {})
         jobs = list(src.fetch(since=None))
 
+    assert route.call_count == 1, "Remotive allows only a few calls per day: one per run"
     assert [j.source_id for j in jobs] == ["1910001", "1910002"]
     first = jobs[0]
     assert first.source == "remotive"
@@ -40,7 +41,7 @@ def test_remotive_maps_fields() -> None:
 def test_remotive_respects_since_and_limit() -> None:
     respx.get(API_URL).mock(return_value=httpx.Response(200, json=_payload()))
     with httpx.Client() as client:
-        src = build("remotive", client, {"categories": ["software-dev", "devops"]})
+        src = build("remotive", client, {})
         recent = list(src.fetch(since=datetime(2026, 9, 15)))
         assert [j.source_id for j in recent] == ["1910001"]
 
