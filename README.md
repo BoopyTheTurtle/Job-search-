@@ -22,9 +22,6 @@ uv run jobbot run --no-send --db /tmp/jobbot.sqlite --out-dir /tmp/out   # full 
 Edit `config/profile.yaml` to tune filters and scoring. Set `RESEND_API_KEY`, `DIGEST_FROM`
 and `DIGEST_TO` (see `.env.example`) to receive the digest by email.
 
-```bash
-```
-
 ## Licence
 MIT, see [`LICENSE`](LICENSE).
 
