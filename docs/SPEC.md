@@ -235,7 +235,8 @@ Digest sections: **Strong (≥70)**, **Possible (50–69, verify eligibility)**,
 
 ## 9. Configuration
 
-`config/profile.yaml` (user-owned, committed; see `config/profile.example.yaml`):
+`config/profile.yaml` (user-owned, committed; preferences only, the recipient address comes
+from the `DIGEST_TO` secret):
 ```yaml
 eligible_regions: [WORLDWIDE, EU, EEA, EUROPE]
 home_country: LV
@@ -249,7 +250,7 @@ exclude_title_patterns: ["sales", "recruiter"]
 digest:
   min_score: 50
   max_items: 150
-  to: ["me@example.com"]
+  to: []                      # local fallback only; CI uses the DIGEST_TO secret
 ```
 
 `config/sources.yaml`: each source has `enabled`, optional `env` (names of secrets),
@@ -326,7 +327,7 @@ Resolved 2026-10-03: home country Latvia; mid-level included; posting languages 
 email via Resend; MIT licence.
 
 Still open:
-1. Main languages/frameworks for `keyword_boosts` (defaults in `profile.example.yaml` until given).
+1. Main languages/frameworks for `keyword_boosts` (defaults in `config/profile.yaml` until given).
 2. Senior-only postings: keep collapsed (current default) or drop entirely?
 3. Sending domain for Resend: verify a domain you own, or use Resend's onboarding sender
    (which can only deliver to the account's own address, fine for a personal tool).

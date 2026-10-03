@@ -26,7 +26,6 @@ curl -LsSf https://astral.sh/uv/install.sh | sh   # once
 uv sync --all-extras
 uv run pre-commit install
 cp .env.example .env            # add API keys as you get them
-cp config/profile.example.yaml config/profile.yaml
 uv run jobbot sources
 uv run jobbot crawl --source remotive --limit 5 --dry-run
 ```
@@ -53,6 +52,7 @@ history locally: `git fetch origin data && git worktree add ../jobbot-data data`
 branch ever needs resetting, delete it on GitHub and the next run recreates it.
 
 ## Secrets
-Never commit keys. Locally use `.env`; in Actions use repository secrets. `.env` and
-`config/profile.yaml` are gitignored except for the `.example` copies. The digest is sent
-through Resend: `RESEND_API_KEY`, `DIGEST_FROM`, `DIGEST_TO`.
+Never commit keys. Locally use `.env`; in Actions use repository secrets. `.env` is
+gitignored. `config/profile.yaml` is committed because it holds only preferences; the
+recipient address and the sender live in secrets. The digest is sent through Resend:
+`RESEND_API_KEY`, `DIGEST_FROM`, `DIGEST_TO`.
