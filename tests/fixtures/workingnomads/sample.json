@@ -1,0 +1,32 @@
+[
+  {
+    "url": "https://www.workingnomads.com/jobs/junior-python-developer-acme-robotics",
+    "title": "Junior Python Developer",
+    "description": "<p>Fully remote robotics company hiring in <strong>Europe</strong>. Synthetic fixture built from API documentation.</p>",
+    "company_name": "Acme Robotics",
+    "category_name": "Development",
+    "tags": "python,django, postgresql",
+    "location": "Europe",
+    "pub_date": "2026-09-29T10:15:00Z"
+  },
+  {
+    "url": "https://www.workingnomads.com/jobs/cloud-engineer-globex",
+    "title": "Cloud Engineer",
+    "description": "<p>Anywhere.</p>",
+    "company_name": "",
+    "category_name": "",
+    "tags": "",
+    "location": "Anywhere",
+    "pub_date": "2026-09-30T12:00:00+00:00"
+  },
+  {
+    "url": "https://www.workingnomads.com/jobs/senior-android-engineer-initech",
+    "title": "Senior Android Engineer",
+    "description": "<p>Posted a month ago.</p>",
+    "company_name": "Initech",
+    "category_name": "Development",
+    "tags": "kotlin,android",
+    "location": "USA",
+    "pub_date": "2026-09-01T08:00:00Z"
+  }
+]

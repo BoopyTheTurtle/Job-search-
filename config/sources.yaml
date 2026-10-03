@@ -2,10 +2,58 @@
 # `terms` is mandatory: the URL of the API terms or robots.txt we rely on (ADR-0001).
 # Keys in `env` are read from the environment; missing keys disable the source at runtime.
 # See docs/inventory/apis-and-feeds.md for endpoint details and rate limits.
+#
+# Tier A connectors other than remotive start `enabled: false`: they were built from API
+# documentation only and are switched on one by one after a passing manual-smoke run
+# (.github/workflows/manual-smoke.yml) confirms the live payload matches the mapping.
 sources:
   remotive:
     enabled: true
     tier: A
     terms: https://github.com/remotive-com/remote-jobs-api
     rate_limit_rps: 0.1   # Remotive: a few calls per day; we make one per run
+    params: {}
+  arbeitnow:
+    enabled: false
+    tier: A
+    terms: https://www.arbeitnow.com/api
+    rate_limit_rps: 1.0   # unpublished; paginated via links.next, max 20 pages per run
+    params: {}
+  remoteok:
+    enabled: false
+    tier: A
+    terms: https://remoteok.com/api   # legal notice is element 0 of the response
+    rate_limit_rps: 0.5   # unpublished; one request per run (~100 most recent jobs)
+    params: {}
+  himalayas:
+    enabled: false
+    tier: A
+    terms: https://himalayas.app/api
+    rate_limit_rps: 1.0   # unpublished; limit=20 per page, max 20 pages per run
+    params:
+      page_size: 20
+  jobicy:
+    enabled: false
+    tier: A
+    terms: https://github.com/Jobicy/remote-jobs-api
+    rate_limit_rps: 0.1   # Jobicy: poll at most once per hour; one request per run
+    params:
+      geo: europe
+  weworkremotely:
+    enabled: false
+    tier: A
+    terms: https://weworkremotely.com/remote-job-rss-feed
+    rate_limit_rps: 1.0   # none stated; one request per category feed
+    params:
+      feeds:
+        - https://weworkremotely.com/categories/remote-programming-jobs.rss
+        - https://weworkremotely.com/categories/remote-devops-sysadmin-jobs.rss
+        - https://weworkremotely.com/categories/remote-full-stack-programming-jobs.rss
+        - https://weworkremotely.com/categories/remote-back-end-programming-jobs.rss
+        - https://weworkremotely.com/categories/remote-front-end-programming-jobs.rss
+  workingnomads:
+    enabled: false
+    tier: A
+    terms: https://www.workingnomads.com/api/exposed_jobs/   # no separate docs page found
+    rate_limit_rps: 0.5   # unpublished; one request per run
     params: {}

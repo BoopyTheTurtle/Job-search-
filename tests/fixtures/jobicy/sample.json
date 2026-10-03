@@ -1,0 +1,62 @@
+{
+  "apiVersion": "2.0",
+  "documentationUrl": "https://jobicy.com/jobs-rss-feed",
+  "friendlyNotice": "Synthetic fixture built from API documentation; replace with a trimmed live response. Jobicy asks to keep its canonical URL and not poll more than once per hour.",
+  "jobCount": 3,
+  "xRayHash": "deadbeef",
+  "clientKey": "",
+  "lastUpdate": "2026-10-01 06:00:00",
+  "jobs": [
+    {
+      "id": 4001,
+      "url": "https://jobicy.com/jobs/4001-junior-full-stack-developer",
+      "jobSlug": "4001-junior-full-stack-developer",
+      "jobTitle": "Junior Full Stack Developer",
+      "companyName": "Acme Robotics",
+      "companyLogo": "https://jobicy.com/data/acme.png",
+      "jobIndustry": ["Software Engineering"],
+      "jobType": ["full-time"],
+      "jobGeo": "Europe",
+      "jobLevel": "Junior",
+      "jobExcerpt": "Build features across our React and Django stack.",
+      "jobDescription": "<p>Build features across our <strong>React</strong> and Django stack. Remote within Europe.</p>",
+      "pubDate": "2026-09-29 10:15:00",
+      "annualSalaryMin": 40000,
+      "annualSalaryMax": 55000,
+      "salaryCurrency": "EUR"
+    },
+    {
+      "id": 4002,
+      "url": "https://jobicy.com/jobs/4002-cloud-engineer",
+      "jobSlug": "4002-cloud-engineer",
+      "jobTitle": "Cloud Engineer",
+      "companyName": "Globex Cloud",
+      "companyLogo": "",
+      "jobIndustry": ["DevOps & SysAdmin"],
+      "jobType": [],
+      "jobGeo": "Anywhere",
+      "jobLevel": "Any",
+      "jobExcerpt": "",
+      "jobDescription": "<p>Async-first, anywhere.</p>",
+      "pubDate": "2026-09-30 12:00:00"
+    },
+    {
+      "id": 3999,
+      "url": "https://jobicy.com/jobs/3999-senior-ios-engineer",
+      "jobSlug": "3999-senior-ios-engineer",
+      "jobTitle": "Senior iOS Engineer",
+      "companyName": "Initech",
+      "companyLogo": "",
+      "jobIndustry": ["Software Engineering"],
+      "jobType": ["contract"],
+      "jobGeo": "UK",
+      "jobLevel": "Senior",
+      "jobExcerpt": "Posted a month ago.",
+      "jobDescription": "<p>Posted a month ago.</p>",
+      "pubDate": "2026-09-01 08:00:00",
+      "annualSalaryMin": 90000,
+      "annualSalaryMax": 110000,
+      "salaryCurrency": "GBP"
+    }
+  ]
+}
