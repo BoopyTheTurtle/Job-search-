@@ -41,8 +41,8 @@ one PR. Items are ordered by dependency within a phase.
 - [ ] Connector: Arbeitsagentur Jobsuche (DE), if API status allows
 - [ ] Connector: Reed (UK)
 - [ ] Connector: Jooble, The Muse, Careerjet (keys permitting)
-- [ ] Per-country remote/region vocab (DE, FR, ES, IT, NL, PL, Nordics)
-- [ ] Crawl failure → GitHub issue automation
+- [x] Per-country remote vocabulary (DE, FR, ES, IT, NL, PL, SV, NO, FI, LV)
+- [x] Crawl failure → GitHub issue automation (`crawl-failure` label)
 - [ ] Source health dashboard section in digest
 
 ## Phase 3 — Employer-direct (ATS)

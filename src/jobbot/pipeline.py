@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 import time
 from dataclasses import dataclass, field
 from datetime import UTC, datetime, timedelta
@@ -36,6 +37,17 @@ class RunSummary:
     def failed_sources(self) -> int:
         return sum(1 for s in self.sources if s.errors)
 
+    @property
+    def attempted_sources(self) -> int:
+        return sum(1 for s in self.sources if not s.skipped)
+
+
+def missing_env(cfg: SourceConfig | None) -> list[str]:
+    """Names of the credentials a source declares in `env` that are not set (or empty)."""
+    if cfg is None:
+        return []
+    return [name for name in cfg.env if not os.environ.get(name, "").strip()]
+
 
 def resolve_since(store: Store, since_days: int | None, now: datetime) -> datetime:
     if since_days is not None:
@@ -65,8 +77,17 @@ def run_crawl(
             record = SourceRunRecord(source=name)
             started = time.monotonic()
             raws: list[RawJob] = []
+            cfg = configs.get(name)
+            absent = missing_env(cfg)
+            if absent:
+                # A keyed source without its secret is not a failure: it simply does not
+                # take part in this run. The digest shows it as skipped.
+                record.skipped = True
+                record.error_message = "skipped: missing " + ", ".join(absent)
+                store.record_source_run(run_id, record)
+                summary.sources.append(record)
+                continue
             try:
-                cfg = configs.get(name)
                 connector = build(name, client, cfg.params if cfg else {})
                 # Collect incrementally: a paginated source that fails on page N (rate
                 # limit, outage) still contributes pages 1..N-1 to this run.
@@ -85,7 +106,7 @@ def run_crawl(
             store.record_source_run(run_id, record)
             summary.sources.append(record)
 
-    failed = summary.failed_sources
-    summary.status = "ok" if not names or failed * 2 <= len(names) else "failed"
+    failed, attempted = summary.failed_sources, summary.attempted_sources
+    summary.status = "ok" if not attempted or failed * 2 <= attempted else "failed"
     store.finish_run(run_id, summary.status, summary.new_jobs, now=datetime.now(tz=UTC))
     return summary

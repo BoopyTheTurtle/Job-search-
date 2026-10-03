@@ -89,6 +89,60 @@
   description: We are a growing company.
   remote_hint: null
   expected: unknown
+- name: swedish distans
+  title: Systemutvecklare
+  location: Stockholm, Sweden
+  description: Arbete på distans är möjligt, vi träffas en gång i månaden.
+  remote_hint: null
+  expected: remote
+- name: swedish hemifran
+  title: Backend-utvecklare
+  location: Göteborg, Sweden
+  description: Du kan jobba hemifrån.
+  remote_hint: null
+  expected: remote
+- name: french full remote
+  title: Développeur Python
+  location: 75 - PARIS 08, France
+  description: Poste en full remote, équipe distribuée.
+  remote_hint: null
+  expected: remote
+- name: french no teletravail
+  title: Développeur Python
+  location: Lyon, France
+  description: Pas de télétravail possible.
+  remote_hint: null
+  expected: onsite
+- name: spanish trabajo remoto
+  title: Desarrollador Python
+  location: Madrid, Spain
+  description: Trabajo 100% remoto desde cualquier lugar de España.
+  remote_hint: null
+  expected: remote
+- name: latvian onsite
+  title: Programmētājs
+  location: Rīga, Latvia
+  description: Darbs tikai klātienē.
+  remote_hint: null
+  expected: onsite
+- name: german mobiles arbeiten
+  title: Softwareentwickler
+  location: München, Germany
+  description: Mobiles Arbeiten ist bei uns Standard.
+  remote_hint: null
+  expected: remote
+- name: dutch thuiswerken
+  title: Developer
+  location: Utrecht, Netherlands
+  description: Volledig thuiswerken mogelijk.
+  remote_hint: null
+  expected: remote
+- name: polish praca zdalna
+  title: Programista
+  location: Warszawa, Poland
+  description: Praca zdalna.
+  remote_hint: null
+  expected: remote
 - name: remote friendly is hybrid
   title: Engineer
   location: London

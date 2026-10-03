@@ -28,5 +28,5 @@ SENIOR-ONLY ({{ d.senior | length }})
 
 SOURCE HEALTH
 {% for s in d.sources %}
-{{ s.source }}: fetched {{ s.fetched }}, new {{ s.new }}, {% if s.errors %}ERROR {{ s.error_message }}{% else %}ok{% endif %}
+{{ s.source }}: fetched {{ s.fetched }}, new {{ s.new }}, {% if s.skipped %}{{ s.error_message }}{% elif s.errors %}ERROR {{ s.error_message }}{% else %}ok{% endif %}
 {% endfor %}
