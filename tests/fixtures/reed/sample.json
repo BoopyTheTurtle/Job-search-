@@ -1,0 +1,49 @@
+{
+  "results": [
+    {
+      "jobId": 55012345,
+      "employerId": 401122,
+      "employerName": "Example Digital Ltd",
+      "employerProfileId": null,
+      "employerProfileName": null,
+      "jobTitle": "Junior Python Developer - Fully Remote",
+      "locationName": "Remote",
+      "minimumSalary": 30000.0,
+      "maximumSalary": 38000.0,
+      "currency": "GBP",
+      "expirationDate": "10/11/2026",
+      "date": "29/09/2026",
+      "jobDescription": "We are hiring a junior Python developer to join our fully remote team. You will build APIs with FastAPI... ",
+      "applications": 12,
+      "jobUrl": "https://www.reed.co.uk/jobs/junior-python-developer-fully-remote/55012345"
+    },
+    {
+      "jobId": 55012399,
+      "employerId": 401999,
+      "employerName": "Agency Recruit",
+      "jobTitle": "Remote DevOps Engineer (Contract)",
+      "locationName": "Work from Home",
+      "minimumSalary": null,
+      "maximumSalary": null,
+      "currency": null,
+      "date": "27/09/2026",
+      "jobDescription": "Outside IR35 contract, Kubernetes and AWS.",
+      "applications": 0,
+      "jobUrl": "https://www.reed.co.uk/jobs/remote-devops-engineer-contract/55012399",
+      "contractType": "Contract"
+    },
+    {
+      "jobId": 54000001,
+      "employerName": "Old Co",
+      "jobTitle": "Remote Data Analyst",
+      "locationName": "Manchester",
+      "minimumSalary": 0,
+      "maximumSalary": 0,
+      "date": "02/09/2026",
+      "jobDescription": "An older posting.",
+      "jobUrl": "https://www.reed.co.uk/jobs/remote-data-analyst/54000001"
+    }
+  ],
+  "ambiguousLocations": [],
+  "totalResults": 3
+}
