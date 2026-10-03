@@ -1,0 +1,18 @@
+{
+  "count": 1,
+  "results": [
+    {
+      "id": "5100000042",
+      "title": "Graduate Frontend Developer - Remote (UK/EU)",
+      "description": "Fully remote role for a graduate frontend developer, TypeScript and React.",
+      "redirect_url": "https://www.adzuna.co.uk/jobs/details/5100000042",
+      "created": "2026-09-30T11:30:00Z",
+      "company": {"display_name": "Example Labs Ltd"},
+      "location": {"display_name": "London, UK", "area": ["UK", "London"]},
+      "category": {"tag": "it-jobs", "label": "IT Jobs"},
+      "salary_min": 32000,
+      "salary_is_predicted": "0",
+      "contract_time": "full_time"
+    }
+  ]
+}

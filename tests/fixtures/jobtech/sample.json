@@ -1,0 +1,139 @@
+{
+  "total": {
+    "value": 3
+  },
+  "hits": [
+    {
+      "id": "31548844",
+      "headline": "Var med och forma hur AI används på Finansinspektionen",
+      "webpage_url": "https://arbetsformedlingen.se/platsbanken/annonser/31548844",
+      "publication_date": "2026-10-02T15:44:31",
+      "application_deadline": "2026-10-26T23:59:59",
+      "removed": false,
+      "employer": {
+        "name": "Finansinspektionen"
+      },
+      "workplace_address": {
+        "municipality": "Stockholm",
+        "region": "Stockholms län",
+        "country": "Sverige"
+      },
+      "description": {
+        "text": "AI skapar nya möjligheter för hur organisationer arbetar, fattar beslut och utvecklar sina tjänster. På Finansinspektionen (FI) bygger vi nu upp våra förmågor inom AI och söker en it-arkitekt som vill vara med och sätta riktningen.\nSom it-arkitekt inom AI får du en central roll i att omsätta verksamhetens behov till hållbara och ansvarsfulla AI-lösningar. Du bidrar till målarkitektur, strategiska ",
+        "text_formatted": "<p>AI skapar nya möjligheter för hur organisationer arbetar, fattar beslut och utvecklar sina tjänster. På Finansinspektionen (FI) bygger vi nu upp våra förmågor inom AI och söker en it-arkitekt som vill vara med och sätta riktningen.</p><p>Som it-arkitekt inom AI får du en central roll i att omsätta verksamhetens behov till hållbara och ansvarsfulla AI-lösningar. Du bidrar till målarkitektur, str"
+      },
+      "employment_type": {
+        "concept_id": "PFZr_Syz_cUq",
+        "label": "Vanlig anställning"
+      },
+      "working_hours_type": {
+        "concept_id": "6YE1_gAC_R2G",
+        "label": "Heltid"
+      },
+      "occupation": {
+        "concept_id": "uyJg_i94_xmr",
+        "label": "IT-arkitekt/Lösningsarkitekt"
+      },
+      "occupation_field": {
+        "concept_id": "apaJ_2ja_LuF",
+        "label": "Data/IT"
+      },
+      "salary_description": null,
+      "application_details": {
+        "url": "https://www.fi.se/sv/om-fi/arbeta-pa-fi/lediga-jobb/?rmpage=job&rmjob=2462&utm_medium=talentech_publishing&utm_source=jobtip"
+      },
+      "workplace_model": {
+        "concept_id": null,
+        "label": null
+      }
+    },
+    {
+      "id": "31538361",
+      "headline": "Technical Delivery Coordinator till Nortic i Karlskrona!",
+      "webpage_url": "https://arbetsformedlingen.se/platsbanken/annonser/31538361",
+      "publication_date": "2026-09-30T16:30:05",
+      "application_deadline": "2027-03-29T23:59:59",
+      "removed": false,
+      "employer": {
+        "name": "Academic Work Sweden AB"
+      },
+      "workplace_address": {
+        "municipality": "Karlskrona",
+        "region": "Blekinge län",
+        "country": "Sverige"
+      },
+      "description": {
+        "text": "Är struktur, framdrift och koordinering sådant som motiverar dig? Nortic söker nu en Technical Delivery Coordinator som trivs med att projektleda komplexa flöden och säkerställa att prioriterade projekt når hela vägen i mål. Rollen erbjuder nära samarbete med både utveckling och affär samt möjligheten att på sikt utvecklas inom produktutveckling. Varmt välkommen med din ansökan!\nOm tjänsten\nNortic",
+        "text_formatted": "<p>Är struktur, framdrift och koordinering sådant som motiverar dig? Nortic söker nu en Technical Delivery Coordinator som trivs med att projektleda komplexa flöden och säkerställa att prioriterade projekt når hela vägen i mål. Rollen erbjuder nära samarbete med både utveckling och affär samt möjligheten att på sikt utvecklas inom produktutveckling. Varmt välkommen med din ansökan!</p><p><strong>O"
+      },
+      "employment_type": {
+        "concept_id": "PFZr_Syz_cUq",
+        "label": "Vanlig anställning"
+      },
+      "working_hours_type": {
+        "concept_id": "6YE1_gAC_R2G",
+        "label": "Heltid"
+      },
+      "occupation": {
+        "concept_id": "z5AM_ayf_WcL",
+        "label": "Projektledare, IT"
+      },
+      "occupation_field": {
+        "concept_id": "apaJ_2ja_LuF",
+        "label": "Data/IT"
+      },
+      "salary_description": null,
+      "application_details": {
+        "url": "https://www.academicwork.se/lediga-jobb/p/platsbanken/KEPNT0"
+      },
+      "workplace_model": {
+        "concept_id": null,
+        "label": null
+      }
+    },
+    {
+      "id": "31540686",
+      "headline": "Informationssäkerhets specialist",
+      "webpage_url": "https://arbetsformedlingen.se/platsbanken/annonser/31540686",
+      "publication_date": "2026-10-01T10:36:50",
+      "application_deadline": "2026-10-11T23:59:59",
+      "removed": false,
+      "employer": {
+        "name": "I-Ray IT Solutions AB"
+      },
+      "workplace_address": {
+        "municipality": null,
+        "region": null,
+        "country": "Sverige"
+      },
+      "description": {
+        "text": "Informationssäkerhetsspecialist\nPlats: Linköping, Sverige\nArbetssätt: Delvis distans\nAnställningsform: Konsult\nUppdragsperiod: 1 januari 2027 – 30 juni 2027\nFörlängning: Möjlighet till förlängning till och med 31 december 2028\nOmfattning: 75 %\nUppdragsplats: Linköping / delvis distans\nSista svarsdag: 11 oktober 2026\nOm uppdraget\nVi söker en Informationssäkerhetsspecialist för ett konsultuppdrag me",
+        "text_formatted": "<p>Informationssäkerhetsspecialist</p><p><strong>Plats:</strong> Linköping, Sverige</p><p><strong>Arbetssätt:</strong> Delvis distans</p><p><strong>Anställningsform:</strong> Konsult</p><p><strong>Uppdragsperiod:</strong> 1 januari 2027 – 30 juni 2027</p><p><strong>Förlängning:</strong> Möjlighet till förlängning till och med 31 december 2028</p><p><strong>Omfattning:</strong> 75 %</p><p><strong>U"
+      },
+      "employment_type": {
+        "concept_id": "sTu5_NBQ_udq",
+        "label": "Tidsbegränsad anställning"
+      },
+      "working_hours_type": {
+        "concept_id": "6YE1_gAC_R2G",
+        "label": "Heltid"
+      },
+      "occupation": {
+        "concept_id": "9yMK_8ep_D1K",
+        "label": "IT-säkerhetstekniker"
+      },
+      "occupation_field": {
+        "concept_id": "apaJ_2ja_LuF",
+        "label": "Data/IT"
+      },
+      "salary_description": null,
+      "application_details": {
+        "url": null
+      },
+      "workplace_model": {
+        "concept_id": null,
+        "label": null
+      }
+    }
+  ]
+}

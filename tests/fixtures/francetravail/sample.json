@@ -1,0 +1,43 @@
+{
+  "resultats": [
+    {
+      "id": "198ABCD",
+      "intitule": "Développeur Python junior (H/F) - Télétravail",
+      "description": "Rejoignez notre équipe produit. Télétravail total possible depuis l'UE. Python, Django, PostgreSQL.",
+      "dateCreation": "2026-09-29T10:15:00.000Z",
+      "dateActualisation": "2026-09-30T08:00:00.000Z",
+      "lieuTravail": {"libelle": "75 - Paris 11e", "codePostal": "75011", "commune": "75111"},
+      "romeCode": "M1805",
+      "romeLibelle": "Études et développement informatique",
+      "entreprise": {"nom": "Exemple Logiciel SAS"},
+      "typeContrat": "CDI",
+      "typeContratLibelle": "Contrat à durée indéterminée",
+      "dureeTravailLibelleConverti": "Temps plein",
+      "experienceExige": "D",
+      "experienceLibelle": "Débutant accepté",
+      "salaire": {"libelle": "Annuel de 38000,00 Euros à 45000,00 Euros sur 12 mois"},
+      "origineOffre": {"origine": "1", "urlOrigine": "https://candidat.francetravail.fr/offres/recherche/detail/198ABCD"}
+    },
+    {
+      "id": "198ABCE",
+      "intitule": "Ingénieur DevOps (H/F)",
+      "description": "Mission de 6 mois, 3 jours de télétravail par semaine.",
+      "dateCreation": "2026-09-27T14:00:00.000Z",
+      "lieuTravail": {"libelle": "69 - Lyon 3e"},
+      "romeLibelle": "Expertise et support en systèmes d'information",
+      "entreprise": {},
+      "typeContrat": "CDD",
+      "origineOffre": {}
+    },
+    {
+      "id": "197ZZZZ",
+      "intitule": "Data analyst (H/F)",
+      "description": "Offre ancienne, télétravail partiel.",
+      "dateCreation": "2026-09-01T09:00:00.000Z",
+      "lieuTravail": {"libelle": "33 - Bordeaux"},
+      "entreprise": {"nom": "Ancienne SA"},
+      "typeContrat": "LIB"
+    }
+  ],
+  "filtresPossibles": []
+}

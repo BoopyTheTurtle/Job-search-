@@ -40,3 +40,7 @@ _None this week._
 {% if d.drop_reasons %}
 Filtered out: {% for reason, n in d.drop_reasons | dictsort(by="value", reverse=True) %}{{ reason }} ({{ n }}){{ ", " if not loop.last }}{% endfor %}.
 {% endif %}
+{% for text, link in d.attributions %}
+
+[{{ text }}]({{ link }})
+{% endfor %}
