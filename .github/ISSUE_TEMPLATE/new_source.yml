@@ -1,0 +1,37 @@
+name: New job source
+description: Propose a job board, API or feed to add
+title: "source: <name>"
+labels: ["source"]
+body:
+  - type: input
+    id: url
+    attributes:
+      label: Site URL
+    validations:
+      required: true
+  - type: dropdown
+    id: access
+    attributes:
+      label: Access method
+      options:
+        - Public API (no key)
+        - Keyed / partner API
+        - RSS or XML feed
+        - HTML only (terms permit)
+    validations:
+      required: true
+  - type: input
+    id: terms
+    attributes:
+      label: Link to API terms or robots.txt
+    validations:
+      required: true
+  - type: textarea
+    id: coverage
+    attributes:
+      label: Coverage
+      description: Countries, remote filter availability, English postings, volume.
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes

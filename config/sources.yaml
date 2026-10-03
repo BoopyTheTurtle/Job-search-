@@ -1,0 +1,11 @@
+# One entry per connector. `name` must match the module's registered name.
+# `terms` is mandatory: the URL of the API terms or robots.txt we rely on (ADR-0001).
+# Keys in `env` are read from the environment; missing keys disable the source at runtime.
+# See docs/inventory/apis-and-feeds.md for endpoint details and rate limits.
+sources:
+  remotive:
+    enabled: true
+    tier: A
+    terms: https://github.com/remotive-com/remote-jobs-api
+    rate_limit_rps: 0.1   # Remotive: a few calls per day; we make one per run
+    params: {}

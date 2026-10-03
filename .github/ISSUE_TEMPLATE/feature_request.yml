@@ -1,0 +1,20 @@
+name: Feature request
+description: A new capability or change to filtering, scoring or delivery
+title: "feat: <short description>"
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+  - type: dropdown
+    id: phase
+    attributes:
+      label: Suggested phase
+      options: ["phase-1", "phase-2", "phase-3", "phase-4", "later"]
