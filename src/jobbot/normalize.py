@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import html
 import re
 from datetime import UTC, datetime
 from email.utils import parsedate_to_datetime
@@ -64,6 +65,10 @@ def html_to_text(value: str | None) -> str:
     """Strip tags, keep list bullets and paragraph breaks, collapse whitespace."""
     if not value:
         return ""
+    # Some APIs (Arbeitnow, for one) ship HTML with the tags themselves entity-escaped
+    # ("&lt;p&gt;"). Unescape once so the parser sees real tags instead of literal text.
+    if "<" not in value and "&lt;" in value:
+        value = html.unescape(value)
     parser = _TextExtractor()
     parser.feed(value)
     parser.close()

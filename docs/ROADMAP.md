@@ -9,9 +9,10 @@ one PR. Items are ordered by dependency within a phase.
 - [x] Canonical `Job`/`RawJob` models and `Source` protocol
 - [x] Reference connector: Remotive, with fixture test
 - [x] GitHub collaboration: CODEOWNERS, PR template, issue templates, Dependabot, CONTRIBUTING
-- [ ] Owner: enable branch protection on `main` (require PR, require CI, no force push)
+- [x] Owner: enable branch protection on `main` (require PR, require CI, no force push)
 - [x] Owner: home country (LV), languages (en/fr/lv/es), email provider (Resend), licence (MIT)
-- [ ] Owner: confirm `keyword_boosts` and create a Resend API key
+- [x] Owner: keyword boosts (html, css, javascript, typescript, python, c)
+- [ ] Owner: create a Resend API key and add the three secrets
 
 ## Phase 1 — MVP weekly digest
 - [x] Normalizer: HTML→text, date parsing, URL canonicalisation

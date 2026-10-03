@@ -6,7 +6,7 @@ languages: [en, fr, lv, es]
 role_families: [software_dev, devops_cloud, data_ml_ai, it_ops_qa_product]
 seniority: [intern, junior, mid]
 employment_types: [full_time, part_time, contract, freelance, internship]
-keyword_boosts: [python, typescript, react, postgres, aws]   # TODO owner: replace with your stack
+keyword_boosts: [python, typescript, javascript, html, css, c]   # owner's main languages
 exclude_companies: []
 exclude_title_patterns: ["\\bsales\\b", "recruiter", "account executive"]
 digest:

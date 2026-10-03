@@ -116,3 +116,17 @@ def test_low_score_dropped() -> None:
     verdict = evaluate(weak, PROFILE, NOW)
     assert verdict.job.score == 45  # role 30 + remote 15
     assert verdict.section is Section.DROPPED
+
+
+def test_keyword_present_uses_token_boundaries() -> None:
+    from jobbot.filter import keyword_present
+
+    assert keyword_present("c", "Embedded developer, C and Rust")
+    assert keyword_present("c", "We use C/C++ for firmware")
+    assert not keyword_present("c", "CSS and HTML experience, work from a cafe")
+    assert keyword_present("c", "Objective-C")  # related language, allowed
+    assert keyword_present("c++", "Modern C++ (17/20)")
+    assert not keyword_present("java", "JavaScript and TypeScript")
+    assert keyword_present("javascript", "Senior JavaScript Engineer")
+    assert keyword_present(".net", "ASP.NET Core and .NET 8")
+    assert not keyword_present("html", "htmlx")
