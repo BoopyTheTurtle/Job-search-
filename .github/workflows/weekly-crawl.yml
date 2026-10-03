@@ -6,6 +6,8 @@
 # runs/YYYY-MM-DD.json. It is created automatically on the first run.
 #
 # Secrets: RESEND_API_KEY, DIGEST_FROM, DIGEST_TO (email is skipped if any is missing).
+# Optional source keys (a source is skipped without its own): ADZUNA_APP_ID, ADZUNA_APP_KEY,
+# REED_API_KEY, FRANCE_TRAVAIL_CLIENT_ID, FRANCE_TRAVAIL_CLIENT_SECRET.
 name: weekly-crawl
 
 on:
@@ -32,6 +34,7 @@ on:
 
 permissions:
   contents: write
+  issues: write   # crawl-failure issue on a failed scheduled run
 
 concurrency:
   group: weekly-crawl
@@ -75,6 +78,11 @@ jobs:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           DIGEST_FROM: ${{ secrets.DIGEST_FROM }}
           DIGEST_TO: ${{ secrets.DIGEST_TO }}
+          ADZUNA_APP_ID: ${{ secrets.ADZUNA_APP_ID }}
+          ADZUNA_APP_KEY: ${{ secrets.ADZUNA_APP_KEY }}
+          REED_API_KEY: ${{ secrets.REED_API_KEY }}
+          FRANCE_TRAVAIL_CLIENT_ID: ${{ secrets.FRANCE_TRAVAIL_CLIENT_ID }}
+          FRANCE_TRAVAIL_CLIENT_SECRET: ${{ secrets.FRANCE_TRAVAIL_CLIENT_SECRET }}
           DRY_RUN: ${{ inputs.dry_run }}
           SOURCES: ${{ inputs.sources }}
           SINCE_DAYS: ${{ inputs.since_days }}
@@ -133,6 +141,31 @@ jobs:
               -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
               commit --quiet -m "crawl ${stamp} (run ${GITHUB_RUN_ID})"
           git push --quiet origin HEAD:data
+
+      - name: Open or update the crawl-failure issue
+        if: steps.run.outcome == 'failure' && inputs.dry_run != true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          latest=$(ls -1 data/runs/*.json 2>/dev/null | sort | tail -n 1 || true)
+          summary="(no run summary written)"
+          if [ -n "$latest" ]; then summary=$(cat "$latest"); fi
+          body=$(printf '%s\n\n%s\n\n```json\n%s\n```\n\n%s' \
+            "The weekly crawl on $(date -u +%Y-%m-%d) exited non-zero (more than half the sources failed, or the email failed)." \
+            "Run: ${run_url}" \
+            "$summary" \
+            "This issue is updated by the workflow on each failure and should be closed by hand once the cause is fixed.")
+          gh label create crawl-failure --color B60205 --description "Automated: a scheduled crawl failed" --force >/dev/null 2>&1 || true
+          existing=$(gh issue list --repo "$GITHUB_REPOSITORY" --label crawl-failure --state open --json number --jq '.[0].number // empty')
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --repo "$GITHUB_REPOSITORY" --body "$body"
+            echo "updated issue #$existing"
+          else
+            gh issue create --repo "$GITHUB_REPOSITORY" --title "weekly-crawl failed on $(date -u +%Y-%m-%d)" \
+              --label crawl-failure --body "$body"
+          fi
 
       - name: Fail if the run failed
         if: steps.run.outcome == 'failure'

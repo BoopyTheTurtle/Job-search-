@@ -37,6 +37,11 @@ jobs:
       - name: Crawl (dry run)
         env:
           SOURCE: ${{ inputs.source }}
+          ADZUNA_APP_ID: ${{ secrets.ADZUNA_APP_ID }}
+          ADZUNA_APP_KEY: ${{ secrets.ADZUNA_APP_KEY }}
+          REED_API_KEY: ${{ secrets.REED_API_KEY }}
+          FRANCE_TRAVAIL_CLIENT_ID: ${{ secrets.FRANCE_TRAVAIL_CLIENT_ID }}
+          FRANCE_TRAVAIL_CLIENT_SECRET: ${{ secrets.FRANCE_TRAVAIL_CLIENT_SECRET }}
           LIMIT: ${{ inputs.limit }}
           SINCE_DAYS: ${{ inputs.since_days }}
         run: |
@@ -64,7 +69,7 @@ jobs:
               dates = sorted(i["posted_at"] or "" for i in items)
               print(f"\n=== {src}: {len(items)} postings, posted_at {dates[0][:10]} .. {dates[-1][:10]}")
               for i in items:
-                  html = i.get("description_html") or ""
+                  html = i.get("description_html") or i.get("description_text") or ""
                   esc = " ESCAPED-HTML" if "<" not in html and "&lt;" in html else ""
                   print(
                       f"  id={str(i['source_id'])[:28]!s:28} | {i['title'][:45]:45} | "

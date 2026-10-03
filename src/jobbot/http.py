@@ -36,6 +36,7 @@ def _get(
     url: str,
     *,
     params: dict[str, Any] | None,
+    headers: dict[str, str] | None = None,
     attempts: int,
     parse: Callable[[httpx.Response], T],
 ) -> T:
@@ -44,7 +45,7 @@ def _get(
     last_error: Exception | None = None
     for attempt in range(1, attempts + 1):
         try:
-            response = client.get(url, params=params)
+            response = client.get(url, params=params, headers=headers)
             if response.status_code in RETRY_STATUSES and attempt < attempts:
                 time.sleep(delay)
                 delay *= 2
@@ -60,14 +61,28 @@ def _get(
 
 
 def get_json(
-    client: httpx.Client, url: str, *, params: dict[str, Any] | None = None, attempts: int = 3
+    client: httpx.Client,
+    url: str,
+    *,
+    params: dict[str, Any] | None = None,
+    headers: dict[str, str] | None = None,
+    attempts: int = 3,
 ) -> Any:
     """GET with exponential backoff on transient errors. Returns parsed JSON."""
-    return _get(client, url, params=params, attempts=attempts, parse=lambda r: r.json())
+    return _get(
+        client, url, params=params, headers=headers, attempts=attempts, parse=lambda r: r.json()
+    )
 
 
 def get_text(
-    client: httpx.Client, url: str, *, params: dict[str, Any] | None = None, attempts: int = 3
+    client: httpx.Client,
+    url: str,
+    *,
+    params: dict[str, Any] | None = None,
+    headers: dict[str, str] | None = None,
+    attempts: int = 3,
 ) -> str:
     """GET with exponential backoff on transient errors. Returns the decoded body (RSS/XML)."""
-    return _get(client, url, params=params, attempts=attempts, parse=lambda r: r.text)
+    return _get(
+        client, url, params=params, headers=headers, attempts=attempts, parse=lambda r: r.text
+    )

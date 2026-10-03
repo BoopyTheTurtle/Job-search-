@@ -19,7 +19,11 @@ NEGATIVE = re.compile(
     r"|\bon[- ]?site only\b"
     r"|\bin[- ]office only\b"
     r"|\bkein(?:e)? home[- ]?office\b"
-    r"|\bno (?:home[- ]?office|wfh|teletrabajo|télétravail)\b",
+    r"|\bno (?:home[- ]?office|wfh|teletrabajo|télétravail)\b"
+    r"|\bsans télétravail\b|\bpas de télétravail\b"  # fr
+    r"|\bsin teletrabajo\b|\bno remoto\b"  # es
+    r"|\binte(?:t)? distans\b|\bej distans\b"  # sv
+    r"|\bbez attālinātā\b|\btikai klātienē\b",  # lv
     _FLAGS,
 )
 HYBRID = re.compile(
@@ -39,16 +43,24 @@ REMOTE = re.compile(
     r"|\bwork from home\b"
     r"|\bwfh\b"
     r"|\bhome[- ]?office\b"
-    r"|\btélétravail\b"
-    r"|\bteletrabajo\b"
-    r"|\battālināt[sai]\b"
-    r"|\battālināti\b"
+    r"|\bmobiles arbeiten\b"  # de
+    r"|\bremote[- ]arbeit\b"  # de
+    r"|\btélétravail\b|\btele?travail\b|\bfull remote\b|\ben remote\b"  # fr
+    r"|\bteletrabajo\b|\b(?:trabajo|empleo|100\s?%) (?:en )?remoto\b|\bremoto\b"  # es
+    r"|\battālināt[sai]\b|\battālināti\b|\battālinātais darbs\b"  # lv
+    r"|\bdistansarbete\b|\bpå distans\b|\bhemifrån\b|\bdistansjobb\b"  # sv
+    r"|\bfjernarbeid\b|\bhjemmekontor\b"  # no
+    r"|\betätyö\b|\betänä\b"  # fi
+    r"|\bthuiswerken\b|\bvanuit huis\b"  # nl
+    r"|\bpraca zdalna\b|\bzdalnie\b"  # pl
+    r"|\blavoro da remoto\b|\bda remoto\b|\bsmart working\b"  # it
     r"|\bdistributed(?: team| company)\b"
     r"|\bremote[- ](?:first|only)\b",
     _FLAGS,
 )
 ONSITE = re.compile(
-    r"\bon[- ]?site\b|\bin[- ]office\b|\bvor ort\b|\bpräsenz\b|\bpresencial\b|\bsur site\b",
+    r"\bon[- ]?site\b|\bin[- ]office\b|\bvor ort\b|\bpräsenz\b|\bpresencial\b|\bsur site\b"
+    r"|\bklātienē\b|\bpå plats\b|\bpå kontoret\b|\bop kantoor\b|\bin sede\b",
     _FLAGS,
 )
 

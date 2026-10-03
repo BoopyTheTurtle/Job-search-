@@ -42,10 +42,10 @@
 <h2 style="font-size:14px;margin:24px 0 8px;color:#57606a;">Source health</h2>
 <table style="border-collapse:collapse;font-size:12px;color:#57606a;">
 {% for s in d.sources %}
-<tr><td style="padding:2px 12px 2px 0;">{{ s.source }}</td><td style="padding:2px 12px 2px 0;text-align:right;">{{ s.fetched }} fetched</td><td style="padding:2px 12px 2px 0;text-align:right;">{{ s.new }} new</td><td>{% if s.errors %}<span style="color:#cf222e;">error: {{ s.error_message }}</span>{% else %}ok{% endif %}</td></tr>
+<tr><td style="padding:2px 12px 2px 0;">{{ s.source }}</td><td style="padding:2px 12px 2px 0;text-align:right;">{{ s.fetched }} fetched</td><td style="padding:2px 12px 2px 0;text-align:right;">{{ s.new }} new</td><td>{% if s.skipped %}<span style="color:#8c959f;">{{ s.error_message }}</span>{% elif s.errors %}<span style="color:#cf222e;">error: {{ s.error_message }}</span>{% else %}ok{% endif %}</td></tr>
 {% endfor %}
 </table>
-<p style="margin:20px 0 0;font-size:11px;color:#8c959f;">Run {{ d.run_id }}. Postings link to their original source; this digest is for personal use.</p>
+<p style="margin:20px 0 0;font-size:11px;color:#8c959f;">Run {{ d.run_id }}. Postings link to their original source; this digest is for personal use.{% for text, link in d.attributions %} <a href="{{ link }}" style="color:#8c959f;">{{ text }}</a>.{% endfor %}</p>
 </div>
 </body>
 </html>

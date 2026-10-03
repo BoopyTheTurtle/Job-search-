@@ -34,9 +34,13 @@ _None this week._
 | Source | Fetched | New | Status |
 |---|---:|---:|---|
 {% for s in d.sources %}
-| {{ s.source }} | {{ s.fetched }} | {{ s.new }} | {% if s.errors %}error: {{ s.error_message }}{% else %}ok ({{ s.duration_ms }} ms){% endif %} |
+| {{ s.source }} | {{ s.fetched }} | {{ s.new }} | {% if s.skipped %}{{ s.error_message }}{% elif s.errors %}error: {{ s.error_message }}{% else %}ok ({{ s.duration_ms }} ms){% endif %} |
 {% endfor %}
 
 {% if d.drop_reasons %}
 Filtered out: {% for reason, n in d.drop_reasons | dictsort(by="value", reverse=True) %}{{ reason }} ({{ n }}){{ ", " if not loop.last }}{% endfor %}.
 {% endif %}
+{% for text, link in d.attributions %}
+
+[{{ text }}]({{ link }})
+{% endfor %}

@@ -15,7 +15,14 @@ from typing import Any
 from jobbot.dedupe import merge, norm_company, norm_text
 from jobbot.models import Job
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
+
+# Incremental migrations keyed by the version they upgrade *to*. Each statement list is
+# applied inside one transaction; `CREATE TABLE IF NOT EXISTS` in _SCHEMA already covers
+# fresh databases, so migrations only touch existing tables.
+_MIGRATIONS: dict[int, list[str]] = {
+    2: ["ALTER TABLE source_runs ADD COLUMN skipped INTEGER NOT NULL DEFAULT 0"],
+}
 
 _SCHEMA = """
 CREATE TABLE IF NOT EXISTS schema_version (version INTEGER NOT NULL);
@@ -76,7 +83,8 @@ CREATE TABLE IF NOT EXISTS source_runs (
     new INTEGER NOT NULL DEFAULT 0,
     errors INTEGER NOT NULL DEFAULT 0,
     duration_ms INTEGER NOT NULL DEFAULT 0,
-    error_message TEXT
+    error_message TEXT,
+    skipped INTEGER NOT NULL DEFAULT 0
 );
 CREATE TABLE IF NOT EXISTS feedback (
     job_id TEXT NOT NULL,
@@ -123,6 +131,8 @@ class SourceRunRecord:
     errors: int = 0
     duration_ms: int = 0
     error_message: str | None = None
+    skipped: bool = False
+    """True when the source was not attempted (e.g. its API key is not configured)."""
 
 
 @dataclass
@@ -203,6 +213,22 @@ class Store:
             row = self._conn.execute("SELECT version FROM schema_version").fetchone()
             if row is None:
                 self._conn.execute("INSERT INTO schema_version VALUES (?)", (SCHEMA_VERSION,))
+                return
+            current = int(row["version"])
+            for version in range(current + 1, SCHEMA_VERSION + 1):
+                for statement in _MIGRATIONS.get(version, []):
+                    try:
+                        self._conn.execute(statement)
+                    except sqlite3.OperationalError as exc:
+                        # The column already exists when a fresh _SCHEMA created the
+                        # table on a database whose version row lagged behind.
+                        if "duplicate column" not in str(exc).lower():
+                            raise
+                self._conn.execute("UPDATE schema_version SET version = ?", (version,))
+
+    def schema_version(self) -> int:
+        row = self._conn.execute("SELECT version FROM schema_version").fetchone()
+        return int(row["version"]) if row else 0
 
     def close(self) -> None:
         self._conn.close()
@@ -266,7 +292,7 @@ class Store:
         with self._conn:
             self._conn.execute(
                 "INSERT INTO source_runs (run_id, source, fetched, new, errors, duration_ms, "
-                "error_message) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                "error_message, skipped) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
                 (
                     run_id,
                     record.source,
@@ -275,6 +301,7 @@ class Store:
                     record.errors,
                     record.duration_ms,
                     record.error_message,
+                    int(record.skipped),
                 ),
             )
 
@@ -290,6 +317,7 @@ class Store:
                 errors=r["errors"],
                 duration_ms=r["duration_ms"],
                 error_message=r["error_message"],
+                skipped=bool(r["skipped"]),
             )
             for r in rows
         ]

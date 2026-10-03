@@ -33,7 +33,9 @@ MIT, see [`LICENSE`](LICENSE).
   `runs/YYYY-MM-DD.json`. Only the workflow writes to it.
 - **New sources:** run `manual-smoke` for the source, check the artifact, replace the
   synthetic fixture, then flip `enabled: true` in `config/sources.yaml`.
-- **Secrets:** `RESEND_API_KEY`, `DIGEST_FROM`, `DIGEST_TO` in repository settings.
+- **Secrets:** `RESEND_API_KEY`, `DIGEST_FROM`, `DIGEST_TO` in repository settings. Keyed
+  sources add their own (`ADZUNA_APP_ID`, `ADZUNA_APP_KEY`, `REED_API_KEY`,
+  `FRANCE_TRAVAIL_CLIENT_ID`, `FRANCE_TRAVAIL_CLIENT_SECRET`); without them the source is skipped.
 
 ## Status
 Phase 1 (MVP digest): pipeline, filtering, digest and weekly workflow are in place.
