@@ -37,6 +37,8 @@ jobs:
       - name: Crawl (dry run)
         env:
           SOURCE: ${{ inputs.source }}
+          ADZUNA_APP_ID: ${{ secrets.ADZUNA_APP_ID }}
+          ADZUNA_APP_KEY: ${{ secrets.ADZUNA_APP_KEY }}
           LIMIT: ${{ inputs.limit }}
           SINCE_DAYS: ${{ inputs.since_days }}
         run: |

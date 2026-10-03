@@ -67,7 +67,11 @@ def crawl(
         with Store(db) as store:
             summary = run_crawl(store, names, cfg, since_days=since_days, limit=limit)
         for rec in summary.sources:
-            status = f"ERROR {rec.error_message}" if rec.errors else "ok"
+            status = (
+                rec.error_message
+                if rec.skipped
+                else (f"ERROR {rec.error_message}" if rec.errors else "ok")
+            )
             typer.echo(
                 f"{rec.source:20} fetched {rec.fetched:4} new {rec.new:4} "
                 f"{rec.duration_ms:6} ms {status}",
@@ -82,12 +86,18 @@ def crawl(
             raise typer.Exit(code=1)
         return
 
+    from jobbot.pipeline import missing_env
+
     since = datetime.now(tz=UTC) - timedelta(days=since_days if since_days is not None else 14)
     failures = 0
     with make_client() as client:
         for name in names:
             entry = cfg.get(name)
             params = entry.params if entry else {}
+            absent = missing_env(entry)
+            if absent:
+                typer.echo(f"{name}: skipped: missing {', '.join(absent)}", err=True)
+                continue
             try:
                 connector = build(name, client, params)
                 count = 0

@@ -24,6 +24,7 @@ that should the source be flipped to `enabled: true` in `config/sources.yaml`.
 | jobicy | `jobicy/sample.json` | synthetic |
 | weworkremotely | `weworkremotely/sample.rss`, `weworkremotely/devops.rss` | synthetic |
 | workingnomads | `workingnomads/sample.json` | synthetic |
+| adzuna | `adzuna/de.json`, `adzuna/gb.json` | synthetic (not yet smoke-tested) |
 
 
 Live check 2026-10-03: the manual-smoke run on `main` returned real postings from all six

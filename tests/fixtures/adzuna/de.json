@@ -1,0 +1,49 @@
+{
+  "__CLASS__": "Adzuna::API::Response::JobSearchResults",
+  "count": 3,
+  "mean": 61000,
+  "results": [
+    {
+      "__CLASS__": "Adzuna::API::Response::Job",
+      "id": "4870012345",
+      "title": "Junior Python Entwickler (m/w/d) - 100% Remote",
+      "description": "Wir suchen einen Junior Python Entwickler für unser Plattform-Team. Die Stelle ist vollständig remote innerhalb der EU möglich…",
+      "redirect_url": "https://www.adzuna.de/details/4870012345?utm_medium=api&utm_source=abc",
+      "created": "2026-09-29T08:12:44Z",
+      "company": {"__CLASS__": "Adzuna::API::Response::Company", "display_name": "Beispiel Software GmbH"},
+      "location": {"__CLASS__": "Adzuna::API::Response::Location", "display_name": "Berlin, Deutschland", "area": ["Deutschland", "Berlin", "Berlin"]},
+      "category": {"__CLASS__": "Adzuna::API::Response::Category", "tag": "it-jobs", "label": "IT-Stellen"},
+      "salary_min": 48000,
+      "salary_max": 58000,
+      "salary_is_predicted": "0",
+      "contract_type": "permanent",
+      "contract_time": "full_time"
+    },
+    {
+      "__CLASS__": "Adzuna::API::Response::Job",
+      "id": "4870012399",
+      "title": "DevOps Engineer (Remote)",
+      "description": "Remote-first team, Kubernetes, Terraform.",
+      "redirect_url": "https://www.adzuna.de/details/4870012399",
+      "created": "2026-09-27T16:00:00Z",
+      "company": {},
+      "location": {"area": ["Deutschland", "Hamburg"]},
+      "category": {"tag": "it-jobs", "label": "IT-Stellen"},
+      "salary_min": 70000,
+      "salary_max": 70000,
+      "salary_is_predicted": "1",
+      "contract_type": "contract"
+    },
+    {
+      "__CLASS__": "Adzuna::API::Response::Job",
+      "id": "4860000001",
+      "title": "Data Analyst Remote",
+      "description": "Old posting.",
+      "redirect_url": "https://www.adzuna.de/details/4860000001",
+      "created": "2026-09-01T09:00:00Z",
+      "company": {"display_name": "Alt AG"},
+      "location": {"display_name": "München, Bayern"},
+      "category": {"tag": "it-jobs", "label": "IT-Stellen"}
+    }
+  ]
+}

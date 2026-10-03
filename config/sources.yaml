@@ -5,7 +5,7 @@
 #
 # All Tier A connectors were verified against live payloads by the manual-smoke workflow
 # on 2026-10-03 (field-mapping table in the job log) and are enabled. New connectors start
-# `enabled: true` until their own smoke run passes.
+# `enabled: false` until their own smoke run passes.
 sources:
   remotive:
     enabled: true
@@ -59,3 +59,16 @@ sources:
     terms: https://www.workingnomads.com/api/exposed_jobs/   # no separate docs page found
     rate_limit_rps: 0.5   # unpublished; one request per run
     params: {}
+  adzuna:
+    enabled: false          # flip after ADZUNA_* secrets are set and manual-smoke passes
+    tier: B
+    terms: https://developer.adzuna.com/docs/terms_of_service   # "Jobs by Adzuna" credit required
+    rate_limit_rps: 0.4     # terms: 25/min, 250/day, 1000/week; 13 countries x 2 pages = 26 calls
+    env: [ADZUNA_APP_ID, ADZUNA_APP_KEY]
+    params:
+      countries: [at, be, de, es, fr, it, nl, pl, gb, us, ca, au, nz]
+      what: remote
+      category: it-jobs
+      results_per_page: 50
+      max_pages: 2
+      page_delay: 1.0

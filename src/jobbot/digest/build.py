@@ -11,6 +11,9 @@ from jobbot.filter import Section, Verdict, evaluate
 from jobbot.models import Job
 from jobbot.store import SourceRunRecord
 
+ATTRIBUTIONS = {"adzuna": ("Jobs by Adzuna", "https://www.adzuna.co.uk")}
+"""Credit lines some sources' terms require next to their listings: source -> (text, link)."""
+
 
 @dataclass
 class Digest:
@@ -37,6 +40,11 @@ class Digest:
 
     def all_jobs(self) -> list[Job]:
         return [*self.strong, *self.possible, *self.senior]
+
+    @property
+    def attributions(self) -> list[tuple[str, str]]:
+        shown = {job.source for job in self.all_jobs()}
+        return [credit for source, credit in sorted(ATTRIBUTIONS.items()) if source in shown]
 
 
 def build_digest(

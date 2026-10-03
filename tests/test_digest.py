@@ -112,6 +112,23 @@ def test_render_html_and_text() -> None:
     assert "arbeitnow: fetched 0, new 0, ERROR 403 Forbidden" in text
 
 
+def test_attribution_only_when_the_source_is_shown() -> None:
+    digest, _ = _digest()
+    assert digest.attributions == []  # type: ignore[attr-defined]
+    assert "Adzuna" not in render_markdown(digest)  # type: ignore[arg-type]
+
+    shown, _ = build_digest(
+        [_job("az", source="adzuna", source_ids={"adzuna": "de:1"})],
+        PROFILE,
+        run_id="r",
+        since=None,
+        now=NOW,
+    )
+    assert "[Jobs by Adzuna](https://www.adzuna.co.uk)" in render_markdown(shown)
+    assert 'href="https://www.adzuna.co.uk"' in render_html(shown)
+    assert "Jobs by Adzuna: https://www.adzuna.co.uk" in render_text(shown)
+
+
 def test_html_escapes_untrusted_fields() -> None:
     digest, _ = build_digest(
         [_job("x", title="<script>alert(1)</script>", company="A&B")],
