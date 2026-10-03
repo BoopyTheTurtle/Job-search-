@@ -1,0 +1,77 @@
+# Role-family taxonomy. Patterns are case-insensitive regular expressions matched as whole
+# tokens (not inside other words). Title matches weigh 3x description matches (SPEC §8.4).
+families:
+  software_dev:
+    title:
+      - "software (?:developer|engineer|development)"
+      - "(?:web|frontend|front[- ]end|backend|back[- ]end|full[- ]?stack|mobile|ios|android|game|embedded|firmware|application|app|platform|cloud|api|systems?) (?:developer|engineer|programmer)"
+      - "developer"
+      - "programmer"
+      - "programmētāj\\w*"
+      - "développeur\\w*"
+      - "desarrollador\\w*"
+      - "entwickler\\w*"
+      - "full[- ]?stack"
+      - "frontend|front[- ]end"
+      - "backend|back[- ]end"
+      - "python|java|javascript|typescript|node(?:\\.js)?|react|angular|vue|svelte|php|laravel|symfony|ruby|rails|go(?:lang)?|rust|c#|\\.net|c\\+\\+|scala|kotlin|swift|flutter|django|fastapi|spring|wordpress|shopify|elixir|haskell|clojure"
+      - "web"
+      - "software engineering"
+    description:
+      - "python|javascript|typescript|react|node\\.js|django|fastapi|spring boot|laravel|rails|kotlin|swift|golang|rust|c\\+\\+|c#|\\.net"
+      - "git|github|gitlab|pull requests?|code review|unit tests?|rest(?:ful)? api|graphql|microservices"
+      - "software (?:developer|engineer|development)"
+  devops_cloud:
+    title:
+      - "devops|dev ops"
+      - "sre|site reliability"
+      - "platform engineer"
+      - "cloud (?:engineer|architect|administrator|ops|operations)"
+      - "infrastructure (?:engineer|architect)"
+      - "kubernetes|k8s|docker|terraform|ansible|aws|azure|gcp"
+      - "release engineer"
+      - "observability"
+      - "linux (?:engineer|administrator)"
+      - "sysops|cloudops|finops"
+    description:
+      - "kubernetes|k8s|docker|terraform|ansible|helm|argo ?cd|prometheus|grafana|datadog"
+      - "aws|amazon web services|azure|google cloud|gcp"
+      - "ci/cd|continuous integration|continuous delivery|github actions|gitlab ci|jenkins"
+      - "infrastructure as code|iac|sre|site reliability"
+  data_ml_ai:
+    title:
+      - "data (?:engineer|scientist|analyst|architect|platform)"
+      - "machine learning|ml (?:engineer|ops)|mlops"
+      - "ai (?:engineer|developer|researcher|specialist)|artificial intelligence"
+      - "deep learning|nlp|computer vision|llm|generative ai|prompt engineer"
+      - "analytics engineer|bi (?:developer|engineer|analyst)|business intelligence"
+      - "etl|data warehouse|dbt|spark|snowflake|databricks"
+    description:
+      - "pandas|numpy|scikit-learn|pytorch|tensorflow|hugging ?face|langchain"
+      - "spark|airflow|dbt|snowflake|databricks|bigquery|redshift"
+      - "machine learning|data pipelines?|data modeling|feature engineering|llms?"
+  it_ops_qa_product:
+    title:
+      - "it support|helpdesk|help desk|service desk|desktop support|technical support|support engineer"
+      - "system(?:s)? administrator|sysadmin|network (?:engineer|administrator)|it (?:technician|specialist|administrator|manager|engineer|operations)"
+      - "qa|quality assurance|test (?:engineer|automation|analyst)|sdet|tester|qa engineer"
+      - "product (?:manager|owner)|technical product"
+      - "(?:it|technical|software|digital) project manager|scrum master|delivery manager|agile coach"
+      - "technical writer|solutions? (?:architect|engineer)|sales engineer"
+      - "security (?:analyst|engineer)|cyber ?security|information security|soc analyst|penetration tester|pentester"
+      - "database administrator|dba"
+    description:
+      - "ticketing|servicenow|jira service|active directory|office 365|m365|intune|itil"
+      - "test cases|selenium|cypress|playwright|test automation|regression testing"
+      - "product roadmap|backlog|stakeholders|user stories|scrum|sprints?"
+exclude:
+  title:
+    - "account executive|account manager|sales (?:manager|representative|development|director)|sales$"
+    - "recruiter|talent acquisition|sourcer|headhunter"
+    - "marketing (?:manager|specialist|director)|seo specialist|content (?:writer|marketer)|copywriter"
+    - "business development|customer success manager|customer support representative"
+    - "nurse|physician|therapist|pharmacist|dentist"
+    - "mechanical engineer|civil engineer|electrical engineer|structural engineer|hvac|chemical engineer"
+    - "truck|driver|warehouse|forklift|cleaner|janitor|cook|chef|barista"
+    - "teacher|tutor|attorney|lawyer|paralegal|accountant|bookkeeper|payroll"
+    - "real estate|insurance agent|financial advisor|loan officer"
