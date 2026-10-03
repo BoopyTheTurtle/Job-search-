@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>{{ d.subject }}</title>
+</head>
+<body style="margin:0;padding:24px;background:#f6f7f9;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#1f2328;">
+<div style="max-width:720px;margin:0 auto;background:#ffffff;border-radius:8px;padding:24px;">
+<h1 style="font-size:20px;margin:0 0 4px;">Job digest {{ d.date | string | truncate(10, True, "") }}</h1>
+<p style="margin:0 0 20px;color:#57606a;font-size:13px;">
+{{ d.strong | length }} strong · {{ d.possible | length }} possible · {{ d.senior | length }} senior-only · {{ d.dropped }} filtered out
+</p>
+
+{% macro job_row(job) %}
+<li style="margin:0 0 14px;line-height:1.4;">
+  <a href="{{ job.url }}" style="font-weight:600;color:#0969da;text-decoration:none;">{{ job.title }}</a>
+  <span style="color:#1f2328;"> at {{ job.company or "unknown company" }}</span>
+  {% if job | lang %}<span style="background:#eef1f5;border-radius:4px;padding:0 6px;font-size:12px;">{{ job | lang }}</span>{% endif %}
+  <div style="font-size:13px;color:#57606a;">
+    {{ job | region }} · {{ job | jobtype }}{% if job | seniority %} · {{ job | seniority }}{% endif %}{% if job.salary_raw %} · {{ job.salary_raw }}{% endif %} · {{ job.source }}{% if age(job, now) %} · {{ age(job, now) }}{% endif %} · score {{ job.score }}
+  </div>
+</li>
+{% endmacro %}
+
+<h2 style="font-size:16px;margin:20px 0 8px;">Strong matches ({{ d.strong | length }})</h2>
+<ul style="padding-left:18px;margin:0;">
+{% for job in d.strong %}{{ job_row(job) }}{% else %}<li style="color:#57606a;">None this week.</li>{% endfor %}
+</ul>
+
+<h2 style="font-size:16px;margin:24px 0 8px;">Possible matches: verify eligibility ({{ d.possible | length }})</h2>
+<ul style="padding-left:18px;margin:0;">
+{% for job in d.possible %}{{ job_row(job) }}{% else %}<li style="color:#57606a;">None this week.</li>{% endfor %}
+</ul>
+
+<h2 style="font-size:14px;margin:24px 0 8px;color:#57606a;">Senior-only roles ({{ d.senior | length }})</h2>
+<ul style="padding-left:18px;margin:0;font-size:13px;">
+{% for job in d.senior %}
+<li style="margin:0 0 6px;"><a href="{{ job.url }}" style="color:#57606a;">{{ job.title }}</a> at {{ job.company or "unknown company" }}</li>
+{% else %}<li style="color:#57606a;">None this week.</li>{% endfor %}
+</ul>
+
+<h2 style="font-size:14px;margin:24px 0 8px;color:#57606a;">Source health</h2>
+<table style="border-collapse:collapse;font-size:12px;color:#57606a;">
+{% for s in d.sources %}
+<tr><td style="padding:2px 12px 2px 0;">{{ s.source }}</td><td style="padding:2px 12px 2px 0;text-align:right;">{{ s.fetched }} fetched</td><td style="padding:2px 12px 2px 0;text-align:right;">{{ s.new }} new</td><td>{% if s.errors %}<span style="color:#cf222e;">error: {{ s.error_message }}</span>{% else %}ok{% endif %}</td></tr>
+{% endfor %}
+</table>
+<p style="margin:20px 0 0;font-size:11px;color:#8c959f;">Run {{ d.run_id }}. Postings link to their original source; this digest is for personal use.</p>
+</div>
+</body>
+</html>

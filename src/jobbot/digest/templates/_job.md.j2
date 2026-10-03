@@ -1,0 +1,2 @@
+- **[{{ job.title }}]({{ job.url }})** at {{ job.company or "unknown company" }} {{ job | lang }}
+  {{ job | region }} · {{ job | jobtype }}{% if job | seniority %} · {{ job | seniority }}{% endif %}{% if job.salary_raw %} · {{ job.salary_raw }}{% endif %} · {{ job.source }}{% if age(job, now) %} · {{ age(job, now) }}{% endif %} · score {{ job.score }}

@@ -1,0 +1,32 @@
+JOB DIGEST {{ d.date | string | truncate(10, True, "") }}
+{{ d.strong | length }} strong, {{ d.possible | length }} possible, {{ d.senior | length }} senior-only, {{ d.dropped }} filtered out.
+
+STRONG MATCHES ({{ d.strong | length }})
+{% for job in d.strong %}
+* {{ job.title }} at {{ job.company or "unknown company" }} {{ job | lang }}
+  {{ job | region }} | {{ job | jobtype }}{% if job | seniority %} | {{ job | seniority }}{% endif %}{% if job.salary_raw %} | {{ job.salary_raw }}{% endif %} | {{ job.source }} | score {{ job.score }}
+  {{ job.url }}
+{% else %}
+(none)
+{% endfor %}
+
+POSSIBLE MATCHES, VERIFY ELIGIBILITY ({{ d.possible | length }})
+{% for job in d.possible %}
+* {{ job.title }} at {{ job.company or "unknown company" }} {{ job | lang }}
+  {{ job | region }} | {{ job | jobtype }}{% if job | seniority %} | {{ job | seniority }}{% endif %}{% if job.salary_raw %} | {{ job.salary_raw }}{% endif %} | {{ job.source }} | score {{ job.score }}
+  {{ job.url }}
+{% else %}
+(none)
+{% endfor %}
+
+SENIOR-ONLY ({{ d.senior | length }})
+{% for job in d.senior %}
+* {{ job.title }} at {{ job.company or "unknown company" }} - {{ job.url }}
+{% else %}
+(none)
+{% endfor %}
+
+SOURCE HEALTH
+{% for s in d.sources %}
+{{ s.source }}: fetched {{ s.fetched }}, new {{ s.new }}, {% if s.errors %}ERROR {{ s.error_message }}{% else %}ok{% endif %}
+{% endfor %}

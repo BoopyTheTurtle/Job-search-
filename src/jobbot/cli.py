@@ -1,4 +1,4 @@
-"""Command-line entry point: `jobbot sources`, `jobbot crawl`."""
+"""Command-line entry point: `jobbot sources`, `jobbot crawl`, `jobbot run`."""
 
 from __future__ import annotations
 
@@ -88,6 +88,56 @@ def crawl(
                 failures += 1
                 typer.echo(f"{name}: FAILED: {exc}", err=True)
     if names and failures == len(names):
+        raise typer.Exit(code=1)
+
+
+@app.command()
+def run(
+    source: Annotated[
+        list[str] | None, typer.Option(help="Source name; repeatable. Default: all enabled.")
+    ] = None,
+    limit: Annotated[int | None, typer.Option(help="Max postings per source.")] = None,
+    since_days: Annotated[
+        int | None,
+        typer.Option(help="Only postings newer than N days. Default: since the last run."),
+    ] = None,
+    db: Annotated[Path, typer.Option(help="SQLite database path.")] = DEFAULT_DB,
+    out_dir: Annotated[Path, typer.Option(help="Where digests/ and runs/ are written.")] = Path(
+        "data"
+    ),
+    send: Annotated[
+        bool, typer.Option("--send/--no-send", help="Email the digest via Resend if configured.")
+    ] = True,
+    profile_path: Annotated[
+        Path | None, typer.Option("--profile", help="Profile YAML (default config/profile.yaml).")
+    ] = None,
+) -> None:
+    """Full weekly run: crawl, score against the profile, write the digest, email it."""
+    from jobbot.config import load_profile
+    from jobbot.run import run_all
+    from jobbot.store import Store
+
+    cfg = load_sources().sources
+    names = source or [n for n, c in cfg.items() if c.enabled]
+    profile = load_profile(profile_path)
+    with Store(db) as store:
+        result = run_all(
+            store,
+            profile,
+            names,
+            cfg,
+            out_dir=out_dir,
+            send=send,
+            since_days=since_days,
+            limit=limit,
+        )
+    typer.echo(
+        f"run {result.run_id} [{result.status}]: {result.new_jobs} new, "
+        f"{result.strong} strong / {result.possible} possible / {result.senior} senior-only, "
+        f"{result.dropped} filtered → {result.digest_path}; email {result.email}",
+        err=True,
+    )
+    if result.status != "ok" or result.email.startswith("failed"):
         raise typer.Exit(code=1)
 
 

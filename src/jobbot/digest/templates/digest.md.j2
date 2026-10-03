@@ -1,0 +1,42 @@
+# Job digest {{ d.date | string | truncate(10, True, "") }}
+
+Run `{{ d.run_id }}`{% if d.since %} · postings since {{ d.since | string | truncate(10, True, "") }}{% endif %} · {{ d.strong | length }} strong · {{ d.possible | length }} possible · {{ d.senior | length }} senior-only · {{ d.dropped }} filtered out
+
+## Strong matches ({{ d.strong | length }})
+
+{% for job in d.strong %}
+{% include "_job.md.j2" %}
+{% else %}
+_None this week._
+{% endfor %}
+
+## Possible matches: verify eligibility ({{ d.possible | length }})
+
+{% for job in d.possible %}
+{% include "_job.md.j2" %}
+{% else %}
+_None this week._
+{% endfor %}
+
+<details>
+<summary>Senior-only roles ({{ d.senior | length }})</summary>
+
+{% for job in d.senior %}
+{% include "_job.md.j2" %}
+{% else %}
+_None this week._
+{% endfor %}
+
+</details>
+
+## Source health
+
+| Source | Fetched | New | Status |
+|---|---:|---:|---|
+{% for s in d.sources %}
+| {{ s.source }} | {{ s.fetched }} | {{ s.new }} | {% if s.errors %}error: {{ s.error_message }}{% else %}ok ({{ s.duration_ms }} ms){% endif %} |
+{% endfor %}
+
+{% if d.drop_reasons %}
+Filtered out: {% for reason, n in d.drop_reasons | dictsort(by="value", reverse=True) %}{{ reason }} ({{ n }}){{ ", " if not loop.last }}{% endfor %}.
+{% endif %}

@@ -11,9 +11,8 @@ build/
 .coverage
 htmlcov/
 
-# Secrets and personal config
+# Secrets
 .env
-config/profile.yaml
 
 # Local data (lives on the `data` branch in CI)
 data/
