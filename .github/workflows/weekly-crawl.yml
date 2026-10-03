@@ -6,7 +6,8 @@
 # runs/YYYY-MM-DD.json. It is created automatically on the first run.
 #
 # Secrets: RESEND_API_KEY, DIGEST_FROM, DIGEST_TO (email is skipped if any is missing).
-# Optional source keys: ADZUNA_APP_ID, ADZUNA_APP_KEY (the source is skipped without them).
+# Optional source keys (a source is skipped without its own): ADZUNA_APP_ID, ADZUNA_APP_KEY,
+# REED_API_KEY, FRANCE_TRAVAIL_CLIENT_ID, FRANCE_TRAVAIL_CLIENT_SECRET.
 name: weekly-crawl
 
 on:
@@ -79,6 +80,9 @@ jobs:
           DIGEST_TO: ${{ secrets.DIGEST_TO }}
           ADZUNA_APP_ID: ${{ secrets.ADZUNA_APP_ID }}
           ADZUNA_APP_KEY: ${{ secrets.ADZUNA_APP_KEY }}
+          REED_API_KEY: ${{ secrets.REED_API_KEY }}
+          FRANCE_TRAVAIL_CLIENT_ID: ${{ secrets.FRANCE_TRAVAIL_CLIENT_ID }}
+          FRANCE_TRAVAIL_CLIENT_SECRET: ${{ secrets.FRANCE_TRAVAIL_CLIENT_SECRET }}
           DRY_RUN: ${{ inputs.dry_run }}
           SOURCES: ${{ inputs.sources }}
           SINCE_DAYS: ${{ inputs.since_days }}

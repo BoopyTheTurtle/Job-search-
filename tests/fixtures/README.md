@@ -25,6 +25,9 @@ that should the source be flipped to `enabled: true` in `config/sources.yaml`.
 | weworkremotely | `weworkremotely/sample.rss`, `weworkremotely/devops.rss` | synthetic |
 | workingnomads | `workingnomads/sample.json` | synthetic |
 | adzuna | `adzuna/de.json`, `adzuna/gb.json` | synthetic (live smoke run passed 2026-10-03) |
+| jobtech | `jobtech/sample.json` | **real**, trimmed (2026-10-03; contacts removed, descriptions cut to 400 chars) |
+| reed | `reed/sample.json` | synthetic (live smoke run passed 2026-10-03) |
+| francetravail | `francetravail/sample.json` | synthetic (live smoke run passed 2026-10-03) |
 
 
 Live check 2026-10-03: the manual-smoke run on `main` returned real postings from all six

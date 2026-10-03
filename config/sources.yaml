@@ -72,3 +72,34 @@ sources:
       results_per_page: 50
       max_pages: 2
       page_delay: 1.0
+  jobtech:
+    enabled: true           # live dry-run crawl passed 2026-10-03; fixture is a trimmed real response
+    tier: B
+    terms: https://jobsearch.api.jobtechdev.se/   # API spec: "Ads are licensed under CC0"; header api-key: developer
+    rate_limit_rps: 1.0     # none published; one or two requests per run (~30 remote IT ads a week)
+    params:
+      occupation_field: apaJ_2ja_LuF   # Data/IT
+      page_size: 100
+      max_pages: 5
+  reed:
+    enabled: true           # manual-smoke passed 2026-10-03 (5 live postings)
+    tier: B
+    terms: https://www.reed.co.uk/developers/jobseeker   # credit Reed; no bulk redistribution
+    rate_limit_rps: 1.0     # none published; 3 queries x up to 2 pages = 6 calls
+    env: [REED_API_KEY]
+    params:
+      keywords: [remote developer, remote software engineer, remote data]
+      page_size: 100
+      max_pages: 2
+  francetravail:
+    enabled: true           # manual-smoke passed 2026-10-03 (5 live postings)
+    tier: B
+    terms: https://francetravail.io/data/api/offres-emploi   # francetravail.io CGU; attribution, no reselling
+    rate_limit_rps: 3.0     # documented 3 req/s; 1 token call + up to 3 pages
+    env: [FRANCE_TRAVAIL_CLIENT_ID, FRANCE_TRAVAIL_CLIENT_SECRET]
+    params:
+      keywords: télétravail
+      domain: M18           # Informatique / Télécommunication
+      page_size: 150
+      max_pages: 3
+      page_delay: 0.4

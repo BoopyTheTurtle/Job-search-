@@ -37,10 +37,11 @@ one PR. Items are ordered by dependency within a phase.
 - [x] Connector: Adzuna (AT BE DE ES FR IT NL PL + GB/US/CA/AU/NZ, `what=remote`, IT category); enabled after a live smoke run
 - [x] Owner: register at developer.adzuna.com, add `ADZUNA_APP_ID` / `ADZUNA_APP_KEY` secrets, run `manual-smoke` for `adzuna`
 - [ ] Connector: EURES
-- [ ] Connector: Arbetsförmedlingen JobTech (SE)
-- [ ] Connector: France Travail
+- [x] Connector: Arbetsförmedlingen JobTech (SE): `remote=true` in Data/IT, CC0, keyless
+- [x] Connector: France Travail (IT domain, `télétravail`); enabled after a live smoke run
 - [ ] Connector: Arbeitsagentur Jobsuche (DE), if API status allows
-- [ ] Connector: Reed (UK)
+- [x] Connector: Reed (UK); enabled after a live smoke run
+- [x] Owner: Reed key (reed.co.uk/developers/jobseeker) and France Travail OAuth client (francetravail.io) as secrets, then `manual-smoke` each
 - [ ] Connector: Jooble, The Muse, Careerjet (keys permitting)
 - [x] Per-country remote vocabulary (DE, FR, ES, IT, NL, PL, SV, NO, FI, LV)
 - [x] Crawl failure → GitHub issue automation (`crawl-failure` label)
