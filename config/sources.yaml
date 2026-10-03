@@ -1,0 +1,11 @@
+# One entry per connector. `name` must match the module's registered name.
+# `terms` is mandatory: the URL of the API terms or robots.txt we rely on (ADR-0001).
+# Keys in `env` are read from the environment; missing keys disable the source at runtime.
+sources:
+  remotive:
+    enabled: true
+    tier: A
+    terms: https://remotive.com/api-documentation
+    rate_limit_rps: 0.5
+    params:
+      categories: [software-dev, devops, data, qa, product, "all-others"]

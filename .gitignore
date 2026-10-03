@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+dist/
+build/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Secrets and personal config
+.env
+config/profile.yaml
+
+# Local data (lives on the `data` branch in CI)
+data/
+*.sqlite
+*.sqlite-journal
+
+# Editors
+.vscode/
+.idea/
+.DS_Store

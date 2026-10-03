@@ -1,0 +1,23 @@
+name: Bug report
+description: Something is wrong in a crawl, classification or digest
+title: "bug: <short description>"
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+  - type: input
+    id: run
+    attributes:
+      label: Workflow run URL or digest date
+  - type: textarea
+    id: example
+    attributes:
+      label: Example posting URL(s)

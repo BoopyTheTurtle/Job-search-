@@ -1,0 +1,52 @@
+# Weekly crawl. Phase 0 runs in dry-run mode only (no store, no email) so the
+# schedule, secrets wiring and artifact upload can be verified early.
+# Phase 1 replaces the "Crawl" step with `jobbot run` and the `data` branch commit.
+name: weekly-crawl
+
+on:
+  schedule:
+    - cron: "17 6 * * 3"   # Wednesdays 06:17 UTC
+  workflow_dispatch:
+    inputs:
+      sources:
+        description: Comma-separated source names (empty = all enabled)
+        required: false
+        default: ""
+      limit:
+        description: Max postings per source (0 = unlimited)
+        required: false
+        default: "0"
+
+permissions:
+  contents: read
+
+jobs:
+  crawl:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+      - name: Install
+        run: uv sync
+      - name: Crawl (dry run)
+        env:
+          SOURCES: ${{ inputs.sources }}
+          LIMIT: ${{ inputs.limit }}
+        run: |
+          mkdir -p out
+          args=()
+          if [ -n "$SOURCES" ]; then
+            IFS=',' read -ra arr <<< "$SOURCES"
+            for s in "${arr[@]}"; do args+=(--source "$s"); done
+          fi
+          if [ -n "$LIMIT" ] && [ "$LIMIT" != "0" ]; then args+=(--limit "$LIMIT"); fi
+          uv run jobbot crawl --dry-run "${args[@]}" > out/crawl.jsonl
+          wc -l out/crawl.jsonl
+      - uses: actions/upload-artifact@v4
+        with:
+          name: crawl-${{ github.run_id }}
+          path: out/
+          retention-days: 14

@@ -1,0 +1,9 @@
+# Phase 3: employer watchlist for ATS connectors. One entry per company.
+# ats: greenhouse | lever | ashby | workable | recruitee | personio | smartrecruiters | teamtailor
+# slug: the board token / company slug used in that ATS's public URL.
+companies: []
+# Example:
+# - name: Example GmbH
+#   ats: greenhouse
+#   slug: examplegmbh
+#   notes: remote-first, EU
