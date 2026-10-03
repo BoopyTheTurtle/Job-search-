@@ -18,9 +18,13 @@ families:
       - "web"
       - "software engineering"
     description:
-      - "python|javascript|typescript|react|node\\.js|django|fastapi|spring boot|laravel|rails|kotlin|swift|golang|rust|c\\+\\+|c#|\\.net"
-      - "git|github|gitlab|pull requests?|code review|unit tests?|rest(?:ful)? api|graphql|microservices"
-      - "software (?:developer|engineer|development)"
+      # Each line is one independent signal; a title without any IT term needs three of them.
+      - "python|javascript|typescript|java|kotlin|swift|golang|rust|c\\+\\+|c#|php|ruby|scala|elixir"
+      - "react|angular|vue|svelte|next\\.js|node\\.js|django|fastapi|flask|spring boot|laravel|rails|symfony|\\.net|express"
+      - "git|github|gitlab|pull requests?|code reviews?|unit tests?|integration tests?|tdd|pair programming"
+      - "rest(?:ful)? apis?|graphql|grpc|microservices|websockets?|openapi|swagger"
+      - "postgres(?:ql)?|mysql|sqlite|mongodb|redis|elasticsearch|\\bsql\\b"
+      - "software (?:developer|engineer|development|engineering)|web (?:developer|development|application)|frontend|backend|full[- ]?stack"
   devops_cloud:
     title:
       - "devops|dev ops"
@@ -50,6 +54,7 @@ families:
       - "pandas|numpy|scikit-learn|pytorch|tensorflow|hugging ?face|langchain"
       - "spark|airflow|dbt|snowflake|databricks|bigquery|redshift"
       - "machine learning|data pipelines?|data modeling|feature engineering|llms?"
+      - "\\bsql\\b|data warehouse|etl|elt|statistics|a/b test|dashboards?|tableau|power bi|looker"
   it_ops_qa_product:
     title:
       - "it support|helpdesk|help desk|service desk|desktop support|technical support|support engineer"
@@ -64,12 +69,16 @@ families:
       - "ticketing|servicenow|jira service|active directory|office 365|m365|intune|itil"
       - "test cases|selenium|cypress|playwright|test automation|regression testing"
       - "product roadmap|backlog|stakeholders|user stories|scrum|sprints?"
+      - "incident(?:s| management)|monitoring|windows server|linux|networking|vpn|firewall|sla"
 exclude:
   title:
     - "account executive|account manager|sales (?:manager|representative|development|director)|sales$"
     - "recruiter|talent acquisition|sourcer|headhunter"
     - "marketing (?:manager|specialist|director)|seo specialist|content (?:writer|marketer)|copywriter"
-    - "business development|customer success manager|customer support representative"
+    - "business development|customer success manager|customer support representative|customer service"
+    - "(?:office|administrative|executive|virtual|personal) assistant|office manager|receptionist"
+    - "content reviewer|content moderator|data entry|transcri(?:ber|ption)|annotator|rater"
+    - "accounts (?:receivable|payable)|clerk|controller|auditor|tax "
     - "nurse|physician|therapist|pharmacist|dentist"
     - "mechanical engineer|civil engineer|electrical engineer|structural engineer|hvac|chemical engineer"
     - "truck|driver|warehouse|forklift|cleaner|janitor|cook|chef|barista"

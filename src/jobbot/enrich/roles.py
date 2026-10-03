@@ -14,6 +14,7 @@ from jobbot.models import RoleFamily
 
 TITLE_WEIGHT = 3
 DESCRIPTION_CAP = 5
+MIN_BODY_ONLY_HITS = 3
 _BODY_CHARS = 4000
 
 
@@ -84,6 +85,10 @@ def classify_role(
     if not ranked or ranked[0][1][0] == 0:
         return RoleFamily.OTHER
     best, (best_score, best_title_hits) = ranked[0]
+    # A title that says nothing IT-related needs solid evidence in the body: a web agency's
+    # "Office Assistant" posting mentions WordPress and HTML without being a dev role.
+    if best_title_hits == 0 and best_score < MIN_BODY_ONLY_HITS:
+        return RoleFamily.OTHER
     # Tie on score: the family with more title hits wins; a full tie is ambiguous → other.
     if len(ranked) > 1 and ranked[1][1] == (best_score, best_title_hits):
         return RoleFamily.OTHER

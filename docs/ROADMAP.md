@@ -30,7 +30,7 @@ one PR. Items are ordered by dependency within a phase.
 - [x] Workflow: `weekly-crawl.yml` on cron with `data` branch checkout and commit
 - [x] Workflow: `manual-smoke.yml` live run with `--limit 5`, artifact upload
 - [ ] Owner: add Resend secrets, trigger `weekly-crawl` once by hand
-- [ ] Run `manual-smoke`, replace synthetic fixtures with real trimmed responses, enable Tier A sources one by one
+- [x] Run `manual-smoke`; all six Tier A sources verified live and enabled (fixtures still synthetic)
 - [ ] First real digest received and reviewed; tune `taxonomy.yaml` and scoring from it
 
 ## Phase 2 — European breadth
