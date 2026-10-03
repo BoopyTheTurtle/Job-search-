@@ -46,6 +46,12 @@ uv run pytest
 4. Add `tests/sources/test_<name>.py` asserting the `RawJob` mapping.
 5. Add the entry to `config/sources.yaml` with `enabled: false` until a live smoke run passes.
 
+## The `data` branch
+`weekly-crawl` clones the orphan `data` branch into `./data`, runs `jobbot run` against it
+and pushes the result back as `github-actions[bot]`. Never commit to it by hand. To inspect
+history locally: `git fetch origin data && git worktree add ../jobbot-data data`. If the
+branch ever needs resetting, delete it on GitHub and the next run recreates it.
+
 ## Secrets
 Never commit keys. Locally use `.env`; in Actions use repository secrets. `.env` and
 `config/profile.yaml` are gitignored except for the `.example` copies. The digest is sent

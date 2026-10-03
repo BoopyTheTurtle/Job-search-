@@ -1,6 +1,11 @@
-# Weekly crawl. Phase 0 runs in dry-run mode only (no store, no email) so the
-# schedule, secrets wiring and artifact upload can be verified early.
-# Phase 1 replaces the "Crawl" step with `jobbot run` and the `data` branch commit.
+# Weekly crawl (ADR-0002, SPEC §10).
+#
+# Code is checked out from `main`; state lives on the orphan `data` branch, which this
+# workflow clones into ./data (gitignored on main), updates, and pushes back as
+# github-actions[bot]. The `data` branch holds jobbot.sqlite, digests/YYYY-MM-DD.md and
+# runs/YYYY-MM-DD.json. It is created automatically on the first run.
+#
+# Secrets: RESEND_API_KEY, DIGEST_FROM, DIGEST_TO (email is skipped if any is missing).
 name: weekly-crawl
 
 on:
@@ -8,8 +13,16 @@ on:
     - cron: "17 6 * * 3"   # Wednesdays 06:17 UTC
   workflow_dispatch:
     inputs:
+      dry_run:
+        description: Do not email and do not push to the data branch (digest only as artifact)
+        type: boolean
+        default: false
       sources:
         description: Comma-separated source names (empty = all enabled)
+        required: false
+        default: ""
+      since_days:
+        description: Override the lookback window in days (empty = since last run)
         required: false
         default: ""
       limit:
@@ -18,7 +31,11 @@ on:
         default: "0"
 
 permissions:
-  contents: read
+  contents: write
+
+concurrency:
+  group: weekly-crawl
+  cancel-in-progress: false
 
 jobs:
   crawl:
@@ -26,27 +43,93 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
+
       - uses: astral-sh/setup-uv@v6
         with:
           enable-cache: true
+
       - name: Install
         run: uv sync
-      - name: Crawl (dry run)
+
+      - name: Check out data branch
         env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          url="https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          if git ls-remote --exit-code --heads origin data >/dev/null 2>&1; then
+            git clone --quiet --depth 1 --branch data "$url" data
+            echo "data branch: existing ($(git -C data rev-parse --short HEAD))"
+          else
+            mkdir data
+            git -C data init --quiet --initial-branch=data
+            git -C data remote add origin "$url"
+            printf '*.sqlite-wal\n*.sqlite-shm\n' > data/.gitignore
+            echo "data branch: will be created on first push"
+          fi
+
+      - name: Run
+        id: run
+        continue-on-error: true
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          DIGEST_FROM: ${{ secrets.DIGEST_FROM }}
+          DIGEST_TO: ${{ secrets.DIGEST_TO }}
+          DRY_RUN: ${{ inputs.dry_run }}
           SOURCES: ${{ inputs.sources }}
+          SINCE_DAYS: ${{ inputs.since_days }}
           LIMIT: ${{ inputs.limit }}
         run: |
-          mkdir -p out
-          args=()
-          if [ -n "$SOURCES" ]; then
+          set -uo pipefail
+          args=(--db data/jobbot.sqlite --out-dir data)
+          if [ "${DRY_RUN:-false}" = "true" ]; then args+=(--no-send); fi
+          if [ -n "${SOURCES:-}" ]; then
             IFS=',' read -ra arr <<< "$SOURCES"
-            for s in "${arr[@]}"; do args+=(--source "$s"); done
+            for s in "${arr[@]}"; do args+=(--source "$(echo "$s" | xargs)"); done
           fi
-          if [ -n "$LIMIT" ] && [ "$LIMIT" != "0" ]; then args+=(--limit "$LIMIT"); fi
-          uv run jobbot crawl --dry-run "${args[@]}" > out/crawl.jsonl
-          wc -l out/crawl.jsonl
+          if [ -n "${SINCE_DAYS:-}" ]; then args+=(--since-days "$SINCE_DAYS"); fi
+          if [ -n "${LIMIT:-}" ] && [ "$LIMIT" != "0" ]; then args+=(--limit "$LIMIT"); fi
+          uv run jobbot run "${args[@]}"
+
+      - name: Summary
+        if: always()
+        run: |
+          latest=$(ls -1 data/digests/*.md 2>/dev/null | sort | tail -n 1 || true)
+          if [ -n "$latest" ]; then
+            { echo "## Digest ($latest)"; echo; cat "$latest"; } >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "No digest produced." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
-          name: crawl-${{ github.run_id }}
-          path: out/
-          retention-days: 14
+          name: digest-${{ github.run_id }}
+          path: |
+            data/digests/
+            data/runs/
+          if-no-files-found: ignore
+          retention-days: 30
+
+      - name: Commit and push data branch
+        if: ${{ inputs.dry_run != true }}
+        run: |
+          set -euo pipefail
+          cd data
+          rm -f jobbot.sqlite-wal jobbot.sqlite-shm
+          git add -A
+          if git diff --cached --quiet; then
+            echo "nothing to commit"
+            exit 0
+          fi
+          stamp=$(date -u +%Y-%m-%d)
+          git -c user.name="github-actions[bot]" \
+              -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+              commit --quiet -m "crawl ${stamp} (run ${GITHUB_RUN_ID})"
+          git push --quiet origin HEAD:data
+
+      - name: Fail if the run failed
+        if: steps.run.outcome == 'failure'
+        run: |
+          echo "jobbot run exited non-zero (more than half the sources failed, or email failed)."
+          exit 1

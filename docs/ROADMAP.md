@@ -14,21 +14,23 @@ one PR. Items are ordered by dependency within a phase.
 - [ ] Owner: confirm `keyword_boosts` and create a Resend API key
 
 ## Phase 1 — MVP weekly digest
-- [ ] Normalizer: HTML→text, date parsing, URL canonicalisation
-- [ ] Enrich: language detection (`lingua`, accept en/fr/lv/es)
-- [ ] Enrich: remote type classifier with golden tests
-- [ ] Enrich: regions-allowed parser and eligibility check with golden tests
-- [ ] Enrich: role family taxonomy (`config/taxonomy.yaml`) and classifier
-- [ ] Enrich: seniority and employment type classifiers
-- [ ] Dedupe: canonical URL + fuzzy (company, title, location) key
-- [ ] Store: SQLite schema, upsert, runs and source_runs tables
-- [ ] Filter and score per `profile.yaml`
-- [ ] Digest: Markdown, HTML and plain-text renderers (Jinja2)
-- [ ] Digest: Resend API sender with secrets, dry-run mode
-- [ ] Connectors: Arbeitnow, RemoteOK, Himalayas, Jobicy, WeWorkRemotely RSS, Working Nomads
-- [ ] Workflow: `weekly-crawl.yml` on cron with `data` branch checkout and commit
-- [ ] Workflow: `manual-smoke.yml` live run with `--limit 5`, artifact upload
-- [ ] First real digest received and reviewed
+- [x] Normalizer: HTML→text, date parsing, URL canonicalisation
+- [x] Enrich: language detection (`lingua`, accept en/fr/lv/es)
+- [x] Enrich: remote type classifier with golden tests
+- [x] Enrich: regions-allowed parser and eligibility check with golden tests
+- [x] Enrich: role family taxonomy (`config/taxonomy.yaml`) and classifier
+- [x] Enrich: seniority and employment type classifiers
+- [x] Dedupe: canonical URL + fuzzy (company, title, location) key
+- [x] Store: SQLite schema, upsert, runs and source_runs tables
+- [x] Filter and score per `profile.yaml`
+- [x] Digest: Markdown, HTML and plain-text renderers (Jinja2)
+- [x] Digest: Resend API sender with secrets, dry-run mode
+- [x] Connectors: Arbeitnow, RemoteOK, Himalayas, Jobicy, WeWorkRemotely RSS, Working Nomads (disabled until smoke-tested)
+- [x] Workflow: `weekly-crawl.yml` on cron with `data` branch checkout and commit
+- [x] Workflow: `manual-smoke.yml` live run with `--limit 5`, artifact upload
+- [ ] Owner: add Resend secrets, trigger `weekly-crawl` once by hand
+- [ ] Run `manual-smoke`, replace synthetic fixtures with real trimmed responses, enable Tier A sources one by one
+- [ ] First real digest received and reviewed; tune `taxonomy.yaml` and scoring from it
 
 ## Phase 2 — European breadth
 - [ ] Connector: Adzuna (all supported EU countries + GB/US/CA/AU/NZ, keyword `remote`)
