@@ -1,0 +1,57 @@
+[
+  {
+    "0": "https://remoteok.com",
+    "legal": "API Terms of Service: you may use this data only if you link back to the RemoteOK job post URL with a followed link and name RemoteOK as the source. Synthetic fixture built from API documentation."
+  },
+  {
+    "slug": "remote-junior-python-developer-acme-robotics-2001",
+    "id": "2001",
+    "epoch": 1790676900,
+    "date": "2026-09-29T10:15:00+00:00",
+    "company": "Acme Robotics",
+    "company_logo": "https://remoteok.com/assets/img/jobs/acme.png",
+    "position": "Junior Python Developer",
+    "tags": ["python", "django", "junior"],
+    "logo": "",
+    "description": "<p>Join our fully remote team. Candidates in <strong>Europe</strong> preferred.</p>",
+    "location": "Europe",
+    "salary_min": 40000,
+    "salary_max": 60000,
+    "apply_url": "https://remoteok.com/l/2001",
+    "url": "https://remoteok.com/remote-jobs/remote-junior-python-developer-acme-robotics-2001"
+  },
+  {
+    "slug": "remote-site-reliability-engineer-globex-2002",
+    "id": "2002",
+    "epoch": 1790769600,
+    "date": "2026-09-30T12:00:00+00:00",
+    "company": "Globex",
+    "company_logo": "",
+    "position": "Site Reliability Engineer",
+    "tags": ["devops", "aws"],
+    "logo": "",
+    "description": "<p>Worldwide, async-first.</p>",
+    "location": "",
+    "salary_min": 0,
+    "salary_max": 0,
+    "apply_url": "https://remoteok.com/l/2002",
+    "url": "https://remoteok.com/remote-jobs/remote-site-reliability-engineer-globex-2002"
+  },
+  {
+    "slug": "remote-senior-frontend-engineer-initech-1999",
+    "id": "1999",
+    "epoch": 1788249600,
+    "date": "2026-09-01T08:00:00+00:00",
+    "company": "Initech",
+    "company_logo": "",
+    "position": "Senior Frontend Engineer",
+    "tags": ["react", "typescript"],
+    "logo": "",
+    "description": "<p>US only, posted a month ago.</p>",
+    "location": "US only",
+    "salary_min": 120000,
+    "salary_max": 160000,
+    "apply_url": "https://remoteok.com/l/1999",
+    "url": "https://remoteok.com/remote-jobs/remote-senior-frontend-engineer-initech-1999"
+  }
+]

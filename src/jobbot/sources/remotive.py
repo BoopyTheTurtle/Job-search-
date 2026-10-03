@@ -18,6 +18,7 @@ import httpx
 from jobbot.http import get_json
 from jobbot.models import RawJob
 from jobbot.sources import register
+from jobbot.sources._common import from_iso, is_older
 
 API_URL = "https://remotive.com/api/remote-jobs"
 
@@ -37,7 +38,7 @@ class Remotive:
         emitted = 0
         for item in payload.get("jobs", []):
             job = self._to_raw(item)
-            if since and job.posted_at and job.posted_at < since:
+            if is_older(job.posted_at, since):
                 continue
             yield job
             emitted += 1
@@ -46,7 +47,6 @@ class Remotive:
 
     @staticmethod
     def _to_raw(item: dict[str, Any]) -> RawJob:
-        posted = item.get("publication_date")
         return RawJob(
             source="remotive",
             source_id=str(item["id"]),
@@ -55,7 +55,7 @@ class Remotive:
             company=item.get("company_name"),
             location_raw=item.get("candidate_required_location"),
             description_html=item.get("description"),
-            posted_at=datetime.fromisoformat(posted) if posted else None,
+            posted_at=from_iso(item.get("publication_date")),
             salary_raw=item.get("salary") or None,
             employment_type_raw=item.get("job_type") or None,
             remote_hint=True,
