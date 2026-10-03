@@ -1,0 +1,47 @@
+{
+  "jobs": [
+    {
+      "title": "Backend Developer (Go)",
+      "excerpt": "",
+      "image": "",
+      "companyName": "Initech",
+      "companyLogo": "",
+      "employmentType": "Contract",
+      "locationRestrictions": ["United Kingdom"],
+      "timezoneRestrictions": [],
+      "categories": ["Engineering"],
+      "seniority": ["Mid-level"],
+      "minSalary": 70000,
+      "maxSalary": null,
+      "currency": "GBP",
+      "applicationLink": "https://himalayas.app/companies/initech/jobs/backend-developer-go-3003",
+      "guid": "https://himalayas.app/companies/initech/jobs/backend-developer-go-3003",
+      "description": "<p>UK contractors.</p>",
+      "pubDate": 1790600000,
+      "expiryDate": 1793192000
+    },
+    {
+      "title": "Staff Security Engineer",
+      "excerpt": "",
+      "image": "",
+      "companyName": "Umbrella",
+      "companyLogo": "",
+      "employmentType": "Full Time",
+      "locationRestrictions": ["United States"],
+      "timezoneRestrictions": [],
+      "categories": ["Security"],
+      "seniority": ["Senior"],
+      "minSalary": 180000,
+      "maxSalary": 220000,
+      "currency": "USD",
+      "applicationLink": "https://himalayas.app/companies/umbrella/jobs/staff-security-engineer-2999",
+      "guid": "https://himalayas.app/companies/umbrella/jobs/staff-security-engineer-2999",
+      "description": "<p>Posted a month ago.</p>",
+      "pubDate": 1788249600,
+      "expiryDate": 1790841600
+    }
+  ],
+  "offset": 2,
+  "limit": 2,
+  "totalCount": 4
+}

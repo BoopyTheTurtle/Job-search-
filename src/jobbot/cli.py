@@ -35,6 +35,12 @@ def crawl(
     source: Annotated[
         list[str] | None, typer.Option(help="Source name; repeatable. Default: all enabled.")
     ] = None,
+    all_sources: Annotated[
+        bool,
+        typer.Option(
+            "--all", help="Crawl every registered connector, including ones disabled in config."
+        ),
+    ] = False,
     limit: Annotated[int | None, typer.Option(help="Max postings per source.")] = None,
     since_days: Annotated[
         int | None,
@@ -47,7 +53,12 @@ def crawl(
 ) -> None:
     """Fetch postings, normalize, enrich, dedupe and store them (or print raw with --dry-run)."""
     cfg = load_sources().sources
-    names = source or [n for n, c in cfg.items() if c.enabled]
+    if source:
+        names = source
+    elif all_sources:
+        names = sorted(available())
+    else:
+        names = [n for n, c in cfg.items() if c.enabled]
 
     if not dry_run:
         from jobbot.pipeline import run_crawl
