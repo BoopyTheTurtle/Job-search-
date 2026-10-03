@@ -79,6 +79,7 @@ exclude:
     - "(?:office|administrative|executive|virtual|personal) assistant|office manager|receptionist"
     - "content reviewer|content moderator|data entry|transcri(?:ber|ption)|annotator|rater"
     - "accounts (?:receivable|payable)|clerk|controller|auditor|tax "
+    - "(?:graphic|visual|ui/ux|ux/ui|ux|ui|product|brand|motion) designer|illustrator|video editor"
     - "nurse|physician|therapist|pharmacist|dentist"
     - "mechanical engineer|civil engineer|electrical engineer|structural engineer|hvac|chemical engineer"
     - "truck|driver|warehouse|forklift|cleaner|janitor|cook|chef|barista"
