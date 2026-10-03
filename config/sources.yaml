@@ -60,7 +60,7 @@ sources:
     rate_limit_rps: 0.5   # unpublished; one request per run
     params: {}
   adzuna:
-    enabled: false          # flip after ADZUNA_* secrets are set and manual-smoke passes
+    enabled: true           # manual-smoke passed 2026-10-03 (AT, 5 live postings)
     tier: B
     terms: https://developer.adzuna.com/docs/terms_of_service   # "Jobs by Adzuna" credit required
     rate_limit_rps: 0.4     # terms: 25/min, 250/day, 1000/week; 13 countries x 2 pages = 26 calls

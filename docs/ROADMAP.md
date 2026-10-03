@@ -34,8 +34,8 @@ one PR. Items are ordered by dependency within a phase.
 - [ ] First real digest received and reviewed; tune `taxonomy.yaml` and scoring from it
 
 ## Phase 2 — European breadth
-- [x] Connector: Adzuna (AT BE DE ES FR IT NL PL + GB/US/CA/AU/NZ, `what=remote`, IT category); disabled until secrets and smoke run
-- [ ] Owner: register at developer.adzuna.com, add `ADZUNA_APP_ID` / `ADZUNA_APP_KEY` secrets, run `manual-smoke` for `adzuna`
+- [x] Connector: Adzuna (AT BE DE ES FR IT NL PL + GB/US/CA/AU/NZ, `what=remote`, IT category); enabled after a live smoke run
+- [x] Owner: register at developer.adzuna.com, add `ADZUNA_APP_ID` / `ADZUNA_APP_KEY` secrets, run `manual-smoke` for `adzuna`
 - [ ] Connector: EURES
 - [ ] Connector: Arbetsförmedlingen JobTech (SE)
 - [ ] Connector: France Travail
