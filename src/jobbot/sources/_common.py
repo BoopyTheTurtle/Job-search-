@@ -66,10 +66,19 @@ def first(value: Any) -> str | None:
     return items[0] if items else None
 
 
+def _amount(value: Any) -> str | None:
+    """A salary bound as text; zero/empty is unknown and 30000.0 renders as 30000."""
+    if value in (None, 0, "0", ""):
+        return None
+    if isinstance(value, float) and value.is_integer():
+        value = int(value)
+    return text(value)
+
+
 def salary_range(low: Any, high: Any, currency: Any = None) -> str | None:
     """Render "low - high CUR" from numeric bounds; None when neither bound is set."""
-    lo = text(low) if low not in (None, 0, "0", "") else None
-    hi = text(high) if high not in (None, 0, "0", "") else None
+    lo = _amount(low)
+    hi = _amount(high)
     if not lo and not hi:
         return None
     amount = f"{lo} - {hi}" if lo and hi else (lo or hi)
