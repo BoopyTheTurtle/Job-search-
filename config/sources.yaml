@@ -72,3 +72,12 @@ sources:
       results_per_page: 50
       max_pages: 2
       page_delay: 1.0
+  jobtech:
+    enabled: true           # live dry-run crawl passed 2026-10-03; fixture is a trimmed real response
+    tier: B
+    terms: https://jobsearch.api.jobtechdev.se/   # API spec: "Ads are licensed under CC0"; header api-key: developer
+    rate_limit_rps: 1.0     # none published; one or two requests per run (~30 remote IT ads a week)
+    params:
+      occupation_field: apaJ_2ja_LuF   # Data/IT
+      page_size: 100
+      max_pages: 5

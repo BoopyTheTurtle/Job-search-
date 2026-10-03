@@ -37,7 +37,7 @@ one PR. Items are ordered by dependency within a phase.
 - [x] Connector: Adzuna (AT BE DE ES FR IT NL PL + GB/US/CA/AU/NZ, `what=remote`, IT category); enabled after a live smoke run
 - [x] Owner: register at developer.adzuna.com, add `ADZUNA_APP_ID` / `ADZUNA_APP_KEY` secrets, run `manual-smoke` for `adzuna`
 - [ ] Connector: EURES
-- [ ] Connector: Arbetsförmedlingen JobTech (SE)
+- [x] Connector: Arbetsförmedlingen JobTech (SE): `remote=true` in Data/IT, CC0, keyless
 - [ ] Connector: France Travail
 - [ ] Connector: Arbeitsagentur Jobsuche (DE), if API status allows
 - [ ] Connector: Reed (UK)
