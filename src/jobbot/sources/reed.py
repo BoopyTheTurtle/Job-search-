@@ -9,7 +9,7 @@ plain-text snippet. Reed is UK-only and English.
 
 The digest credits Reed next to its listings (see digest.build.ATTRIBUTIONS).
 
-params: `keywords` (list of queries, default remote developer/engineer/data),
+params: `keywords` (list of queries, default remote developer/software engineer/data),
 `page_size` (max 100), `max_pages` (per query, default 2).
 """
 
@@ -30,7 +30,7 @@ from jobbot.sources._common import MAX_PAGES, is_older, salary_range, text
 
 API_URL = "https://www.reed.co.uk/api/1.0/search"
 MAX_PAGE_SIZE = 100
-DEFAULT_KEYWORDS = ["remote developer", "remote engineer", "remote data"]
+DEFAULT_KEYWORDS = ["remote developer", "remote software engineer", "remote data"]
 
 
 def from_dmy(value: Any) -> datetime | None:
