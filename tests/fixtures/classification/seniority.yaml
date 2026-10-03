@@ -1,0 +1,75 @@
+# Golden cases for enrich.seniority.classify_seniority / classify_employment
+- title: Junior Python Developer
+  description: ""
+  seniority: junior
+- title: Software Engineering Intern
+  description: ""
+  seniority: intern
+  employment: internship
+- title: Werkstudent Softwareentwicklung
+  description: ""
+  seniority: intern
+  employment: internship
+- title: Graduate Software Engineer
+  description: ""
+  seniority: junior
+- title: Senior Backend Engineer
+  description: ""
+  seniority: senior
+- title: Sr. Data Engineer
+  description: ""
+  seniority: senior
+- title: Staff Engineer
+  description: ""
+  seniority: lead
+- title: Head of Engineering
+  description: ""
+  seniority: lead
+- title: Tech Lead
+  description: ""
+  seniority: lead
+- title: Solutions Architect
+  description: ""
+  seniority: lead
+- title: Backend Developer
+  description: You have 5+ years of experience with Python.
+  seniority: senior
+- title: Backend Developer
+  description: At least 2 years of professional experience.
+  seniority: mid
+- title: Backend Developer
+  description: Ideal for recent graduates; 0-1 years experience welcome.
+  seniority: junior
+- title: Backend Developer
+  description: Join our team.
+  seniority: mid
+- title: Freelance React Developer
+  description: ""
+  employment: freelance
+- title: Python Developer (B2B contract)
+  description: ""
+  employment: contract
+- title: Part-time Web Developer
+  description: ""
+  employment: part_time
+- title: Web Developer
+  description: This is a full-time, permanent position.
+  employment: full_time
+- title: Web Developer
+  description: 6-month contract with possible extension.
+  employment: contract
+- title: Web Developer
+  description: Nothing about hours here.
+  employment: unknown
+- title: Web Developer
+  description: ""
+  employment_type_raw: full_time
+  employment: full_time
+- title: Web Developer
+  description: ""
+  employment_type_raw: Contract
+  employment: contract
+- title: Web Developer
+  description: ""
+  employment_type_raw: Teilzeit
+  employment: part_time

@@ -17,6 +17,7 @@ import httpx
 
 from jobbot.http import get_json
 from jobbot.models import RawJob
+from jobbot.normalize import parse_datetime
 from jobbot.sources import register
 
 API_URL = "https://remotive.com/api/remote-jobs"
@@ -46,7 +47,6 @@ class Remotive:
 
     @staticmethod
     def _to_raw(item: dict[str, Any]) -> RawJob:
-        posted = item.get("publication_date")
         return RawJob(
             source="remotive",
             source_id=str(item["id"]),
@@ -55,7 +55,7 @@ class Remotive:
             company=item.get("company_name"),
             location_raw=item.get("candidate_required_location"),
             description_html=item.get("description"),
-            posted_at=datetime.fromisoformat(posted) if posted else None,
+            posted_at=parse_datetime(item.get("publication_date")),
             salary_raw=item.get("salary") or None,
             employment_type_raw=item.get("job_type") or None,
             remote_hint=True,

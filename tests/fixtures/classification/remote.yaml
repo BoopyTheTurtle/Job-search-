@@ -1,0 +1,97 @@
+# Golden cases for enrich.remote.classify_remote
+- name: remote-first board hint wins
+  title: Backend Engineer
+  location: Worldwide
+  description: Join our team in Berlin.
+  remote_hint: true
+  expected: remote
+- name: remote-first board but hybrid in title
+  title: Backend Engineer (Hybrid, Berlin)
+  location: Berlin
+  description: ""
+  remote_hint: true
+  expected: hybrid
+- name: source says not remote
+  title: Backend Engineer
+  location: Riga
+  description: Great office.
+  remote_hint: false
+  expected: onsite
+- name: remote in title
+  title: Senior Python Developer - Remote
+  location: null
+  description: ""
+  remote_hint: null
+  expected: remote
+- name: remote in location
+  title: Data Engineer
+  location: Remote, EU
+  description: ""
+  remote_hint: null
+  expected: remote
+- name: negative phrase in description overrides remote in body
+  title: QA Engineer
+  location: Munich
+  description: This is not a remote position. Remote work is not possible.
+  remote_hint: null
+  expected: onsite
+- name: hybrid days per week
+  title: DevOps Engineer
+  location: Amsterdam
+  description: You will work 2 days per week in our office and the rest from home.
+  remote_hint: null
+  expected: hybrid
+- name: hybrid keyword in title
+  title: Frontend Developer (hybrid)
+  location: Paris
+  description: ""
+  remote_hint: null
+  expected: hybrid
+- name: french teletravail
+  title: Développeur Fullstack
+  location: Lyon
+  description: Poste en télétravail complet.
+  remote_hint: null
+  expected: remote
+- name: spanish teletrabajo in location
+  title: Desarrollador Backend
+  location: Teletrabajo
+  description: ""
+  remote_hint: null
+  expected: remote
+- name: latvian attalinati
+  title: Programmētājs
+  location: Rīga
+  description: Darbs attālināti no jebkuras vietas Latvijā.
+  remote_hint: null
+  expected: remote
+- name: german home office
+  title: Softwareentwickler
+  location: Hamburg
+  description: 100% Homeoffice möglich.
+  remote_hint: null
+  expected: remote
+- name: german no home office
+  title: Softwareentwickler
+  location: Hamburg
+  description: Kein Homeoffice.
+  remote_hint: null
+  expected: onsite
+- name: on-site in location
+  title: Sysadmin
+  location: On-site, Vilnius
+  description: ""
+  remote_hint: null
+  expected: onsite
+- name: nothing known
+  title: Software Engineer
+  location: Tallinn
+  description: We are a growing company.
+  remote_hint: null
+  expected: unknown
+- name: remote friendly is hybrid
+  title: Engineer
+  location: London
+  description: We are remote-friendly with a central office.
+  remote_hint: null
+  expected: hybrid

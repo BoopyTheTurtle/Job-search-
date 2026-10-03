@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import sys
 from datetime import UTC, datetime, timedelta
+from pathlib import Path
 from typing import Annotated
 
 import typer
@@ -12,6 +13,8 @@ from jobbot import __version__
 from jobbot.config import load_sources
 from jobbot.http import SourceError, make_client
 from jobbot.sources import available, build
+
+DEFAULT_DB = Path("data/jobbot.sqlite")
 
 app = typer.Typer(no_args_is_help=True, help=f"jobbot {__version__}")
 
@@ -33,19 +36,42 @@ def crawl(
         list[str] | None, typer.Option(help="Source name; repeatable. Default: all enabled.")
     ] = None,
     limit: Annotated[int | None, typer.Option(help="Max postings per source.")] = None,
-    since_days: Annotated[int, typer.Option(help="Only postings newer than N days.")] = 14,
+    since_days: Annotated[
+        int | None,
+        typer.Option(help="Only postings newer than N days. Default: since the last run."),
+    ] = None,
     dry_run: Annotated[
         bool, typer.Option("--dry-run", help="Print RawJob JSON lines; do not store.")
     ] = False,
+    db: Annotated[Path, typer.Option(help="SQLite database path.")] = DEFAULT_DB,
 ) -> None:
-    """Fetch postings from one or more sources. Phase 0 supports --dry-run only."""
-    if not dry_run:
-        typer.echo("Storing results is not implemented yet (Phase 1). Use --dry-run.", err=True)
-        raise typer.Exit(code=2)
-
+    """Fetch postings, normalize, enrich, dedupe and store them (or print raw with --dry-run)."""
     cfg = load_sources().sources
     names = source or [n for n, c in cfg.items() if c.enabled]
-    since = datetime.now(tz=UTC) - timedelta(days=since_days)
+
+    if not dry_run:
+        from jobbot.pipeline import run_crawl
+        from jobbot.store import Store
+
+        with Store(db) as store:
+            summary = run_crawl(store, names, cfg, since_days=since_days, limit=limit)
+        for rec in summary.sources:
+            status = f"ERROR {rec.error_message}" if rec.errors else "ok"
+            typer.echo(
+                f"{rec.source:20} fetched {rec.fetched:4} new {rec.new:4} "
+                f"{rec.duration_ms:6} ms {status}",
+                err=True,
+            )
+        typer.echo(
+            f"run {summary.run_id}: {summary.new_jobs} new since {summary.since:%Y-%m-%d} "
+            f"→ {db} [{summary.status}]",
+            err=True,
+        )
+        if summary.status != "ok":
+            raise typer.Exit(code=1)
+        return
+
+    since = datetime.now(tz=UTC) - timedelta(days=since_days if since_days is not None else 14)
     failures = 0
     with make_client() as client:
         for name in names:

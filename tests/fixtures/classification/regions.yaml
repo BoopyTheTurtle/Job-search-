@@ -1,0 +1,125 @@
+# Golden cases for enrich.regions.parse_regions and is_eligible
+# eligible uses the default profile: WORLDWIDE, EU, EEA, EUROPE + home country LV
+- name: worldwide
+  location: Worldwide
+  title: Dev
+  description: ""
+  expected: [WORLDWIDE]
+  eligible: true
+- name: anywhere
+  location: Anywhere
+  title: Dev
+  description: ""
+  expected: [WORLDWIDE]
+  eligible: true
+- name: europe
+  location: Europe
+  title: Dev
+  description: ""
+  expected: [EUROPE]
+  eligible: true
+- name: eu only
+  location: EU only
+  title: Dev
+  description: ""
+  expected: [EU]
+  eligible: true
+- name: emea maps to europe
+  location: EMEA
+  title: Dev
+  description: ""
+  expected: [EUROPE]
+  eligible: true
+- name: usa only
+  location: USA Only
+  title: Dev
+  description: ""
+  expected: [US]
+  eligible: false
+- name: us based in description
+  location: null
+  title: Dev
+  description: You must be located in the United States and authorized to work in the US.
+  expected: [US]
+  eligible: false
+  tags: [region_from_description]
+- name: country list
+  location: Germany, Austria
+  title: Dev
+  description: ""
+  expected: [AT, DE]
+  eligible: true
+- name: iso codes in location
+  location: Remote - DE, PL, LV
+  title: Dev
+  description: ""
+  expected: [DE, LV, PL]
+  eligible: true
+- name: latvia by name
+  location: Latvia
+  title: Dev
+  description: ""
+  expected: [LV]
+  eligible: true
+- name: baltics alias
+  location: Remote (Baltics)
+  title: Dev
+  description: ""
+  expected: [EE, LT, LV]
+  eligible: true
+- name: nordics alias
+  location: Nordics
+  title: Dev
+  description: ""
+  expected: ["DK", "FI", "IS", "NO", "SE"]   # quoted: bare NO is YAML for false
+  eligible: true  # Nordic countries are in EUROPE/EEA
+- name: canada only
+  location: Canada
+  title: Dev
+  description: ""
+  expected: [CA]
+  eligible: false
+- name: timezone inferred europe
+  location: Remote (UTC-1 to UTC+3)
+  title: Dev
+  description: ""
+  expected: [EUROPE]
+  eligible: true
+  tags: [timezone_inferred]
+- name: timezone inferred americas
+  location: Remote (UTC-8 to UTC-5)
+  title: Dev
+  description: ""
+  expected: [AMERICAS]
+  eligible: false
+  tags: [timezone_inferred]
+- name: title suffix
+  location: null
+  title: Backend Developer (Remote, EU)
+  description: ""
+  expected: [EU]
+  eligible: true
+- name: unknown
+  location: Remote
+  title: Backend Developer
+  description: We ship software for logistics companies.
+  expected: [UNKNOWN]
+  eligible: false
+- name: HQ mention is not a restriction
+  location: Remote
+  title: Backend Developer
+  description: Our headquarters are in Austin, Texas. We are a distributed team.
+  expected: [UNKNOWN]
+  eligible: false
+- name: uk and ireland
+  location: UK & Ireland
+  title: Dev
+  description: ""
+  expected: [GB, IE]
+  eligible: true
+- name: latam
+  location: LATAM
+  title: Dev
+  description: ""
+  expected: [AR, BR, CL, CO, MX, PE, UY]
+  eligible: false

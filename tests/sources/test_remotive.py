@@ -1,5 +1,5 @@
 import json
-from datetime import datetime
+from datetime import UTC, datetime
 from pathlib import Path
 
 import httpx
@@ -32,7 +32,7 @@ def test_remotive_maps_fields() -> None:
     assert first.salary_raw == "€45,000 - €55,000"
     assert first.employment_type_raw == "full_time"
     assert first.remote_hint is True
-    assert first.posted_at == datetime(2026, 9, 29, 10, 15)
+    assert first.posted_at == datetime(2026, 9, 29, 10, 15, tzinfo=UTC)
     assert "python" in first.tags
     assert jobs[1].salary_raw is None
 
@@ -42,7 +42,7 @@ def test_remotive_respects_since_and_limit() -> None:
     respx.get(API_URL).mock(return_value=httpx.Response(200, json=_payload()))
     with httpx.Client() as client:
         src = build("remotive", client, {})
-        recent = list(src.fetch(since=datetime(2026, 9, 15)))
+        recent = list(src.fetch(since=datetime(2026, 9, 15, tzinfo=UTC)))
         assert [j.source_id for j in recent] == ["1910001"]
 
         limited = list(src.fetch(since=None, limit=1))
