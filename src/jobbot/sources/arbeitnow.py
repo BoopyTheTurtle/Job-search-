@@ -5,10 +5,16 @@ Keyless, Laravel-style pagination via `links.next`. Items are newest-first, so w
 following pages as soon as an item is older than `since`. `remote` is a reliable boolean
 and becomes `remote_hint`. Coverage is Germany/EU heavy with many German-language posts;
 language filtering happens later in the pipeline.
+
+The API rate-limits bursts (a 30-day backfill hit 429 on page 15), so pages are fetched
+with a pause between them and capped lower than the global default. Params: `page_delay`
+(seconds, default 1.0) and `max_pages` (default 10). A failure on a later page still
+surfaces the pages already fetched, because the pipeline collects incrementally.
 """
 
 from __future__ import annotations
 
+import time
 from collections.abc import Iterable
 from datetime import datetime
 from typing import Any
@@ -29,13 +35,17 @@ class Arbeitnow:
     def __init__(self, client: httpx.Client, params: dict[str, Any]) -> None:
         self._client = client
         self._params = params
+        self._page_delay = float(params.get("page_delay", 1.0))
+        self._max_pages = min(int(params.get("max_pages", 10)), MAX_PAGES)
 
     def fetch(self, since: datetime | None, limit: int | None = None) -> Iterable[RawJob]:
         url: str | None = API_URL
         emitted = 0
-        for _ in range(MAX_PAGES):
+        for page in range(self._max_pages):
             if not url:
                 return
+            if page and self._page_delay > 0:
+                time.sleep(self._page_delay)
             payload = get_json(self._client, url)
             items = payload.get("data") or [] if isinstance(payload, dict) else []
             stale = False

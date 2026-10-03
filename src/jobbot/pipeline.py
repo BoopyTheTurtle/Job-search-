@@ -64,18 +64,23 @@ def run_crawl(
         for name in names:
             record = SourceRunRecord(source=name)
             started = time.monotonic()
+            raws: list[RawJob] = []
             try:
                 cfg = configs.get(name)
                 connector = build(name, client, cfg.params if cfg else {})
-                raws = list(connector.fetch(since, limit))
-                record.fetched = len(raws)
+                # Collect incrementally: a paginated source that fails on page N (rate
+                # limit, outage) still contributes pages 1..N-1 to this run.
+                for raw in connector.fetch(since, limit):
+                    raws.append(raw)
+            except (SourceError, KeyError, ValueError) as exc:
+                record.errors = 1
+                record.error_message = str(exc)[:500]
+            record.fetched = len(raws)
+            if raws:
                 jobs = dedupe(process(raw, now) for raw in raws)
                 new_ids, _updated = store.upsert_jobs(jobs, run_id)
                 record.new = len(new_ids)
                 summary.new_jobs += len(new_ids)
-            except (SourceError, KeyError, ValueError) as exc:
-                record.errors = 1
-                record.error_message = str(exc)[:500]
             record.duration_ms = int((time.monotonic() - started) * 1000)
             store.record_source_run(run_id, record)
             summary.sources.append(record)

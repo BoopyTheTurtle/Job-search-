@@ -88,3 +88,42 @@ def test_run_crawl_fails_when_majority_of_sources_fail(tmp_path: Path) -> None:
         assert summary.status == "failed"
         assert summary.sources[0].errors == 1
         assert store.last_successful_run() is None
+
+
+def test_run_crawl_keeps_partial_results_when_a_source_fails_midway(tmp_path: Path) -> None:
+    from collections.abc import Iterable
+
+    from jobbot.sources import _REGISTRY
+
+    class Flaky:
+        name = "flaky_partial"
+
+        def __init__(self, client: httpx.Client, params: dict[str, object]) -> None:
+            pass
+
+        def fetch(self, since: datetime | None, limit: int | None = None) -> Iterable[RawJob]:
+            yield RawJob(
+                source="flaky_partial",
+                source_id="1",
+                url="https://flaky.example/1",
+                title="Python Developer",
+                company="Acme",
+                description_text="Build Django APIs in Python; review pull requests.",
+                posted_at=NOW,
+                remote_hint=True,
+            )
+            from jobbot.http import SourceError
+
+            raise SourceError("GET page 2 failed: 429 Too Many Requests")
+
+    _REGISTRY["flaky_partial"] = lambda client, params: Flaky(client, params)
+    try:
+        with Store(tmp_path / "t.sqlite") as store:
+            summary = run_crawl(store, ["flaky_partial"], {}, since_days=7, now=NOW)
+            rec = summary.sources[0]
+            assert rec.errors == 1 and "429" in (rec.error_message or "")
+            assert rec.fetched == 1 and rec.new == 1
+            assert store.count_jobs() == 1
+            assert summary.status == "failed"  # the only source errored
+    finally:
+        _REGISTRY.pop("flaky_partial", None)
