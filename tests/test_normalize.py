@@ -15,6 +15,17 @@ def test_html_to_text_keeps_bullets_and_breaks() -> None:
     )
 
 
+def test_html_to_text_unescapes_entity_escaped_markup() -> None:
+    # As served by Arbeitnow's API: the tags themselves are entity-escaped.
+    escaped = (
+        "&lt;div class=&quot;content&quot;&gt;&lt;p&gt;Du baust &amp;amp; testest.&lt;/p&gt;"
+        "&lt;/div&gt;"
+    )
+    assert html_to_text(escaped) == "Du baust & testest."
+    # Genuine markup containing entities is left alone and still decoded once.
+    assert html_to_text("<p>Tom &amp; Jerry &lt;3</p>") == "Tom & Jerry <3"
+
+
 def test_html_to_text_handles_plain_and_empty() -> None:
     assert html_to_text(None) == ""
     assert html_to_text("  just   text  ") == "just text"

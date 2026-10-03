@@ -244,7 +244,7 @@ languages: [en, fr, lv, es]
 role_families: [software_dev, devops_cloud, data_ml_ai, it_ops_qa_product]
 seniority: [intern, junior, mid]          # senior/lead kept but collapsed
 employment_types: [full_time, part_time, contract, freelance, internship]
-keyword_boosts: [python, typescript, react, postgres, aws]   # still to be confirmed by owner
+keyword_boosts: [python, typescript, javascript, html, css, c]
 exclude_companies: []
 exclude_title_patterns: ["sales", "recruiter"]
 digest:
@@ -324,10 +324,9 @@ See `docs/ROADMAP.md` for the issue-level backlog. Phases:
 ## 15. Open questions
 
 Resolved 2026-10-03: home country Latvia; mid-level included; posting languages en/fr/lv/es;
-email via Resend; MIT licence.
+email via Resend; MIT licence; keyword boosts HTML, CSS, JavaScript, TypeScript, Python, C.
 
 Still open:
-1. Main languages/frameworks for `keyword_boosts` (defaults in `config/profile.yaml` until given).
-2. Senior-only postings: keep collapsed (current default) or drop entirely?
-3. Sending domain for Resend: verify a domain you own, or use Resend's onboarding sender
+1. Senior-only postings: keep collapsed (current default) or drop entirely?
+2. Sending domain for Resend: verify a domain you own, or use Resend's onboarding sender
    (which can only deliver to the account's own address, fine for a personal tool).

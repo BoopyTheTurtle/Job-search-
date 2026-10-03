@@ -97,8 +97,14 @@ jobs:
           latest=$(ls -1 data/digests/*.md 2>/dev/null | sort | tail -n 1 || true)
           if [ -n "$latest" ]; then
             { echo "## Digest ($latest)"; echo; cat "$latest"; } >> "$GITHUB_STEP_SUMMARY"
+            echo "::group::Digest ($latest)"; cat "$latest"; echo "::endgroup::"
+            run_json=$(ls -1 data/runs/*.json 2>/dev/null | sort | tail -n 1 || true)
+            if [ -n "$run_json" ]; then
+              echo "::group::Run summary ($run_json)"; cat "$run_json"; echo "::endgroup::"
+            fi
           else
             echo "No digest produced." >> "$GITHUB_STEP_SUMMARY"
+            echo "No digest produced."
           fi
 
       - uses: actions/upload-artifact@v4

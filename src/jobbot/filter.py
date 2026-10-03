@@ -64,6 +64,14 @@ def exclusion_reason(job: Job, profile: Profile) -> str | None:
     return None
 
 
+def keyword_present(keyword: str, text: str) -> bool:
+    """Whole-token match so a short keyword like "c" does not hit every posting.
+    Tokens may contain letters, digits, '+', '#' and '.', so "c" does not match "css"
+    but does match "C/C++"; "c++" and ".net" match literally."""
+    pattern = rf"(?<![a-z0-9+#.]){re.escape(keyword.lower())}(?![a-z0-9+#])"
+    return re.search(pattern, text.lower()) is not None
+
+
 def _title_matches_family(job: Job) -> bool:
     patterns = load_taxonomy().title_patterns.get(job.role_family, [])
     return any(p.search(job.title) for p in patterns)
@@ -102,8 +110,8 @@ def score(job: Job, profile: Profile, now: datetime | None = None) -> tuple[int,
         add(5, "posted this week")
     if job.salary_raw:
         add(5, "salary listed")
-    haystack = f"{job.title}\n{job.description_text}".lower()
-    boosts = [k for k in profile.keyword_boosts if k.lower() in haystack]
+    haystack = f"{job.title}\n{job.description_text}"
+    boosts = [k for k in profile.keyword_boosts if keyword_present(k, haystack)]
     if boosts:
         add(min(len(boosts), 5), "keywords " + ", ".join(boosts[:5]))
     return max(0, min(100, points)), reasons

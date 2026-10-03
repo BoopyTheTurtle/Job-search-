@@ -15,6 +15,10 @@ on:
         description: Max postings per source
         required: false
         default: "5"
+      since_days:
+        description: Lookback window in days
+        required: false
+        default: "30"
 
 permissions:
   contents: read
@@ -34,9 +38,10 @@ jobs:
         env:
           SOURCE: ${{ inputs.source }}
           LIMIT: ${{ inputs.limit }}
+          SINCE_DAYS: ${{ inputs.since_days }}
         run: |
           mkdir -p out
-          args=(--dry-run --limit "${LIMIT:-5}")
+          args=(--dry-run --limit "${LIMIT:-5}" --since-days "${SINCE_DAYS:-30}")
           if [ -n "$SOURCE" ]; then
             args+=(--source "$SOURCE")
           else
@@ -44,8 +49,32 @@ jobs:
           fi
           uv run jobbot crawl "${args[@]}" > out/crawl.jsonl
           echo "lines: $(wc -l < out/crawl.jsonl)"
-          echo "first 3 lines (truncated to 300 chars):"
-          head -n 3 out/crawl.jsonl | cut -c1-300
+      - name: Field-mapping table
+        # Everything needed to verify a connector against live data, readable from the log
+        # alone (artifact downloads are not reachable from every environment).
+        run: |
+          uv run python - <<'EOF'
+          import json
+          from collections import defaultdict
+          rows = [json.loads(l) for l in open("out/crawl.jsonl", encoding="utf-8") if l.strip()]
+          by_src = defaultdict(list)
+          for r in rows:
+              by_src[r["source"]].append(r)
+          for src, items in sorted(by_src.items()):
+              dates = sorted(i["posted_at"] or "" for i in items)
+              print(f"\n=== {src}: {len(items)} postings, posted_at {dates[0][:10]} .. {dates[-1][:10]}")
+              for i in items:
+                  html = i.get("description_html") or ""
+                  esc = " ESCAPED-HTML" if "<" not in html and "&lt;" in html else ""
+                  print(
+                      f"  id={str(i['source_id'])[:28]!s:28} | {i['title'][:45]:45} | "
+                      f"{(i.get('company') or '-')[:22]:22} | loc={(i.get('location_raw') or '-')[:30]} | "
+                      f"posted={(i.get('posted_at') or '-')[:16]} | remote_hint={i.get('remote_hint')} | "
+                      f"type={i.get('employment_type_raw') or '-'} | salary={(i.get('salary_raw') or '-')[:20]} | "
+                      f"desc={len(html)}ch{esc} | tags={len(i.get('tags') or [])}"
+                  )
+                  print(f"      url={i['url'][:110]}")
+          EOF
       - uses: actions/upload-artifact@v4
         if: always()
         with:
