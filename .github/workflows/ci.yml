@@ -9,7 +9,8 @@ permissions:
   contents: read
 
 jobs:
-  ci:
+  checks:
+    name: Checks   # must match the required status check in the `main` branch rule
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

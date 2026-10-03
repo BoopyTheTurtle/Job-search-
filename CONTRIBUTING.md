@@ -10,7 +10,7 @@ make every change reviewable.
    `docs/<short-name>`, `chore/<short-name>`. Short-lived; delete after merge.
 3. **Small PRs.** One issue, ideally under 400 lines of diff. Fill in the PR template and
    link the issue with `Closes #N`.
-4. **CI must be green** (`ruff`, `mypy`, `pytest`). No merging with red checks.
+4. **CI must be green** (the `Checks` job: `ruff`, `mypy`, `pytest`). No merging with red checks.
 5. **Review.** The owner reviews and merges (squash merge). Claude never merges its own
    PRs unless told to.
 6. **Conventional Commits:** `feat(sources): add arbeitnow connector`, `fix(enrich): …`,
@@ -18,7 +18,7 @@ make every change reviewable.
 
 ## Branch protection (owner action, once)
 Settings → Branches → Add rule for `main`: require a pull request before merging,
-require status checks (`ci`), require branches to be up to date, block force pushes.
+require status checks (`Checks`), require branches to be up to date, block force pushes.
 
 ## Local setup
 ```bash
