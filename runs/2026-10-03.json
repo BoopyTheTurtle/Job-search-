@@ -1,71 +1,114 @@
 {
-  "run_id": "5e2f0a94b0a0",
+  "run_id": "7b07ff0b3dc2",
   "status": "ok",
-  "new_jobs": 2413,
-  "shown": 128,
-  "strong": 25,
-  "possible": 15,
-  "senior": 88,
-  "dropped": 2285,
+  "new_jobs": 1989,
+  "shown": 150,
+  "strong": 69,
+  "possible": 81,
+  "senior": 0,
+  "dropped": 1689,
   "digest_path": "data/digests/2026-10-03.md",
-  "email": "sent:01a1022f-6335-79d9-8646-63c8dc66bfb9",
-  "date": "2026-10-03T14:32:57.536598+00:00",
+  "email": "sent:01a102da-f741-76a4-ad7b-29f500ecdec7",
+  "date": "2026-10-03T17:39:29.710283+00:00",
   "sources": [
     {
       "source": "remotive",
-      "fetched": 16,
-      "new": 16,
+      "fetched": 1,
+      "new": 0,
       "errors": 0,
-      "duration_ms": 251,
-      "error_message": null
+      "duration_ms": 160,
+      "error_message": null,
+      "skipped": false
     },
     {
       "source": "arbeitnow",
-      "fetched": 2450,
-      "new": 1873,
+      "fetched": 1450,
+      "new": 224,
       "errors": 0,
-      "duration_ms": 36449,
-      "error_message": null
+      "duration_ms": 23487,
+      "error_message": null,
+      "skipped": false
     },
     {
       "source": "remoteok",
-      "fetched": 38,
-      "new": 35,
+      "fetched": 3,
+      "new": 0,
       "errors": 0,
-      "duration_ms": 755,
-      "error_message": null
+      "duration_ms": 659,
+      "error_message": null,
+      "skipped": false
     },
     {
       "source": "himalayas",
       "fetched": 400,
-      "new": 342,
+      "new": 325,
       "errors": 0,
-      "duration_ms": 3797,
-      "error_message": null
+      "duration_ms": 3951,
+      "error_message": null,
+      "skipped": false
     },
     {
       "source": "jobicy",
       "fetched": 50,
-      "new": 48,
+      "new": 3,
       "errors": 0,
-      "duration_ms": 1278,
-      "error_message": null
+      "duration_ms": 704,
+      "error_message": null,
+      "skipped": false
     },
     {
       "source": "weworkremotely",
-      "fetched": 61,
-      "new": 56,
+      "fetched": 23,
+      "new": 0,
       "errors": 0,
-      "duration_ms": 1030,
-      "error_message": null
+      "duration_ms": 1043,
+      "error_message": null,
+      "skipped": false
     },
     {
       "source": "workingnomads",
-      "fetched": 59,
-      "new": 43,
+      "fetched": 8,
+      "new": 0,
       "errors": 0,
-      "duration_ms": 853,
-      "error_message": null
+      "duration_ms": 711,
+      "error_message": null,
+      "skipped": false
+    },
+    {
+      "source": "adzuna",
+      "fetched": 1143,
+      "new": 922,
+      "errors": 0,
+      "duration_ms": 52797,
+      "error_message": null,
+      "skipped": false
+    },
+    {
+      "source": "jobtech",
+      "fetched": 29,
+      "new": 27,
+      "errors": 0,
+      "duration_ms": 2774,
+      "error_message": null,
+      "skipped": false
+    },
+    {
+      "source": "reed",
+      "fetched": 119,
+      "new": 69,
+      "errors": 0,
+      "duration_ms": 1928,
+      "error_message": null,
+      "skipped": false
+    },
+    {
+      "source": "francetravail",
+      "fetched": 446,
+      "new": 419,
+      "errors": 0,
+      "duration_ms": 8601,
+      "error_message": null,
+      "skipped": false
     }
   ]
 }
