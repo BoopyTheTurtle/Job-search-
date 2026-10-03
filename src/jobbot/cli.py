@@ -32,6 +32,12 @@ def crawl(
     source: Annotated[
         list[str] | None, typer.Option(help="Source name; repeatable. Default: all enabled.")
     ] = None,
+    all_sources: Annotated[
+        bool,
+        typer.Option(
+            "--all", help="Crawl every registered connector, including ones disabled in config."
+        ),
+    ] = False,
     limit: Annotated[int | None, typer.Option(help="Max postings per source.")] = None,
     since_days: Annotated[int, typer.Option(help="Only postings newer than N days.")] = 14,
     dry_run: Annotated[
@@ -44,7 +50,12 @@ def crawl(
         raise typer.Exit(code=2)
 
     cfg = load_sources().sources
-    names = source or [n for n, c in cfg.items() if c.enabled]
+    if source:
+        names = source
+    elif all_sources:
+        names = sorted(available())
+    else:
+        names = [n for n, c in cfg.items() if c.enabled]
     since = datetime.now(tz=UTC) - timedelta(days=since_days)
     failures = 0
     with make_client() as client:
