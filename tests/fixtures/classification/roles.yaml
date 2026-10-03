@@ -1,0 +1,67 @@
+# Golden cases for enrich.roles.classify_role
+- title: Junior Python Developer
+  description: ""
+  expected: software_dev
+- title: Senior Backend Engineer (Go)
+  description: ""
+  expected: software_dev
+- title: Full-Stack Developer
+  description: ""
+  expected: software_dev
+- title: Développeur web junior
+  description: ""
+  expected: software_dev
+- title: Desarrollador Backend
+  description: ""
+  expected: software_dev
+- title: Programmētājs
+  description: ""
+  expected: software_dev
+- title: DevOps Engineer
+  description: ""
+  expected: devops_cloud
+- title: Site Reliability Engineer
+  description: ""
+  expected: devops_cloud
+- title: Cloud Infrastructure Engineer (AWS)
+  description: ""
+  expected: devops_cloud
+- title: Data Engineer
+  description: ""
+  expected: data_ml_ai
+- title: Machine Learning Engineer
+  description: ""
+  expected: data_ml_ai
+- title: Data Analyst
+  description: ""
+  expected: data_ml_ai
+- title: IT Support Specialist
+  description: ""
+  expected: it_ops_qa_product
+- title: QA Automation Engineer
+  description: ""
+  expected: it_ops_qa_product
+- title: Product Manager
+  description: ""
+  expected: it_ops_qa_product
+- title: Systems Administrator (Linux)
+  description: ""
+  expected: it_ops_qa_product
+- title: Engineer
+  description: You will write Python and TypeScript, review pull requests and build REST APIs.
+  expected: software_dev
+- title: Account Executive
+  description: Sell our developer tools to engineering teams using Python.
+  expected: other
+- title: Technical Recruiter
+  description: Hire software engineers.
+  expected: other
+- title: Mechanical Engineer
+  description: ""
+  expected: other
+- title: Office Manager
+  description: Keep the office running.
+  expected: other
+- title: Registered Nurse
+  description: ""
+  expected: other
