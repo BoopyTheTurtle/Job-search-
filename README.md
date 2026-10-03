@@ -22,12 +22,19 @@ uv run jobbot run --no-send --db /tmp/jobbot.sqlite --out-dir /tmp/out   # full 
 Edit `config/profile.yaml` to tune filters and scoring. Set `RESEND_API_KEY`, `DIGEST_FROM`
 and `DIGEST_TO` (see `.env.example`) to receive the digest by email.
 
-```bash
-```
-
 ## Licence
 MIT, see [`LICENSE`](LICENSE).
 
+## Operations
+- **Weekly run:** the `weekly-crawl` workflow runs Wednesdays 06:17 UTC. Trigger it by hand
+  from the Actions tab; tick *dry_run* to get the digest as an artifact without emailing or
+  writing state.
+- **State:** the `data` branch holds `jobbot.sqlite`, `digests/YYYY-MM-DD.md` and
+  `runs/YYYY-MM-DD.json`. Only the workflow writes to it.
+- **New sources:** run `manual-smoke` for the source, check the artifact, replace the
+  synthetic fixture, then flip `enabled: true` in `config/sources.yaml`.
+- **Secrets:** `RESEND_API_KEY`, `DIGEST_FROM`, `DIGEST_TO` in repository settings.
+
 ## Status
-Phase 0 (foundation). The reference connector (Remotive) works in dry-run mode. Weekly
-digest lands in Phase 1.
+Phase 1 (MVP digest): pipeline, filtering, digest and weekly workflow are in place.
+Remotive is the only enabled source until the Tier A connectors pass a live smoke run.
