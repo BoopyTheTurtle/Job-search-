@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/">
+  <channel>
+    <title>We Work Remotely: Remote Programming Jobs</title>
+    <link>https://weworkremotely.com/categories/remote-programming-jobs</link>
+    <description>Synthetic fixture built from the feed documentation; replace with a trimmed live feed.</description>
+    <language>en-us</language>
+    <item>
+      <title>Acme Robotics: Junior Python Developer</title>
+      <region>Europe Only</region>
+      <category>Programming</category>
+      <type>Full-Time</type>
+      <description>&lt;p&gt;We are a &lt;strong&gt;fully remote&lt;/strong&gt; robotics company hiring a junior Python developer in Europe.&lt;/p&gt;</description>
+      <pubDate>Tue, 29 Sep 2026 10:15:00 +0000</pubDate>
+      <link>https://weworkremotely.com/remote-jobs/acme-robotics-junior-python-developer</link>
+      <guid>https://weworkremotely.com/remote-jobs/acme-robotics-junior-python-developer</guid>
+      <media:content url="https://we-work-remotely.imgix.net/logos/acme.png" medium="image"/>
+    </item>
+    <item>
+      <title>Backend Engineer (no company prefix)</title>
+      <description>&lt;p&gt;A posting with no region or type element.&lt;/p&gt;</description>
+      <pubDate>Wed, 30 Sep 2026 12:00:00 +0000</pubDate>
+      <link>https://weworkremotely.com/remote-jobs/backend-engineer-no-company-prefix</link>
+      <guid>https://weworkremotely.com/remote-jobs/backend-engineer-no-company-prefix</guid>
+    </item>
+    <item>
+      <title>Initech: Senior Frontend Engineer</title>
+      <region>USA Only</region>
+      <category>Programming</category>
+      <type>Contract</type>
+      <description>&lt;p&gt;Posted a month ago.&lt;/p&gt;</description>
+      <pubDate>Tue, 01 Sep 2026 08:00:00 +0000</pubDate>
+      <link>https://weworkremotely.com/remote-jobs/initech-senior-frontend-engineer</link>
+      <guid>https://weworkremotely.com/remote-jobs/initech-senior-frontend-engineer</guid>
+    </item>
+  </channel>
+</rss>

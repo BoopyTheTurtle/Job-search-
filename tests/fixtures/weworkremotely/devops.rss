@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/" xmlns:wwr="https://weworkremotely.com/">
+  <channel>
+    <title>We Work Remotely: Remote DevOps and Sysadmin Jobs</title>
+    <link>https://weworkremotely.com/categories/remote-devops-sysadmin-jobs</link>
+    <description>Synthetic fixture; the first item duplicates one from sample.rss and the second uses namespaced custom elements.</description>
+    <language>en-us</language>
+    <item>
+      <title>Acme Robotics: Junior Python Developer</title>
+      <region>Europe Only</region>
+      <category>DevOps and Sysadmin</category>
+      <type>Full-Time</type>
+      <description>&lt;p&gt;Cross-posted in two categories.&lt;/p&gt;</description>
+      <pubDate>Tue, 29 Sep 2026 10:15:00 +0000</pubDate>
+      <link>https://weworkremotely.com/remote-jobs/acme-robotics-junior-python-developer</link>
+      <guid>https://weworkremotely.com/remote-jobs/acme-robotics-junior-python-developer</guid>
+    </item>
+    <item>
+      <title>Globex Cloud: Site Reliability Engineer</title>
+      <wwr:region>Anywhere in the World</wwr:region>
+      <wwr:category>DevOps and Sysadmin</wwr:category>
+      <wwr:type>Full-Time</wwr:type>
+      <description>&lt;p&gt;Namespaced custom elements.&lt;/p&gt;</description>
+      <pubDate>Wed, 30 Sep 2026 09:30:00 -0000</pubDate>
+      <link>https://weworkremotely.com/remote-jobs/globex-cloud-site-reliability-engineer</link>
+      <guid>https://weworkremotely.com/remote-jobs/globex-cloud-site-reliability-engineer</guid>
+    </item>
+  </channel>
+</rss>

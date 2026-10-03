@@ -1,0 +1,48 @@
+{
+  "info": "Synthetic fixture built from API documentation; replace with a trimmed live response.",
+  "jobs": [
+    {
+      "title": "Junior Data Engineer",
+      "excerpt": "Help us build pipelines for a remote-first analytics company.",
+      "image": "https://himalayas.app/companies/acme-analytics/logo.png",
+      "companyName": "Acme Analytics",
+      "companyLogo": "https://himalayas.app/companies/acme-analytics/logo.png",
+      "employmentType": "Full Time",
+      "locationRestrictions": ["Germany", "Netherlands", "Latvia"],
+      "timezoneRestrictions": [1, 2],
+      "categories": ["Data", "Engineering"],
+      "seniority": ["Entry Level"],
+      "minSalary": 45000,
+      "maxSalary": 60000,
+      "currency": "EUR",
+      "applicationLink": "https://himalayas.app/companies/acme-analytics/jobs/junior-data-engineer-3001",
+      "guid": "https://himalayas.app/companies/acme-analytics/jobs/junior-data-engineer-3001",
+      "description": "<p>You will own our <strong>dbt</strong> models and Airflow DAGs.</p>",
+      "pubDate": 1790676900,
+      "expiryDate": 1793268900
+    },
+    {
+      "title": "Platform Engineer",
+      "excerpt": "",
+      "image": "",
+      "companyName": "Globex Cloud",
+      "companyLogo": "",
+      "employmentType": "",
+      "locationRestrictions": [],
+      "timezoneRestrictions": [],
+      "categories": [],
+      "seniority": [],
+      "minSalary": null,
+      "maxSalary": null,
+      "currency": null,
+      "applicationLink": "https://himalayas.app/companies/globex-cloud/jobs/platform-engineer-3002",
+      "guid": "https://himalayas.app/companies/globex-cloud/jobs/platform-engineer-3002",
+      "description": "<p>Worldwide.</p>",
+      "pubDate": 1790769600,
+      "expiryDate": 1793361600
+    }
+  ],
+  "offset": 0,
+  "limit": 2,
+  "totalCount": 4
+}
