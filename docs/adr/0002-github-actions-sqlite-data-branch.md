@@ -1,4 +1,4 @@
-# ADR-0002: GitHub Actions runtime, SQLite state on a `data` branch, email digest
+# ADR-0002: GitHub Actions runtime, SQLite state on a `data` branch, email digest via Resend
 
 Date: 2026-10-03 · Status: Accepted
 
@@ -10,8 +10,9 @@ with Postgres and a web UI; GitHub Actions with state in the repo; a desktop cro
 - Run on a scheduled GitHub Actions workflow (`17 6 * * 3` UTC) with manual dispatch.
 - Persist state in a single SQLite file plus Markdown digests, committed to an orphan
   `data` branch by the workflow. `main` stays protected and contains only code.
-- Deliver via SMTP email (HTML + text). A Markdown copy is always committed, so a lost
-  email is recoverable.
+- Deliver via email (HTML + text) through the Resend HTTP API (free tier: 100/day,
+  3,000/month; one `RESEND_API_KEY` secret, no SMTP credentials). A Markdown copy is
+  always committed, so a lost email is recoverable.
 
 ## Alternatives rejected
 - **Cloud host + Postgres + web UI:** more capability but monthly cost, auth, and
@@ -20,6 +21,9 @@ with Postgres and a web UI; GitHub Actions with state in the repo; a desktop cro
 - **Committing state to `main`:** conflicts with branch protection and pollutes PR history.
 - **Google Sheet / Notion:** convenient but adds OAuth setup; may be added as a second
   channel later.
+- **SMTP via a personal mailbox (Gmail app password):** works, but app passwords are
+  account-wide credentials and Gmail rate-limits automated senders. Resend's scoped API
+  key is safer to store as a repository secret.
 
 ## Consequences
 - Zero hosting cost. Runs take a few minutes within the free tier.

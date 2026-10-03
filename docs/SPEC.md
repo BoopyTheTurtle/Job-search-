@@ -20,20 +20,21 @@ core is kept separate from the user profile so this can change later without a r
 | Audience | Personal tool, single user |
 | Sourcing | API and feed first. No scraping of sites whose terms forbid it (LinkedIn, Indeed, StepStone, Glassdoor, etc.). Polite HTML fetching only where terms and robots.txt permit |
 | Eligibility | EU-based with EU/EEA work rights only. Postings count if they are remote and allow EU/EEA, a named EU country, or worldwide. US/CA/AU/NZ postings count **only** when they allow working from anywhere |
-| Home country | Not yet given. `profile.home_country` is `null` until set; country-restricted postings for that country are then matched |
+| Home country | Latvia (`LV`). Postings restricted to Latvia count as eligible alongside EU/EEA/worldwide ones |
 | Roles | Software/web development, DevOps/cloud/SRE, data/ML/AI engineering, broader IT (support, sysadmin, QA, technical product/project) |
-| Seniority | Junior and entry-level selected. **Assumption:** mid-level postings are also included; senior/lead/staff/principal postings are kept but shown in a collapsed "senior-only" section rather than dropped. Configurable |
+| Seniority | Intern, junior and mid-level included (confirmed). Senior/lead/staff/principal postings are kept but shown in a collapsed "senior-only" section rather than dropped. Configurable |
 | Contract type | Permanent, part-time, freelance, contract and B2B all included, tagged separately |
-| Language | Posting text in English. Treated as a proxy for English working language |
+| Language | Posting text in English, French, Latvian or Spanish. English is the primary target; the other three are accepted and tagged with their language in the digest |
 | Runtime | GitHub Actions scheduled workflow, every Wednesday |
-| Delivery | Email digest (HTML + plain text). Markdown copy committed to the repo |
+| Delivery | Email digest (HTML + plain text) sent through the Resend API (free tier). Markdown copy committed to the repo |
+| Licence | MIT |
 | Stack | Python 3.11+, `uv`, `ruff`, `mypy`, `pytest` |
 | Collaboration | Small PRs per feature, CI required, owner reviews and merges. Issues track the backlog |
 
 ## 3. Goals and non-goals
 
 ### Goals
-1. Weekly digest of new remote, English-language IT postings eligible for an EU-based candidate.
+1. Weekly digest of new remote IT postings, written in English (or French, Latvian or Spanish), eligible for an EU-based candidate living in Latvia.
 2. Coverage of Europe (EU-27, UK, Switzerland, Norway, Iceland) plus worldwide-remote postings from AU, NZ, US, CA sources.
 3. Zero running cost: GitHub Actions free tier, free API tiers, SQLite in a git branch.
 4. Every source is legal to use: public API, documented partner API with a key, or RSS/XML feed.
@@ -45,7 +46,7 @@ core is kept separate from the user profile so this can change later without a r
 - Auto-applying, CV tailoring, or contacting recruiters.
 - Multi-user accounts, authentication, hosted web UI.
 - Real-time alerts. Weekly cadence only (manual runs allowed).
-- Non-English postings (may be revisited; language is a filter, not a hard architectural limit).
+- Postings in languages other than English, French, Latvian and Spanish (language is a profile filter, not an architectural limit).
 
 ## 4. Users and scenarios
 
@@ -89,7 +90,7 @@ GitHub Actions (cron Wed)                       Secrets: API keys, SMTP
 | `jobbot.dedupe` | Canonical-URL and fuzzy (company, title, location) dedup across sources | `src/jobbot/dedupe.py` |
 | `jobbot.store` | SQLite persistence: jobs, sightings, runs, source health | `src/jobbot/store.py` |
 | `jobbot.filter` | Applies `profile.yaml`; computes a 0–100 score | `src/jobbot/filter.py` |
-| `jobbot.digest` | Renders HTML, text and Markdown digests; sends email | `src/jobbot/digest/` |
+| `jobbot.digest` | Renders HTML, text and Markdown digests; sends email via the Resend API | `src/jobbot/digest/` |
 | `jobbot.cli` | `jobbot sources`, `jobbot crawl`, `jobbot digest`, `jobbot run` | `src/jobbot/cli.py` |
 | Config | `profile.yaml` (user filters), `sources.yaml` (enabled sources, env var names), `companies.yaml` (ATS watchlist), `taxonomy.yaml` (role keywords) | `config/` |
 | Workflows | `ci.yml` (PR checks), `weekly-crawl.yml` (cron + manual) | `.github/workflows/` |
@@ -100,7 +101,7 @@ GitHub Actions (cron Wed)                       Secrets: API keys, SMTP
 3. Normalize each `RawJob` to `Job`. Enrich. Compute dedup key.
 4. Upsert into SQLite: new job → insert with `first_seen`; existing → update `last_seen`, append sighting.
 5. Filter and score jobs with `first_seen == this run`.
-6. Render digest. Send email if `SMTP_*` secrets exist, else write only.
+6. Render digest. Send email through Resend if `RESEND_API_KEY` exists, else write only.
 7. Commit `data/jobbot.sqlite`, `data/digests/YYYY-MM-DD.md`, `data/runs/YYYY-MM-DD.json` to the `data` branch.
 8. Fail the workflow (red) only if the store could not be written or more than 50% of sources failed.
 
@@ -170,9 +171,13 @@ fixture under `tests/fixtures/<source>/` and a test asserting field mapping.
 ## 8. Classification rules
 
 ### 8.1 Language
-Detect on `title + first 2000 chars of description_text`. Keep if `en` with confidence
-≥ 0.8. Postings under 200 chars fall back to title-only detection with a lower bar.
-Library: `lingua-language-detector` (accurate on short text). Phase 1.
+Detect on `title + first 2000 chars of description_text`. Keep if the detected language
+is in `profile.languages` (`en`, `fr`, `lv`, `es`) with confidence ≥ 0.8. Postings under
+200 chars fall back to title-only detection with a lower bar. The detector is restricted
+to a candidate set (the profile languages plus the common neighbours `de`, `nl`, `pl`,
+`it`, `pt`, `ru`, `lt`, `et`) so short Latvian and Spanish texts are not misread.
+Library: `lingua-language-detector` (accurate on short text; supports all four). Phase 1.
+Non-English accepted languages are shown with a language tag in the digest.
 
 ### 8.2 Remote type
 Order of precedence:
@@ -193,8 +198,9 @@ ISO codes → alpha-2 list; `US only|US-based|must be located in the United Stat
 Eligibility: a job is eligible if `regions_allowed ∩ profile.eligible_regions ≠ ∅`,
 where EU membership expands (`EU` matches any EU country code and vice versa).
 `profile.eligible_regions` defaults to `[WORLDWIDE, EU, EEA, EUROPE]` plus
-`profile.home_country`. Jobs with `UNKNOWN` region from a remote-first source are
-shown in the "verify eligibility" section.
+`profile.home_country` (`LV`). Baltic and Nordic phrasing (`Baltics`, `Baltic states`,
+`Nordics & Baltics`) maps to `[EE, LV, LT]` (plus Nordic codes). Jobs with `UNKNOWN`
+region from a remote-first source are shown in the "verify eligibility" section.
 
 ### 8.4 Role family
 Keyword taxonomy in `config/taxonomy.yaml`: include patterns per family, global exclude
@@ -215,7 +221,7 @@ From structured fields where available; else title/description patterns for
 | Signal | Points |
 |---|---|
 | Role family in profile | +30 (+10 if title match, not just description) |
-| Language `en` | +15 |
+| Language `en` | +15 (`fr`, `lv`, `es`: +10) |
 | Remote type `remote` | +15 (hybrid 0, unknown excluded) |
 | Eligibility confirmed (not inferred) | +15 (+5 if inferred) |
 | Seniority matches profile | +10 (senior-only: −10 and moved to collapsed section) |
@@ -232,12 +238,12 @@ Digest sections: **Strong (≥70)**, **Possible (50–69, verify eligibility)**,
 `config/profile.yaml` (user-owned, committed; see `config/profile.example.yaml`):
 ```yaml
 eligible_regions: [WORLDWIDE, EU, EEA, EUROPE]
-home_country: null            # e.g. DE — set this
-languages: [en]
+home_country: LV
+languages: [en, fr, lv, es]
 role_families: [software_dev, devops_cloud, data_ml_ai, it_ops_qa_product]
 seniority: [intern, junior, mid]          # senior/lead kept but collapsed
 employment_types: [full_time, part_time, contract, freelance, internship]
-keyword_boosts: [python, typescript, react, postgres, aws]
+keyword_boosts: [python, typescript, react, postgres, aws]   # still to be confirmed by owner
 exclude_companies: []
 exclude_title_patterns: ["sales", "recruiter"]
 digest:
@@ -249,9 +255,10 @@ digest:
 `config/sources.yaml`: each source has `enabled`, optional `env` (names of secrets),
 `params` (e.g. Adzuna country list), `rate_limit_rps`.
 
-Secrets (GitHub repo settings → Secrets): `ADZUNA_APP_ID`, `ADZUNA_APP_KEY`,
-`REED_API_KEY`, `JOOBLE_API_KEY`, `MUSE_API_KEY`, `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`,
-`SMTP_PASSWORD`, `DIGEST_FROM`. Locally via `.env` (gitignored, see `.env.example`).
+Secrets (GitHub repo settings → Secrets): `RESEND_API_KEY`, `DIGEST_FROM` (a sender on a
+domain verified in Resend, or Resend's onboarding sender for testing), `DIGEST_TO`;
+later `ADZUNA_APP_ID`, `ADZUNA_APP_KEY`, `REED_API_KEY`, `JOOBLE_API_KEY`,
+`MUSE_API_KEY`. Locally via `.env` (gitignored, see `.env.example`).
 
 ## 10. Runtime and operations
 
@@ -299,7 +306,8 @@ Secrets (GitHub repo settings → Secrets): `ADZUNA_APP_ID`, `ADZUNA_APP_KEY`,
 | Language detection on short posts | Misses | Title fallback, lower threshold for short texts |
 | Cross-source duplicates | Noise | URL canonicalisation + fuzzy key, sightings table |
 | Actions cron drift or skipped runs | Late digest | Overlap window, manual dispatch, run log |
-| Email deliverability | Digest lost | Markdown copy committed to `data`; optional second channel later |
+| Email deliverability | Digest lost | Resend API with delivery status in the run log; Markdown copy committed to `data`; optional second channel later |
+| Resend free tier limits (100 emails/day, 3,000/month) | None at weekly cadence | One email per run; alert if the digest exceeds the size limit and split |
 | Scope creep into scraping | Legal exposure | Tier E requires explicit ToS note and owner approval in the PR |
 
 ## 14. Roadmap
@@ -314,8 +322,11 @@ See `docs/ROADMAP.md` for the issue-level backlog. Phases:
 
 ## 15. Open questions
 
-1. `home_country` — which EU country are you based in? Needed for country-restricted postings.
-2. Main languages/frameworks for `keyword_boosts`.
-3. Email provider: Gmail app password, Fastmail, or a transactional service (Resend free tier)?
-4. Are mid-level postings wanted (assumed yes) and should senior-only be dropped entirely instead of collapsed?
-5. Licence for the repo (MIT suggested, or keep unlicensed/private).
+Resolved 2026-10-03: home country Latvia; mid-level included; posting languages en/fr/lv/es;
+email via Resend; MIT licence.
+
+Still open:
+1. Main languages/frameworks for `keyword_boosts` (defaults in `profile.example.yaml` until given).
+2. Senior-only postings: keep collapsed (current default) or drop entirely?
+3. Sending domain for Resend: verify a domain you own, or use Resend's onboarding sender
+   (which can only deliver to the account's own address, fine for a personal tool).

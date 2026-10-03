@@ -10,11 +10,12 @@ one PR. Items are ordered by dependency within a phase.
 - [x] Reference connector: Remotive, with fixture test
 - [x] GitHub collaboration: CODEOWNERS, PR template, issue templates, Dependabot, CONTRIBUTING
 - [ ] Owner: enable branch protection on `main` (require PR, require CI, no force push)
-- [ ] Owner: fill in `config/profile.yaml` (home country, keyword boosts, email)
+- [x] Owner: home country (LV), languages (en/fr/lv/es), email provider (Resend), licence (MIT)
+- [ ] Owner: confirm `keyword_boosts` and create a Resend API key
 
 ## Phase 1 — MVP weekly digest
 - [ ] Normalizer: HTML→text, date parsing, URL canonicalisation
-- [ ] Enrich: language detection (`lingua`)
+- [ ] Enrich: language detection (`lingua`, accept en/fr/lv/es)
 - [ ] Enrich: remote type classifier with golden tests
 - [ ] Enrich: regions-allowed parser and eligibility check with golden tests
 - [ ] Enrich: role family taxonomy (`config/taxonomy.yaml`) and classifier
@@ -23,7 +24,7 @@ one PR. Items are ordered by dependency within a phase.
 - [ ] Store: SQLite schema, upsert, runs and source_runs tables
 - [ ] Filter and score per `profile.yaml`
 - [ ] Digest: Markdown, HTML and plain-text renderers (Jinja2)
-- [ ] Digest: SMTP sender with secrets, dry-run mode
+- [ ] Digest: Resend API sender with secrets, dry-run mode
 - [ ] Connectors: Arbeitnow, RemoteOK, Himalayas, Jobicy, WeWorkRemotely RSS, Working Nomads
 - [ ] Workflow: `weekly-crawl.yml` on cron with `data` branch checkout and commit
 - [ ] Workflow: `manual-smoke.yml` live run with `--limit 5`, artifact upload

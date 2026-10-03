@@ -48,4 +48,5 @@ uv run pytest
 
 ## Secrets
 Never commit keys. Locally use `.env`; in Actions use repository secrets. `.env` and
-`config/profile.yaml` are gitignored except for the `.example` copies.
+`config/profile.yaml` are gitignored except for the `.example` copies. The digest is sent
+through Resend: `RESEND_API_KEY`, `DIGEST_FROM`, `DIGEST_TO`.
