@@ -1,9 +1,18 @@
-# Phase 3: employer watchlist for ATS connectors. One entry per company.
-# ats: greenhouse | lever | ashby | workable | recruitee | personio | smartrecruiters | teamtailor
-# slug: the board token / company slug used in that ATS's public URL.
-companies: []
-# Example:
-# - name: Example GmbH
-#   ats: greenhouse
-#   slug: examplegmbh
-#   notes: remote-first, EU
+# Employer watchlist for the ATS connectors. One entry per company.
+# ats: greenhouse | smartrecruiters | recruitee (connectors exist); lever | ashby | workable |
+#      personio | teamtailor | workday | successfactors (planned)
+# slug: the board token / company identifier in that ATS's public URL.
+# Set `enabled: false` to pause a company without deleting it.
+companies:
+  - name: EQT
+    ats: greenhouse
+    slug: eqtpartners
+    notes: private equity; Stockholm, Paris, Luxembourg and others
+  - name: OECD
+    ats: smartrecruiters
+    slug: OECD
+    notes: international organisation; Paris
+  - name: Meridiam
+    ats: recruitee
+    slug: meridiam
+    notes: infrastructure funds; Paris, Luxembourg

@@ -19,7 +19,8 @@ boards, not on general job sites. One connector per ATS reaches many employers.
 | SmartRecruiters | `GET https://api.smartrecruiters.com/v1/companies/<id>/postings` | tested live | OECD (`OECD`) |
 | Recruitee | `GET https://<slug>.recruitee.com/api/offers/` | tested live | Meridiam (`meridiam`) |
 
-Greenhouse, SmartRecruiters and Recruitee are already planned in Phase 3.
+Greenhouse, SmartRecruiters and Recruitee connectors exist since 2026-10-05; the employers
+they crawl are listed in `config/companies.yaml`.
 
 ## Approved by the owner: unofficial endpoints
 

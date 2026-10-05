@@ -100,3 +100,24 @@ sources:
       page_size: 150
       max_pages: 3
       page_delay: 0.4
+  # Tier D: employer-direct ATS boards. Which companies to crawl lives in companies.yaml.
+  greenhouse:
+    enabled: true           # live dry-run crawl passed 2026-10-05; fixture is a trimmed real response
+    tier: D
+    terms: https://developers.greenhouse.io/job-board.html   # public Job Board API, no key
+    rate_limit_rps: 1.0     # none published; one request per board
+    params: {}
+  smartrecruiters:
+    enabled: true           # live dry-run crawl passed 2026-10-05; fixture is a trimmed real response
+    tier: D
+    terms: https://developers.smartrecruiters.com/docs/posting-api   # public Posting API, no key
+    rate_limit_rps: 1.0     # none published; one list call per company + one detail per new posting
+    params:
+      page_size: 100
+      max_pages: 5
+  recruitee:
+    enabled: true           # live dry-run crawl passed 2026-10-05; fixture is a trimmed real response
+    tier: D
+    terms: https://docs.recruitee.com/reference/intro-to-careers-site-api   # public Careers Site API, no key
+    rate_limit_rps: 1.0     # none published; one request per company
+    params: {}
