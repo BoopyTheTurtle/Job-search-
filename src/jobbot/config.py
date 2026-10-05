@@ -22,9 +22,7 @@ class DigestConfig(BaseModel):
 
 
 class Profile(BaseModel):
-    eligible_regions: list[str] = Field(
-        default_factory=lambda: ["WORLDWIDE", "EU", "EEA", "EUROPE"]
-    )
+    eligible_regions: list[str] = Field(default_factory=lambda: ["WORLDWIDE", "EU", "EEA", "CH"])
     """Where a remote job must allow working from."""
     home_country: str | None = None
     hybrid_regions: list[str] | None = None

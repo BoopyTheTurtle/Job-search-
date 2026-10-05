@@ -2,7 +2,7 @@
 # Committed on purpose: it holds preferences, not secrets. The recipient address comes from
 # the DIGEST_TO secret in CI; `digest.to` is the local fallback.
 title: IT
-eligible_regions: [WORLDWIDE, EU, EEA, EUROPE]
+eligible_regions: [WORLDWIDE, EU, EEA, CH]   # not EUROPE: it would admit UK-only jobs
 home_country: LV
 # hybrid_regions unset: hybrid jobs count in the home country only. No on-site jobs.
 languages: [en, fr, lv, es]
