@@ -1,0 +1,38 @@
+# The IT search: remote software, DevOps, data and IT roles for an EU-based candidate.
+# Committed on purpose: it holds preferences, not secrets. The recipient address comes from
+# the DIGEST_TO secret in CI; `digest.to` is the local fallback.
+title: IT
+eligible_regions: [WORLDWIDE, EU, EEA, EUROPE]
+home_country: LV
+# hybrid_regions unset: hybrid jobs count in the home country only. No on-site jobs.
+languages: [en, fr, lv, es]
+role_families: [software_dev, devops_cloud, data_ml_ai, it_ops_qa_product]
+seniority: [intern, junior, mid]
+employment_types: [full_time, part_time, contract, freelance, internship]
+keyword_boosts: [python, typescript, javascript, html, css, c]   # owner's main languages
+exclude_companies: []
+exclude_title_patterns:
+  - "\bsales\b"
+  - "recruiter"
+  - "account executive"
+  # Excluded for IT only; the impact-finance search wants some of these roles.
+  - "business development"
+  - "controller"
+  - "accountant"
+  - "real estate"
+digest:
+  min_score: 50
+  max_items: 150
+  to: []
+# Per-source query parameters for this search, merged over `params` in sources.yaml.
+queries:
+  adzuna:
+    what: remote
+    category: it-jobs
+  jobtech:
+    occupation_field: apaJ_2ja_LuF   # Data/IT
+  reed:
+    keywords: [remote developer, remote software engineer, remote data]
+  francetravail:
+    keywords: télétravail
+    domain: M18           # Informatique / Télécommunication

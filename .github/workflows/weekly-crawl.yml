@@ -2,8 +2,8 @@
 #
 # Code is checked out from `main`; state lives on the orphan `data` branch, which this
 # workflow clones into ./data (gitignored on main), updates, and pushes back as
-# github-actions[bot]. The `data` branch holds jobbot.sqlite, digests/YYYY-MM-DD.md and
-# runs/YYYY-MM-DD.json. It is created automatically on the first run.
+# github-actions[bot]. The `data` branch holds jobbot.sqlite, digests/<search>/YYYY-MM-DD.md
+# (one per search in config/searches/, ADR-0004) and runs/YYYY-MM-DD.json. It is created automatically on the first run.
 #
 # Secrets: RESEND_API_KEY, DIGEST_FROM, DIGEST_TO (email is skipped if any is missing).
 # Optional source keys (a source is skipped without its own): ADZUNA_APP_ID, ADZUNA_APP_KEY,
@@ -21,6 +21,10 @@ on:
         default: false
       sources:
         description: Comma-separated source names (empty = all enabled)
+        required: false
+        default: ""
+      searches:
+        description: Comma-separated search names from config/searches/ (empty = all)
         required: false
         default: ""
       since_days:
@@ -85,6 +89,7 @@ jobs:
           FRANCE_TRAVAIL_CLIENT_SECRET: ${{ secrets.FRANCE_TRAVAIL_CLIENT_SECRET }}
           DRY_RUN: ${{ inputs.dry_run }}
           SOURCES: ${{ inputs.sources }}
+          SEARCHES: ${{ inputs.searches }}
           SINCE_DAYS: ${{ inputs.since_days }}
           LIMIT: ${{ inputs.limit }}
         run: |
@@ -95,6 +100,10 @@ jobs:
             IFS=',' read -ra arr <<< "$SOURCES"
             for s in "${arr[@]}"; do args+=(--source "$(echo "$s" | xargs)"); done
           fi
+          if [ -n "${SEARCHES:-}" ]; then
+            IFS=',' read -ra arr <<< "$SEARCHES"
+            for s in "${arr[@]}"; do args+=(--search "$(echo "$s" | xargs)"); done
+          fi
           if [ -n "${SINCE_DAYS:-}" ]; then args+=(--since-days "$SINCE_DAYS"); fi
           if [ -n "${LIMIT:-}" ] && [ "$LIMIT" != "0" ]; then args+=(--limit "$LIMIT"); fi
           uv run jobbot run "${args[@]}"
@@ -102,10 +111,15 @@ jobs:
       - name: Summary
         if: always()
         run: |
-          latest=$(ls -1 data/digests/*.md 2>/dev/null | sort | tail -n 1 || true)
-          if [ -n "$latest" ]; then
-            { echo "## Digest ($latest)"; echo; cat "$latest"; } >> "$GITHUB_STEP_SUMMARY"
+          shown=0
+          for dir in data/digests/*/; do
+            latest=$(ls -1 "$dir"*.md 2>/dev/null | sort | tail -n 1 || true)
+            [ -n "$latest" ] || continue
+            shown=1
+            { echo "## Digest ($latest)"; echo; cat "$latest"; echo; } >> "$GITHUB_STEP_SUMMARY"
             echo "::group::Digest ($latest)"; cat "$latest"; echo "::endgroup::"
+          done
+          if [ "$shown" = 1 ]; then
             run_json=$(ls -1 data/runs/*.json 2>/dev/null | sort | tail -n 1 || true)
             if [ -n "$run_json" ]; then
               echo "::group::Run summary ($run_json)"; cat "$run_json"; echo "::endgroup::"

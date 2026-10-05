@@ -42,6 +42,10 @@ class RoleFamily(StrEnum):
     DEVOPS_CLOUD = "devops_cloud"
     DATA_ML_AI = "data_ml_ai"
     IT_OPS_QA_PRODUCT = "it_ops_qa_product"
+    INTL_DEVELOPMENT = "intl_development"
+    FINANCE_INVESTMENT = "finance_investment"
+    PRIVATE_EQUITY = "private_equity"
+    PROJECT_ADMIN = "project_admin"
     OTHER = "other"
 
 

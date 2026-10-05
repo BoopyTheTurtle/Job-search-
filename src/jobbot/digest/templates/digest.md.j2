@@ -1,4 +1,4 @@
-# Job digest {{ d.date | string | truncate(10, True, "") }}
+# {{ d.heading }} {{ d.date | string | truncate(10, True, "") }}
 
 Run `{{ d.run_id }}`{% if d.since %} · postings since {{ d.since | string | truncate(10, True, "") }}{% endif %} · {{ d.strong | length }} strong · {{ d.possible | length }} possible · {{ d.senior | length }} senior-only · {{ d.dropped }} filtered out
 

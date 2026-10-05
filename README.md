@@ -19,7 +19,8 @@ uv run jobbot crawl --source remotive --limit 5 --dry-run   # raw postings, noth
 uv run jobbot run --no-send --db /tmp/jobbot.sqlite --out-dir /tmp/out   # full run, digest on disk
 ```
 
-Edit `config/profile.yaml` to tune filters and scoring. Set `RESEND_API_KEY`, `DIGEST_FROM`
+Each file in `config/searches/` is one search with its own filters, scoring and email
+(`uv run jobbot searches` lists them; `--search NAME` limits a run to one). Set `RESEND_API_KEY`, `DIGEST_FROM`
 and `DIGEST_TO` (see `.env.example`) to receive the digest by email.
 
 ## Licence

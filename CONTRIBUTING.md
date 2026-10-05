@@ -53,6 +53,6 @@ branch ever needs resetting, delete it on GitHub and the next run recreates it.
 
 ## Secrets
 Never commit keys. Locally use `.env`; in Actions use repository secrets. `.env` is
-gitignored. `config/profile.yaml` is committed because it holds only preferences; the
+gitignored. `config/searches/*.yaml` are committed because they hold only preferences; the
 recipient address and the sender live in secrets. The digest is sent through Resend:
 `RESEND_API_KEY`, `DIGEST_FROM`, `DIGEST_TO`.

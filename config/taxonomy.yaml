@@ -70,18 +70,79 @@ families:
       - "test cases|selenium|cypress|playwright|test automation|regression testing"
       - "product roadmap|backlog|stakeholders|user stories|scrum|sprints?"
       - "incident(?:s| management)|monitoring|windows server|linux|networking|vpn|firewall|sla"
+  # The four families below serve the impact-finance search. Keep a title phrase in one
+  # family only: a title that hits two families equally is ambiguous and becomes `other`.
+  # French titles use "charg\\S*" so chargé, chargée and chargé(e) all match.
+  intl_development:
+    title:
+      - "international development|development (?:cooperation|programmes?|programs?|specialist|officer|consultant|economist|practitioner|expert)"
+      - "programme (?:officer|manager|coordinator|specialist|associate|analyst|assistant|director|lead)|program officer"
+      - "humanitarian|livelihoods?|food security"
+      - "monitoring,? (?:and|&) evaluation|m&e|meal (?:officer|specialist|manager|coordinator|advisor|adviser)|mel (?:officer|specialist|manager)"
+      - "grants? (?:manager|officer|management|coordinator|specialist|administrator|lead)|donor relations|fundraising|fundraiser"
+      - "développement international|coopération internationale|solidarité internationale|aide (?:humanitaire|au développement)"
+      - "charg\\S* de programmes?|suivi[- ]évaluation|collecte de fonds|charg\\S* de partenariats?"
+    description:
+      - "international development|development cooperation|development partners?|official development assistance|donors?"
+      - "ngos?|non[- ]governmental|united nations|un agenc(?:y|ies)|world bank|undp|unicef|usaid|fcdo|giz|enabel|european commission"
+      - "monitoring (?:and|&) evaluation|logframe|logical framework|theory of change|beneficiar(?:y|ies)|capacity building"
+      - "humanitarian|fragile (?:states|contexts)|global south|low- and middle-income|lmics?|sub-saharan"
+      - "solidarité internationale|coopération internationale|bailleurs de fonds|bénéficiaires|renforcement des capacités|aide au développement"
+  finance_investment:
+    title:
+      - "project finance|infrastructure finance|structured finance|development finance|climate finance|blended finance"
+      - "investment (?:officer|analyst|manager|specialist|banker)|financial (?:analyst|modell?er|modell?ing)|credit (?:analyst|officer)"
+      - "impact invest\\w*|green finance|sustainable finance|responsible investment|esg|sustainability (?:analyst|manager|specialist|officer|reporting|lead)|green bonds?"
+      - "finance (?:transformation|projects?|project manager|business partner)|financial projects?"
+      - "financement (?:de projets?|structuré|climat)|charg\\S* d['’]investissements?|analyste (?:financi\\w*|crédit|investissement)"
+      - "finance (?:durable|verte|climat|à impact|responsable)|investissement (?:responsable|à impact|durable)|isr"
+    description:
+      - "project finance|financial (?:model|modell?ing)|irr|npv|debt (?:financing|structuring)|term sheets?|due diligence"
+      - "development finance institutions?|dfis?|ifc|eib|ebrd|fmo|proparco|multilateral development banks?|mdbs?"
+      - "esg|sustainable finance|climate finance|green bonds?|sfdr|eu taxonomy|tcfd|impact (?:investing|measurement)|blended finance"
+      - "investment committee|credit risk|loans?|guarantees|mezzanine|senior debt"
+      - "financement de projets|modèle financier|comité d['’]investissement|finance durable|investissement responsable"
+  private_equity:
+    title:
+      - "private equity|venture capital|growth equity|buy[- ]?outs?|private markets?|private capital|private debt|secondaries|co[- ]?investments?"
+      - "investment (?:associate|director|principal|partner)|infrastructure (?:fund|investment|equity)"
+      - "portfolio (?:monitoring|valuation|operations)|value creation"
+      - "fund (?:operations|administration|administrator|accountant|controller|finance|services|reporting)|investor relations|capital raising"
+      - "capital[- ](?:investissement|risque|développement)|lbo|charg\\S* d['’]affaires (?:capital|investissement|private equity|lbo)"
+      - "relations? investisseurs|gestion de fonds|middle[- ]office (?:fonds|private equity)"
+    description:
+      - "private equity|venture capital|buy[- ]?outs?|lbo|growth equity|private markets|limited partners?|general partners?"
+      - "portfolio compan(?:y|ies)|deal (?:flow|sourcing|execution)|value creation|carried interest|assets under management|aum"
+      - "fund (?:administration|accounting|reporting|operations)|nav|capital calls?|aifm|aifmd|depositary"
+      - "capital[- ]investissement|sociétés du portefeuille|levée de fonds|participations"
+  # Administration and coordination roles only: a bare "project manager" or "chef de
+  # projet" is mostly IT, marketing or construction work and would flood the digest.
+  project_admin:
+    title:
+      - "project (?:officer|coordinator|co-ordinator|administrator|assistant|support|associate|controller|analyst)|projects officer"
+      - "pmo|project management office|programme support|project support officer"
+      - "contracts? (?:administrator|officer)"
+      - "charg\\S* de (?:projets?|mission)|coordinat\\S* de projets?|gestionnaire de projets?|assistant\\S* (?:de )?(?:chef de )?projets?"
+      - "contrôleu\\S* de projets?"
+    description:
+      - "project (?:cycle|management|plan|budget|reporting|documentation)|work ?plans?|gantt|milestones|deliverables"
+      - "budget (?:monitoring|tracking)|financial reporting|procurement|contracts? management"
+      - "prince2|pmp|ipma|pmi|capm|pm²"
+      - "gestion de projets?|suivi budgétaire|livrables|cahier des charges|marchés publics"
 exclude:
+  # Titles no search wants. Exclusions that only one search needs live in that search's
+  # `exclude_title_patterns` (config/searches/*.yaml).
   title:
     - "account executive|account manager|sales (?:manager|representative|development|director)|sales$"
     - "recruiter|talent acquisition|sourcer|headhunter"
     - "marketing (?:manager|specialist|director)|seo specialist|content (?:writer|marketer)|copywriter"
-    - "business development|customer success manager|customer support representative|customer service"
+    - "customer success manager|customer support representative|customer service"
     - "(?:office|administrative|executive|virtual|personal) assistant|office manager|receptionist"
     - "content reviewer|content moderator|data entry|transcri(?:ber|ption)|annotator|rater"
-    - "accounts (?:receivable|payable)|clerk|controller|auditor|tax "
+    - "accounts (?:receivable|payable)|clerk|auditor|tax "
     - "(?:graphic|visual|ui/ux|ux/ui|ux|ui|product|brand|motion) designer|illustrator|video editor"
     - "nurse|physician|therapist|pharmacist|dentist"
     - "mechanical engineer|civil engineer|electrical engineer|structural engineer|hvac|chemical engineer"
-    - "truck|driver|warehouse|forklift|cleaner|janitor|cook|chef|barista"
-    - "teacher|tutor|attorney|lawyer|paralegal|accountant|bookkeeper|payroll"
-    - "real estate|insurance agent|financial advisor|loan officer"
+    - "truck|driver|warehouse|forklift|cleaner|janitor|cook|chef(?! de)|barista"
+    - "teacher|tutor|attorney|lawyer|paralegal|bookkeeper|payroll"
+    - "insurance agent|financial advisor|loan officer"

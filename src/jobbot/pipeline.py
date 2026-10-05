@@ -4,10 +4,12 @@ from __future__ import annotations
 
 import os
 import time
+from collections.abc import Iterable
 from dataclasses import dataclass, field
 from datetime import UTC, datetime, timedelta
+from typing import Any
 
-from jobbot.config import SourceConfig
+from jobbot.config import Search, SourceConfig
 from jobbot.dedupe import dedupe
 from jobbot.enrich import enrich
 from jobbot.http import SourceError, make_client
@@ -42,6 +44,35 @@ class RunSummary:
         return sum(1 for s in self.sources if not s.skipped)
 
 
+@dataclass(frozen=True)
+class CrawlTask:
+    """One connector run. `label` names it in source health: the source name, or
+    `source:search` when a search supplies its own query."""
+
+    label: str
+    source: str
+    params: dict[str, Any]
+
+
+def plan_crawl(
+    names: list[str], configs: dict[str, SourceConfig], searches: Iterable[Search] = ()
+) -> list[CrawlTask]:
+    """A source runs once per search that lists it in `queries`, with that query merged over
+    the source's own params; a source no search lists runs once with its own params."""
+    searches = list(searches)
+    tasks: list[CrawlTask] = []
+    for name in names:
+        cfg = configs.get(name)
+        base = dict(cfg.params) if cfg else {}
+        querying = [s for s in searches if name in s.queries]
+        if not querying:
+            tasks.append(CrawlTask(label=name, source=name, params=base))
+        for search in querying:
+            params = {**base, **(search.queries[name] or {})}
+            tasks.append(CrawlTask(label=f"{name}:{search.name}", source=name, params=params))
+    return tasks
+
+
 def missing_env(cfg: SourceConfig | None) -> list[str]:
     """Names of the credentials a source declares in `env` that are not set (or empty)."""
     if cfg is None:
@@ -63,6 +94,7 @@ def run_crawl(
     names: list[str],
     configs: dict[str, SourceConfig],
     *,
+    searches: Iterable[Search] = (),
     since_days: int | None = None,
     limit: int | None = None,
     now: datetime | None = None,
@@ -73,11 +105,11 @@ def run_crawl(
     summary = RunSummary(run_id=run_id, since=since, status="running")
 
     with make_client() as client:
-        for name in names:
-            record = SourceRunRecord(source=name)
+        for task in plan_crawl(names, configs, searches):
+            record = SourceRunRecord(source=task.label)
             started = time.monotonic()
             raws: list[RawJob] = []
-            cfg = configs.get(name)
+            cfg = configs.get(task.source)
             absent = missing_env(cfg)
             if absent:
                 # A keyed source without its secret is not a failure: it simply does not
@@ -88,7 +120,7 @@ def run_crawl(
                 summary.sources.append(record)
                 continue
             try:
-                connector = build(name, client, cfg.params if cfg else {})
+                connector = build(task.source, client, task.params)
                 # Collect incrementally: a paginated source that fails on page N (rate
                 # limit, outage) still contributes pages 1..N-1 to this run.
                 for raw in connector.fetch(since, limit):

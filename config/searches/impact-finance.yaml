@@ -1,0 +1,30 @@
+# The impact-finance search: international development, project and development finance,
+# private equity, ESG and sustainable finance, and project administration. Remote, hybrid
+# and on-site all count. On-site and hybrid jobs must be in the EU or Switzerland (not the
+# UK); Benelux, France, Spain, Portugal and Switzerland score highest.
+title: Impact & finance
+eligible_regions: [WORLDWIDE, EU, EEA, CH]   # remote jobs: EU-based work allowed
+home_country: LV
+hybrid_regions: [EU, CH]
+onsite_regions: [EU, CH]
+preferred_countries: [BE, NL, LU, FR, ES, PT, CH]
+languages: [en, fr]
+role_families: [intl_development, finance_investment, private_equity, project_admin]
+seniority: [intern, junior, mid]
+employment_types: [full_time, part_time, contract, freelance, internship]
+keyword_boosts:
+  - esg
+  - sustainable finance
+  - climate finance
+  - impact investing
+  - blended finance
+  - development finance
+  - finance durable
+exclude_companies: []
+exclude_title_patterns: []   # none yet: tune after the first digests
+digest:
+  min_score: 50
+  max_items: 150
+  to: []
+# Source queries arrive in the next PR (Adzuna, France Travail).
+queries: {}

@@ -49,7 +49,7 @@ def test_exclusions() -> None:
     assert exclusion_reason(_job(remote_type=RemoteType.UNKNOWN), PROFILE) == "remote type unknown"
     assert (
         exclusion_reason(_job(remote_type=RemoteType.HYBRID), PROFILE)
-        == "hybrid outside home country"
+        == "hybrid outside accepted regions"
     )
     assert (
         exclusion_reason(_job(remote_type=RemoteType.HYBRID, regions_allowed=["LV"]), PROFILE)
@@ -130,3 +130,76 @@ def test_keyword_present_uses_token_boundaries() -> None:
     assert keyword_present("javascript", "Senior JavaScript Engineer")
     assert keyword_present(".net", "ASP.NET Core and .NET 8")
     assert not keyword_present("html", "htmlx")
+
+
+OFFICE = Profile(
+    home_country="LV",
+    eligible_regions=["WORLDWIDE", "EU", "EEA", "CH"],
+    hybrid_regions=["EU", "CH"],
+    onsite_regions=["EU", "CH"],
+    preferred_countries=["BE", "NL", "LU", "FR", "ES", "PT", "CH"],
+    languages=["en", "fr"],
+    role_families=[RoleFamily.FINANCE_INVESTMENT],
+)
+
+
+def _office_job(**kw: object) -> Job:
+    base: dict[str, object] = {
+        "title": "Investment Analyst",
+        "role_family": RoleFamily.FINANCE_INVESTMENT,
+        "remote_type": RemoteType.ONSITE,
+        "regions_allowed": ["FR"],
+        "description_text": "Project finance and financial modelling.",
+    }
+    base.update(kw)
+    return _job(**base)
+
+
+def test_office_search_accepts_onsite_and_hybrid_in_region() -> None:
+    assert exclusion_reason(_office_job(), OFFICE) is None
+    assert (
+        exclusion_reason(_office_job(remote_type=RemoteType.HYBRID, regions_allowed=["DE"]), OFFICE)
+        is None
+    )
+    assert exclusion_reason(_office_job(regions_allowed=["CH"]), OFFICE) is None
+
+
+def test_office_search_rejects_uk_and_vague_locations() -> None:
+    assert exclusion_reason(_office_job(regions_allowed=["GB"]), OFFICE) == (
+        "on-site outside accepted regions"
+    )
+    assert exclusion_reason(
+        _office_job(remote_type=RemoteType.HYBRID, regions_allowed=["GB"]), OFFICE
+    ) == ("hybrid outside accepted regions")
+    # "Europe" names no office country.
+    assert exclusion_reason(_office_job(regions_allowed=["EUROPE"]), OFFICE) == (
+        "on-site outside accepted regions"
+    )
+    assert exclusion_reason(_office_job(regions_allowed=["UNKNOWN"]), OFFICE) == (
+        "on-site outside accepted regions"
+    )
+
+
+def test_unknown_arrangement_reads_as_onsite_only_when_onsite_is_accepted() -> None:
+    job = _office_job(remote_type=RemoteType.UNKNOWN)
+    assert exclusion_reason(job, OFFICE) is None
+    it_job = _job(remote_type=RemoteType.UNKNOWN, regions_allowed=["FR"])
+    assert exclusion_reason(it_job, PROFILE) == "remote type unknown"
+
+
+def test_remote_uk_only_job_not_eligible_without_europe_group() -> None:
+    job = _office_job(remote_type=RemoteType.REMOTE, regions_allowed=["GB"])
+    assert exclusion_reason(job, OFFICE) == "not eligible: GB"
+
+
+def test_preferred_country_scores_like_remote() -> None:
+    # No salary, date or seniority, so the totals stay below the 100 cap.
+    plain = {"salary_raw": None, "posted_at": None, "seniority": Seniority.UNKNOWN}
+    paris, _ = score(_office_job(regions_allowed=["FR"], **plain), OFFICE, NOW)
+    berlin, reasons = score(_office_job(regions_allowed=["DE"], **plain), OFFICE, NOW)
+    remote, _ = score(
+        _office_job(remote_type=RemoteType.REMOTE, regions_allowed=["EU"], **plain), OFFICE, NOW
+    )
+    assert paris - berlin == 15
+    assert paris == remote
+    assert not any("preferred" in r for r in reasons)

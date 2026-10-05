@@ -1,3 +1,5 @@
+import re
+
 import httpx
 import pytest
 import respx
@@ -26,7 +28,8 @@ def test_crawl_all_hits_every_registered_source_even_if_disabled(
     result = runner.invoke(app, ["crawl", "--dry-run", "--all", "--limit", "1"])
     assert result.exit_code == 0, result.output
     for name in available():
-        assert f"{name}: " in result.output
+        # A source a search queries is labelled `source:search`.
+        assert re.search(rf"^{name}(?::[\w-]+)?: ", result.output, re.MULTILINE), name
     assert respx.calls.call_count >= len(available())
 
 
@@ -38,5 +41,24 @@ def test_crawl_dry_run_skips_keyed_sources_without_secrets(
     monkeypatch.delenv("ADZUNA_APP_KEY", raising=False)
     result = runner.invoke(app, ["crawl", "--dry-run", "--source", "adzuna"])
     assert result.exit_code == 0, result.output
-    assert "adzuna: skipped: missing ADZUNA_APP_ID, ADZUNA_APP_KEY" in result.output
+    assert "adzuna:it: skipped: missing ADZUNA_APP_ID, ADZUNA_APP_KEY" in result.output
     assert respx.calls.call_count == 0
+
+
+def test_searches_lists_committed_searches() -> None:
+    result = runner.invoke(app, ["searches"])
+    assert result.exit_code == 0
+    assert "impact-finance" in result.output
+    assert "queries: adzuna, francetravail, jobtech, reed" in result.output
+
+
+@respx.mock
+def test_crawl_dry_run_one_search_only(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.delenv("ADZUNA_APP_ID", raising=False)
+    monkeypatch.delenv("ADZUNA_APP_KEY", raising=False)
+    result = runner.invoke(
+        app, ["crawl", "--dry-run", "--source", "adzuna", "--search", "impact-finance"]
+    )
+    assert result.exit_code == 0, result.output
+    # impact-finance has no adzuna query, so adzuna runs once under its own name.
+    assert "adzuna: skipped" in result.output

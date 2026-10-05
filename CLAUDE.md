@@ -10,8 +10,10 @@ Project: personal weekly job-search bot. Read `docs/SPEC.md` first, then `docs/R
   URL in `config/sources.yaml` for every source.
 - Every connector needs a recorded fixture under `tests/fixtures/<source>/` and a test.
 - No network calls in tests; use `respx`.
-- Secrets only via environment variables; never commit `.env`. `config/profile.yaml` holds
-  preferences only (no addresses or keys) and is committed; the recipient comes from `DIGEST_TO`.
+- Secrets only via environment variables; never commit `.env`. `config/searches/*.yaml` hold
+  preferences only (no addresses or keys) and are committed; the recipient comes from `DIGEST_TO`.
 - Do not commit to `main` directly. Do not commit to the `data` branch by hand; the workflow owns it.
 - Keep the crawler core (`sources`, `normalize`, `enrich`, `dedupe`, `store`) free of
   user-profile logic; profile logic lives in `filter` and `digest`.
+- Each search (`config/searches/<name>.yaml`) gets its own digest and email over one shared
+  crawl (ADR-0004). Source query terms go in a search's `queries`, not in `sources.yaml`.
