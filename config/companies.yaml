@@ -1,18 +1,37 @@
 # Employer watchlist for the ATS connectors. One entry per company.
-# ats: greenhouse | smartrecruiters | recruitee (connectors exist); lever | ashby | workable |
-#      personio | teamtailor | workday | successfactors (planned)
-# slug: the board token / company identifier in that ATS's public URL.
+# ats: greenhouse | smartrecruiters | recruitee | workday (connectors exist)
+# slug: the board token / company identifier in that ATS's public URL. Workday slugs are
+#       `tenant.wdN/site`, from https://{tenant}.{wdN}.myworkdayjobs.com/{site}.
 # Set `enabled: false` to pause a company without deleting it.
+# Research and candidates not yet reachable: docs/inventory/impact-finance-sources.md.
 companies:
+  # Private equity and infrastructure funds
+  - name: Ardian
+    ats: workday
+    slug: ardian.wd103/ArdianCareers
+    notes: Paris, Luxembourg, Frankfurt, Madrid, Zurich and others
   - name: EQT
     ats: greenhouse
     slug: eqtpartners
-    notes: private equity; Stockholm, Paris, Luxembourg and others
-  - name: OECD
-    ats: smartrecruiters
-    slug: OECD
-    notes: international organisation; Paris
+    notes: Stockholm, Paris, Luxembourg and others
   - name: Meridiam
     ats: recruitee
     slug: meridiam
     notes: infrastructure funds; Paris, Luxembourg
+  - name: PAI Partners
+    ats: recruitee
+    slug: paipartnerssas
+    notes: Paris, Luxembourg, Munich, Madrid
+  - name: Triton
+    ats: workday
+    slug: tritonpartners.wd3/External
+    notes: Frankfurt, Luxembourg, Stockholm and others
+  # International organisations
+  - name: Global Fund
+    ats: workday
+    slug: theglobalfund.wd1/External
+    notes: Geneva
+  - name: OECD
+    ats: smartrecruiters
+    slug: OECD
+    notes: Paris
