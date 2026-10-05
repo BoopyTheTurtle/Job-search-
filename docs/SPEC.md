@@ -204,8 +204,10 @@ ISO codes → alpha-2 list; `US only|US-based|must be located in the United Stat
 
 Eligibility: a job is eligible if `regions_allowed ∩ profile.eligible_regions ≠ ∅`,
 where EU membership expands (`EU` matches any EU country code and vice versa).
-`profile.eligible_regions` defaults to `[WORLDWIDE, EU, EEA, EUROPE]` plus
-`profile.home_country` (`LV`). Baltic and Nordic phrasing (`Baltics`, `Baltic states`,
+`profile.eligible_regions` defaults to `[WORLDWIDE, EU, EEA, CH]` plus
+`profile.home_country` (`LV`). It omits `EUROPE`, which expands to the UK and other
+non-EU countries and would admit UK-only jobs; a job tagged `EUROPE` still matches
+through its EU countries. Baltic and Nordic phrasing (`Baltics`, `Baltic states`,
 `Nordics & Baltics`) maps to `[EE, LV, LT]` (plus Nordic codes). Jobs with `UNKNOWN`
 region from a remote-first source are shown in the "verify eligibility" section.
 
@@ -250,7 +252,7 @@ Digest sections: **Strong (≥70)**, **Possible (50–69, verify eligibility)**,
 only, the recipient address comes from the `DIGEST_TO` secret). The IT search:
 ```yaml
 title: IT                     # digest heading and email subject
-eligible_regions: [WORLDWIDE, EU, EEA, EUROPE]   # where a remote job must allow work from
+eligible_regions: [WORLDWIDE, EU, EEA, CH]   # where a remote job must allow work from
 home_country: LV
 languages: [en, fr, lv, es]
 role_families: [software_dev, devops_cloud, data_ml_ai, it_ops_qa_product]
