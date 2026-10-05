@@ -1,4 +1,5 @@
-"""Command-line entry point: `jobbot sources`, `jobbot crawl`, `jobbot run`."""
+"""Command-line entry point: `jobbot sources`, `jobbot searches`, `jobbot crawl`,
+`jobbot run`."""
 
 from __future__ import annotations
 
@@ -10,11 +11,16 @@ from typing import Annotated
 import typer
 
 from jobbot import __version__
-from jobbot.config import load_sources
+from jobbot.config import load_searches, load_sources
 from jobbot.http import SourceError, make_client
 from jobbot.sources import available, build
 
 DEFAULT_DB = Path("data/jobbot.sqlite")
+
+SearchOption = Annotated[
+    list[str] | None,
+    typer.Option(help="Search name from config/searches/; repeatable. Default: all."),
+]
 
 app = typer.Typer(no_args_is_help=True, help=f"jobbot {__version__}")
 
@@ -28,6 +34,14 @@ def sources() -> None:
         state = "enabled" if entry and entry.enabled else ("disabled" if entry else "unconfigured")
         tier = entry.tier if entry else "-"
         typer.echo(f"{name:20} tier {tier:2} {state}")
+
+
+@app.command()
+def searches() -> None:
+    """List the searches in config/searches/ and the sources each one queries."""
+    for search in load_searches():
+        queried = ", ".join(sorted(search.queries)) or "shared sources only"
+        typer.echo(f"{search.name:20} {search.label:20} queries: {queried}")
 
 
 @app.command()
@@ -50,9 +64,11 @@ def crawl(
         bool, typer.Option("--dry-run", help="Print RawJob JSON lines; do not store.")
     ] = False,
     db: Annotated[Path, typer.Option(help="SQLite database path.")] = DEFAULT_DB,
+    search: SearchOption = None,
 ) -> None:
     """Fetch postings, normalize, enrich, dedupe and store them (or print raw with --dry-run)."""
     cfg = load_sources().sources
+    chosen = load_searches(names=search)
     if source:
         names = source
     elif all_sources:
@@ -65,7 +81,9 @@ def crawl(
         from jobbot.store import Store
 
         with Store(db) as store:
-            summary = run_crawl(store, names, cfg, since_days=since_days, limit=limit)
+            summary = run_crawl(
+                store, names, cfg, searches=chosen, since_days=since_days, limit=limit
+            )
         for rec in summary.sources:
             status = (
                 rec.error_message
@@ -86,29 +104,28 @@ def crawl(
             raise typer.Exit(code=1)
         return
 
-    from jobbot.pipeline import missing_env
+    from jobbot.pipeline import missing_env, plan_crawl
 
     since = datetime.now(tz=UTC) - timedelta(days=since_days if since_days is not None else 14)
     failures = 0
+    tasks = plan_crawl(names, cfg, chosen)
     with make_client() as client:
-        for name in names:
-            entry = cfg.get(name)
-            params = entry.params if entry else {}
-            absent = missing_env(entry)
+        for task in tasks:
+            absent = missing_env(cfg.get(task.source))
             if absent:
-                typer.echo(f"{name}: skipped: missing {', '.join(absent)}", err=True)
+                typer.echo(f"{task.label}: skipped: missing {', '.join(absent)}", err=True)
                 continue
             try:
-                connector = build(name, client, params)
+                connector = build(task.source, client, task.params)
                 count = 0
                 for raw in connector.fetch(since, limit):
                     sys.stdout.write(raw.model_dump_json() + "\n")
                     count += 1
-                typer.echo(f"{name}: {count} postings", err=True)
+                typer.echo(f"{task.label}: {count} postings", err=True)
             except (SourceError, KeyError) as exc:
                 failures += 1
-                typer.echo(f"{name}: FAILED: {exc}", err=True)
-    if names and failures == len(names):
+                typer.echo(f"{task.label}: FAILED: {exc}", err=True)
+    if tasks and failures == len(tasks):
         raise typer.Exit(code=1)
 
 
@@ -129,22 +146,19 @@ def run(
     send: Annotated[
         bool, typer.Option("--send/--no-send", help="Email the digest via Resend if configured.")
     ] = True,
-    profile_path: Annotated[
-        Path | None, typer.Option("--profile", help="Profile YAML (default config/profile.yaml).")
-    ] = None,
+    search: SearchOption = None,
 ) -> None:
-    """Full weekly run: crawl, score against the profile, write the digest, email it."""
-    from jobbot.config import load_profile
+    """Full weekly run: crawl once, then score, write and email one digest per search."""
     from jobbot.run import run_all
     from jobbot.store import Store
 
     cfg = load_sources().sources
     names = source or [n for n, c in cfg.items() if c.enabled]
-    profile = load_profile(profile_path)
+    chosen = load_searches(names=search)
     with Store(db) as store:
         result = run_all(
             store,
-            profile,
+            chosen,
             names,
             cfg,
             out_dir=out_dir,
@@ -152,13 +166,14 @@ def run(
             since_days=since_days,
             limit=limit,
         )
-    typer.echo(
-        f"run {result.run_id} [{result.status}]: {result.new_jobs} new, "
-        f"{result.strong} strong / {result.possible} possible / {result.senior} senior-only, "
-        f"{result.dropped} filtered → {result.digest_path}; email {result.email}",
-        err=True,
-    )
-    if result.status != "ok" or result.email.startswith("failed"):
+    typer.echo(f"run {result.run_id} [{result.status}]: {result.new_jobs} new", err=True)
+    for d in result.digests:
+        typer.echo(
+            f"  {d.search}: {d.strong} strong / {d.possible} possible / {d.senior} senior-only, "
+            f"{d.dropped} filtered → {d.digest_path}; email {d.email}",
+            err=True,
+        )
+    if result.status != "ok" or result.email_failed:
         raise typer.Exit(code=1)
 
 

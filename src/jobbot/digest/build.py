@@ -30,6 +30,11 @@ class Digest:
     drop_reasons: dict[str, int] = field(default_factory=dict)
     sources: list[SourceRunRecord] = field(default_factory=list)
     status: str = "ok"
+    title: str = ""
+
+    @property
+    def heading(self) -> str:
+        return f"{self.title} job digest" if self.title else "Job digest"
 
     @property
     def total_shown(self) -> int:
@@ -39,7 +44,7 @@ class Digest:
     def subject(self) -> str:
         count = len(self.strong) + len(self.possible)
         noun = "match" if count == 1 else "matches"
-        return f"Job digest: {count} new {noun} ({self.date:%Y-%m-%d})"
+        return f"{self.heading}: {count} new {noun} ({self.date:%Y-%m-%d})"
 
     def all_jobs(self) -> list[Job]:
         return [*self.strong, *self.possible, *self.senior]
@@ -58,11 +63,14 @@ def build_digest(
     since: datetime | None,
     sources: Iterable[SourceRunRecord] = (),
     status: str = "ok",
+    title: str = "",
     now: datetime | None = None,
 ) -> tuple[Digest, list[Verdict]]:
     """Evaluate every job; return the digest and all verdicts (for persisting scores)."""
     now = now or datetime.now(tz=UTC)
-    digest = Digest(date=now, run_id=run_id, since=since, sources=list(sources), status=status)
+    digest = Digest(
+        date=now, run_id=run_id, since=since, sources=list(sources), status=status, title=title
+    )
     verdicts: list[Verdict] = []
     for job in jobs:
         verdict = evaluate(job, profile, now)

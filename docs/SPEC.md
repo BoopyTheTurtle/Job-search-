@@ -9,9 +9,16 @@ APIs and feeds across Europe and selected other countries, keeps only the postin
 are **remote**, **in English**, and **eligible for an EU-based candidate**, and emails a
 ranked digest of what is new since the last run.
 
-It is a personal tool. One user, one profile, no web UI, no multi-tenancy. The crawler
-core is kept separate from the user profile so this can change later without a rewrite
-(see ADR-0001).
+It is a personal tool. One user, no web UI, no multi-tenancy. The crawler core is kept
+separate from the user profile so this can change later without a rewrite (see ADR-0001).
+
+Since 2026-10-05 the bot runs parallel **searches** over one shared crawl (ADR-0004), each
+with its own profile and email. The IT search is the one described above. The
+impact-finance search covers international development, project and development finance,
+private equity, ESG and sustainable finance, and project administration; it accepts
+remote, hybrid and on-site work in the EU and Switzerland (not the UK), favours Benelux,
+France, Spain, Portugal and Switzerland, and reads English and French. Its sources are
+listed in `docs/inventory/impact-finance-sources.md`.
 
 ## 2. Interview summary (what was decided)
 
@@ -96,13 +103,13 @@ GitHub Actions (cron Wed)                       Secrets: API keys, SMTP
 | Workflows | `ci.yml` (PR checks), `weekly-crawl.yml` (cron + manual) | `.github/workflows/` |
 
 ### 5.2 Data flow per run
-1. Load config and profile. Decide `since` = last successful run minus 1 day of overlap (first run: 14 days).
-2. For each enabled source: fetch, with per-source timeout and retry (3 attempts, exponential backoff). A failing source is recorded, never fatal to the run.
+1. Load config and every search in `config/searches/`. Decide `since` = last successful run minus 1 day of overlap (first run: 14 days).
+2. For each enabled source: fetch once, or once per search that lists the source under `queries` (ADR-0004), with per-source timeout and retry (3 attempts, exponential backoff). A failing source is recorded, never fatal to the run.
 3. Normalize each `RawJob` to `Job`. Enrich. Compute dedup key.
 4. Upsert into SQLite: new job → insert with `first_seen`; existing → update `last_seen`, append sighting.
-5. Filter and score jobs with `first_seen == this run`.
-6. Render digest. Send email through Resend if `RESEND_API_KEY` exists, else write only.
-7. Commit `data/jobbot.sqlite`, `data/digests/YYYY-MM-DD.md`, `data/runs/YYYY-MM-DD.json` to the `data` branch.
+5. For each search: filter and score jobs with `first_seen == this run`.
+6. For each search: render its digest and send it through Resend if `RESEND_API_KEY` exists, else write only.
+7. Commit `data/jobbot.sqlite`, `data/digests/<search>/YYYY-MM-DD.md`, `data/runs/YYYY-MM-DD.json` to the `data` branch.
 8. Fail the workflow (red) only if the store could not be written or more than 50% of sources failed.
 
 ## 6. Canonical data model
@@ -205,6 +212,10 @@ region from a remote-first source are shown in the "verify eligibility" section.
 ### 8.4 Role family
 Keyword taxonomy in `config/taxonomy.yaml`: include patterns per family, global exclude
 patterns (`sales engineer`, `recruiter`, `account executive`, `IT sales`, `nurse`).
+Families: `software_dev`, `devops_cloud`, `data_ml_ai`, `it_ops_qa_product` (IT search);
+`intl_development`, `finance_investment`, `private_equity`, `project_admin`
+(impact-finance search). Exclusions only one search needs live in that search's
+`exclude_title_patterns`.
 Title match weighs 3x description match. Ties → `other`. Jobs whose family is `other`
 are excluded.
 
@@ -222,7 +233,7 @@ From structured fields where available; else title/description patterns for
 |---|---|
 | Role family in profile | +30 (+10 if title match, not just description) |
 | Language `en` | +15 (`fr`, `lv`, `es`: +10) |
-| Remote type `remote` | +15 (hybrid 0, unknown excluded) |
+| Remote type `remote`, or hybrid/on-site in a `preferred_countries` country | +15 (other office jobs 0) |
 | Eligibility confirmed (not inferred) | +15 (+5 if inferred) |
 | Seniority matches profile | +10 (senior-only: −10 and moved to collapsed section) |
 | Posted within 7 days | +5 |
@@ -235,10 +246,11 @@ Digest sections: **Strong (≥70)**, **Possible (50–69, verify eligibility)**,
 
 ## 9. Configuration
 
-`config/profile.yaml` (user-owned, committed; preferences only, the recipient address comes
-from the `DIGEST_TO` secret):
+`config/searches/<name>.yaml`, one file per search (user-owned, committed; preferences
+only, the recipient address comes from the `DIGEST_TO` secret). The IT search:
 ```yaml
-eligible_regions: [WORLDWIDE, EU, EEA, EUROPE]
+title: IT                     # digest heading and email subject
+eligible_regions: [WORLDWIDE, EU, EEA, EUROPE]   # where a remote job must allow work from
 home_country: LV
 languages: [en, fr, lv, es]
 role_families: [software_dev, devops_cloud, data_ml_ai, it_ops_qa_product]
@@ -251,10 +263,18 @@ digest:
   min_score: 50
   max_items: 150
   to: []                      # local fallback only; CI uses the DIGEST_TO secret
+queries:                      # per-source params merged over sources.yaml `params`
+  adzuna: {what: remote, category: it-jobs}
 ```
 
+Work arrangement fields (see `config/searches/impact-finance.yaml`): `hybrid_regions`
+(default: the home country), `onsite_regions` (default: none; when set, an unknown
+arrangement reads as on-site), and `preferred_countries` (office jobs there score like
+remote ones). A hybrid or on-site job must name a country inside its regions.
+
 `config/sources.yaml`: each source has `enabled`, optional `env` (names of secrets),
-`params` (e.g. Adzuna country list), `rate_limit_rps`.
+`params` (e.g. Adzuna country list; query terms belong in each search's `queries`),
+`rate_limit_rps`.
 
 Secrets (GitHub repo settings → Secrets): `RESEND_API_KEY`, `DIGEST_FROM` (a sender on a
 domain verified in Resend, or Resend's onboarding sender for testing), `DIGEST_TO`;

@@ -1,6 +1,9 @@
 # One entry per connector. `name` must match the module's registered name.
 # `terms` is mandatory: the URL of the API terms or robots.txt we rely on (ADR-0001).
 # Keys in `env` are read from the environment; missing keys disable the source at runtime.
+# Query parameters (what to search for) live in each search's `queries`
+# (config/searches/*.yaml): a source runs once per search that lists it, or once with
+# these `params` alone when no search does.
 # See docs/inventory/apis-and-feeds.md for endpoint details and rate limits.
 #
 # All Tier A connectors were verified against live payloads by the manual-smoke workflow
@@ -67,8 +70,6 @@ sources:
     env: [ADZUNA_APP_ID, ADZUNA_APP_KEY]
     params:
       countries: [at, be, de, es, fr, it, nl, pl, gb, us, ca, au, nz]
-      what: remote
-      category: it-jobs
       results_per_page: 50
       max_pages: 2
       page_delay: 1.0
@@ -78,7 +79,6 @@ sources:
     terms: https://jobsearch.api.jobtechdev.se/   # API spec: "Ads are licensed under CC0"; header api-key: developer
     rate_limit_rps: 1.0     # none published; one or two requests per run (~30 remote IT ads a week)
     params:
-      occupation_field: apaJ_2ja_LuF   # Data/IT
       page_size: 100
       max_pages: 5
   reed:
@@ -88,7 +88,6 @@ sources:
     rate_limit_rps: 1.0     # none published; 3 queries x up to 2 pages = 6 calls
     env: [REED_API_KEY]
     params:
-      keywords: [remote developer, remote software engineer, remote data]
       page_size: 100
       max_pages: 2
   francetravail:
@@ -98,8 +97,6 @@ sources:
     rate_limit_rps: 3.0     # documented 3 req/s; 1 token call + up to 3 pages
     env: [FRANCE_TRAVAIL_CLIENT_ID, FRANCE_TRAVAIL_CLIENT_SECRET]
     params:
-      keywords: télétravail
-      domain: M18           # Informatique / Télécommunication
       page_size: 150
       max_pages: 3
       page_delay: 0.4

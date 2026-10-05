@@ -5,9 +5,9 @@ from pathlib import Path
 import httpx
 import respx
 
-from jobbot.config import SourceConfig
+from jobbot.config import Search, SourceConfig
 from jobbot.models import EmploymentType, RawJob, RemoteType, RoleFamily, Seniority
-from jobbot.pipeline import process, resolve_since, run_crawl
+from jobbot.pipeline import CrawlTask, plan_crawl, process, resolve_since, run_crawl
 from jobbot.sources.remotive import API_URL
 from jobbot.store import Store
 
@@ -127,3 +127,22 @@ def test_run_crawl_keeps_partial_results_when_a_source_fails_midway(tmp_path: Pa
             assert summary.status == "failed"  # the only source errored
     finally:
         _REGISTRY.pop("flaky_partial", None)
+
+
+def test_plan_crawl_runs_a_queried_source_once_per_search() -> None:
+    configs = {
+        "adzuna": SourceConfig(terms="https://x", params={"max_pages": 2, "what": "x"}),
+        "remotive": SourceConfig(terms="https://x"),
+    }
+    it = Search(name="it", queries={"adzuna": {"what": "remote"}})
+    impact = Search(name="impact", queries={"adzuna": {"what": "esg", "max_pages": 1}})
+    plain = Search(name="plain")
+    tasks = plan_crawl(["remotive", "adzuna"], configs, [it, impact, plain])
+    assert tasks == [
+        CrawlTask("remotive", "remotive", {}),
+        CrawlTask("adzuna:it", "adzuna", {"max_pages": 2, "what": "remote"}),
+        CrawlTask("adzuna:impact", "adzuna", {"max_pages": 1, "what": "esg"}),
+    ]
+    assert plan_crawl(["adzuna"], configs, [plain]) == [
+        CrawlTask("adzuna", "adzuna", {"max_pages": 2, "what": "x"})
+    ]

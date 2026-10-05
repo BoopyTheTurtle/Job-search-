@@ -23,7 +23,7 @@ one PR. Items are ordered by dependency within a phase.
 - [x] Enrich: seniority and employment type classifiers
 - [x] Dedupe: canonical URL + fuzzy (company, title, location) key
 - [x] Store: SQLite schema, upsert, runs and source_runs tables
-- [x] Filter and score per `profile.yaml`
+- [x] Filter and score per profile (now `config/searches/*.yaml`)
 - [x] Digest: Markdown, HTML and plain-text renderers (Jinja2)
 - [x] Digest: Resend API sender with secrets, dry-run mode
 - [x] Connectors: Arbeitnow, RemoteOK, Himalayas, Jobicy, WeWorkRemotely RSS, Working Nomads (disabled until smoke-tested)
@@ -36,7 +36,7 @@ one PR. Items are ordered by dependency within a phase.
 ## Phase 2 — European breadth
 - [x] Connector: Adzuna (AT BE DE ES FR IT NL PL + GB/US/CA/AU/NZ, `what=remote`, IT category); enabled after a live smoke run
 - [x] Owner: register at developer.adzuna.com, add `ADZUNA_APP_ID` / `ADZUNA_APP_KEY` secrets, run `manual-smoke` for `adzuna`
-- [ ] Connector: EURES
+- [ ] Connector: EURES (approved 2026-10-05 for both searches)
 - [x] Connector: Arbetsförmedlingen JobTech (SE): `remote=true` in Data/IT, CC0, keyless
 - [x] Connector: France Travail (IT domain, `télétravail`); enabled after a live smoke run
 - [ ] Connector: Arbeitsagentur Jobsuche (DE), if API status allows
@@ -46,6 +46,15 @@ one PR. Items are ordered by dependency within a phase.
 - [x] Per-country remote vocabulary (DE, FR, ES, IT, NL, PL, SV, NO, FI, LV)
 - [x] Crawl failure → GitHub issue automation (`crawl-failure` label)
 - [ ] Source health dashboard section in digest
+
+## Phase 2b — Impact-finance search (ADR-0004)
+- [x] Parallel searches in `config/searches/`, one digest and email each; new role families
+- [x] Source research: `docs/inventory/impact-finance-sources.md`
+- [ ] Impact-finance queries for Adzuna (FR BE NL ES CH + remote) and France Travail
+- [ ] Connectors: SuccessFactors career-site RSS, Workday job API
+- [ ] Connector: UN Careers (approved 2026-10-05, unofficial endpoint)
+- [ ] Watchlist seed: development banks, international organisations, PE and infrastructure funds
+- [ ] Later, maybe: ReliefWeb API (needs an approved appname), Jooble (needs a key)
 
 ## Phase 3 — Employer-direct (ATS)
 - [ ] Generic ATS connectors: Greenhouse, Lever, Ashby, Workable, Recruitee, Personio, SmartRecruiters, Teamtailor

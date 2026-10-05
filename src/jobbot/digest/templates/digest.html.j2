@@ -6,7 +6,7 @@
 </head>
 <body style="margin:0;padding:24px;background:#f6f7f9;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#1f2328;">
 <div style="max-width:720px;margin:0 auto;background:#ffffff;border-radius:8px;padding:24px;">
-<h1 style="font-size:20px;margin:0 0 4px;">Job digest {{ d.date | string | truncate(10, True, "") }}</h1>
+<h1 style="font-size:20px;margin:0 0 4px;">{{ d.heading }} {{ d.date | string | truncate(10, True, "") }}</h1>
 <p style="margin:0 0 20px;color:#57606a;font-size:13px;">
 {{ d.strong | length }} strong · {{ d.possible | length }} possible · {{ d.senior | length }} senior-only · {{ d.dropped }} filtered out
 </p>
