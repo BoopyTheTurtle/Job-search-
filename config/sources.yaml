@@ -66,7 +66,7 @@ sources:
     enabled: true           # manual-smoke passed 2026-10-03 (AT, 5 live postings)
     tier: B
     terms: https://developer.adzuna.com/docs/terms_of_service   # "Jobs by Adzuna" credit required
-    rate_limit_rps: 0.4     # terms: 25/min, 250/day, 1000/week; 13 countries x 2 pages = 26 calls
+    rate_limit_rps: 0.4     # terms: 25/min, 250/day, 1000/week; IT 26 calls + impact-finance 96
     env: [ADZUNA_APP_ID, ADZUNA_APP_KEY]
     params:
       countries: [at, be, de, es, fr, it, nl, pl, gb, us, ca, au, nz]
@@ -94,9 +94,38 @@ sources:
     enabled: true           # manual-smoke passed 2026-10-03 (5 live postings)
     tier: B
     terms: https://francetravail.io/data/api/offres-emploi   # francetravail.io CGU; attribution, no reselling
-    rate_limit_rps: 3.0     # documented 3 req/s; 1 token call + up to 3 pages
+    rate_limit_rps: 3.0     # documented 3 req/s; per search 1 token call + its queries' pages
     env: [FRANCE_TRAVAIL_CLIENT_ID, FRANCE_TRAVAIL_CLIENT_SECRET]
     params:
       page_size: 150
       max_pages: 3
       page_delay: 0.4
+  # Tier D: employer-direct ATS boards. Which companies to crawl lives in companies.yaml.
+  greenhouse:
+    enabled: true           # live dry-run crawl passed 2026-10-05; fixture is a trimmed real response
+    tier: D
+    terms: https://developers.greenhouse.io/job-board.html   # public Job Board API, no key
+    rate_limit_rps: 1.0     # none published; one request per board
+    params: {}
+  smartrecruiters:
+    enabled: true           # live dry-run crawl passed 2026-10-05; fixture is a trimmed real response
+    tier: D
+    terms: https://developers.smartrecruiters.com/docs/posting-api   # public Posting API, no key
+    rate_limit_rps: 1.0     # none published; one list call per company + one detail per new posting
+    params:
+      page_size: 100
+      max_pages: 5
+  recruitee:
+    enabled: true           # live dry-run crawl passed 2026-10-05; fixture is a trimmed real response
+    tier: D
+    terms: https://docs.recruitee.com/reference/intro-to-careers-site-api   # public Careers Site API, no key
+    rate_limit_rps: 1.0     # none published; one request per company
+    params: {}
+  workday:
+    enabled: true           # live dry-run crawl passed 2026-10-05; fixture is a trimmed real response
+    tier: D
+    terms: https://ardian.wd103.myworkdayjobs.com/robots.txt   # career-site JSON API; robots.txt allows it, no published API terms
+    rate_limit_rps: 2.0     # none published; list pages of 20 + one detail per new posting, 0.5 s apart
+    params:
+      max_pages: 10
+      page_delay: 0.5

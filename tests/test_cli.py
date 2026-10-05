@@ -24,6 +24,8 @@ def test_crawl_all_hits_every_registered_source_even_if_disabled(
 ) -> None:
     monkeypatch.setenv("ADZUNA_APP_ID", "id")
     monkeypatch.setenv("ADZUNA_APP_KEY", "key")
+    # Every query of every search runs against the empty mock; skip the polite delays.
+    monkeypatch.setattr("time.sleep", lambda _: None)
     respx.route().mock(return_value=httpx.Response(200, json={"jobs": [], "data": []}))
     result = runner.invoke(app, ["crawl", "--dry-run", "--all", "--limit", "1"])
     assert result.exit_code == 0, result.output
@@ -60,5 +62,5 @@ def test_crawl_dry_run_one_search_only(monkeypatch: pytest.MonkeyPatch) -> None:
         app, ["crawl", "--dry-run", "--source", "adzuna", "--search", "impact-finance"]
     )
     assert result.exit_code == 0, result.output
-    # impact-finance has no adzuna query, so adzuna runs once under its own name.
-    assert "adzuna: skipped" in result.output
+    assert "adzuna:impact-finance: skipped" in result.output
+    assert "adzuna:it" not in result.output

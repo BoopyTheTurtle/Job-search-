@@ -14,9 +14,11 @@ not the full posting. Predicted salaries (`salary_is_predicted == "1"`) are drop
 Terms require "Jobs by Adzuna" attribution next to the listings; the digest adds it when
 any Adzuna job is shown.
 
-params: `countries` (index codes), `what` (default "remote"), `category` (default
-"it-jobs"), `results_per_page` (max 50), `max_pages` (per country, default 2),
-`page_delay` (seconds, default 1.0).
+params: `countries` (index codes), `what` (a query or a list of queries, each run
+separately; default "remote"), `what_by_country` (country -> extra queries for that index
+only, e.g. French terms for `fr`), `category` (default "it-jobs"; null searches every
+category), `results_per_page` (max 50), `max_pages` (per query and country, default 2),
+`page_delay` (seconds, default 1.0; the terms allow 25 calls a minute).
 """
 
 from __future__ import annotations
@@ -72,13 +74,22 @@ def _obj(value: Any) -> dict[str, Any]:
     return value if isinstance(value, dict) else {}
 
 
+def _as_queries(value: Any) -> list[str]:
+    items = value if isinstance(value, list) else [value]
+    return [str(q) for q in items if str(q).strip()]
+
+
 class Adzuna:
     name = "adzuna"
 
     def __init__(self, client: httpx.Client, params: dict[str, Any]) -> None:
         self._client = client
         self._countries = [str(c).lower() for c in params.get("countries", DEFAULT_COUNTRIES)]
-        self._what = str(params.get("what", "remote"))
+        self._what = _as_queries(params.get("what", "remote"))
+        by_country = params.get("what_by_country") or {}
+        if not isinstance(by_country, dict):
+            raise ValueError("adzuna what_by_country must map country codes to queries")
+        self._what_by_country = {str(c).lower(): _as_queries(q) for c, q in by_country.items()}
         self._category = params.get("category", "it-jobs")
         size = int(params.get("results_per_page", MAX_PAGE_SIZE))
         self._page_size = max(1, min(size, MAX_PAGE_SIZE))
@@ -94,7 +105,6 @@ class Adzuna:
         base = {
             "app_id": app_id,
             "app_key": app_key,
-            "what": self._what,
             "results_per_page": size,
             "max_days_old": max_days_old(since),
             "sort_by": "date",
@@ -104,36 +114,42 @@ class Adzuna:
             base["category"] = self._category
 
         emitted = 0
+        seen: set[str] = set()
         failures: list[str] = []
+        attempts = 0
         requests = 0
         for country in self._countries:
-            try:
-                for page in range(1, self._max_pages + 1):
-                    if requests and self._page_delay > 0:
-                        time.sleep(self._page_delay)
-                    requests += 1
-                    url = API_URL.format(country=country, page=page)
-                    payload = get_json(self._client, url, params=base)
-                    items = payload.get("results") or [] if isinstance(payload, dict) else []
-                    for item in items:
-                        if not isinstance(item, dict):
-                            continue
-                        job = self._to_raw(item, country)
-                        if is_older(job.posted_at, since):
-                            continue
-                        yield job
-                        emitted += 1
-                        if limit and emitted >= limit:
-                            return
-                    if len(items) < size:
-                        break
-            except SourceError as exc:
-                # httpx errors quote the full request URL, credentials included.
-                message = str(exc).replace(app_key, "***").replace(app_id, "***")
-                log.warning("adzuna %s failed: %s", country, message)
-                failures.append(country)
-        if failures and len(failures) == len(self._countries):
-            raise SourceError(f"every Adzuna country failed: {', '.join(failures)}")
+            for what in self._what + self._what_by_country.get(country, []):
+                attempts += 1
+                try:
+                    for page in range(1, self._max_pages + 1):
+                        if requests and self._page_delay > 0:
+                            time.sleep(self._page_delay)
+                        requests += 1
+                        url = API_URL.format(country=country, page=page)
+                        payload = get_json(self._client, url, params={**base, "what": what})
+                        items = payload.get("results") or [] if isinstance(payload, dict) else []
+                        for item in items:
+                            if not isinstance(item, dict):
+                                continue
+                            job = self._to_raw(item, country)
+                            # Overlapping queries return the same posting more than once.
+                            if job.source_id in seen or is_older(job.posted_at, since):
+                                continue
+                            seen.add(job.source_id)
+                            yield job
+                            emitted += 1
+                            if limit and emitted >= limit:
+                                return
+                        if len(items) < size:
+                            break
+                except SourceError as exc:
+                    # httpx errors quote the full request URL, credentials included.
+                    message = str(exc).replace(app_key, "***").replace(app_id, "***")
+                    log.warning("adzuna %s %r failed: %s", country, what, message)
+                    failures.append(f"{country}:{what}")
+        if failures and len(failures) == attempts:
+            raise SourceError(f"every Adzuna query failed: {', '.join(failures)}")
 
     @staticmethod
     def _to_raw(item: dict[str, Any], country: str) -> RawJob:

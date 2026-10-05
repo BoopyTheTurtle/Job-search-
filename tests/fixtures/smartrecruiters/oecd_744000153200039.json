@@ -1,0 +1,104 @@
+{
+  "id": "744000153200039",
+  "name": "Head of PARIS21 Secretariat",
+  "uuid": "2fc924b5-faf0-4b02-95cc-3e5e7339a34e",
+  "jobId": "67fa3436-05e5-41ed-a12a-e9ddf99bd60c",
+  "jobAdId": "c03a6713-4b86-48fb-b960-a7f655086309",
+  "defaultJobAd": true,
+  "refNumber": "REF3431F",
+  "company": {
+    "name": "OECD",
+    "identifier": "OECD"
+  },
+  "location": {
+    "city": "Paris",
+    "region": "Île-de-France Region",
+    "country": "fr",
+    "remote": false,
+    "hybrid": false,
+    "fullLocation": "Paris, Île-de-France Region, France"
+  },
+  "customField": [
+    {
+      "fieldId": "648821a3b6b69322b51f3093",
+      "fieldLabel": "Directorate",
+      "valueId": "10001187",
+      "valueLabel": "SDD"
+    },
+    {
+      "fieldId": "COUNTRY",
+      "fieldLabel": "Country/Region",
+      "valueId": "fr",
+      "valueLabel": "France"
+    },
+    {
+      "fieldId": "633d99302e608549cea4cccb",
+      "fieldLabel": "Department",
+      "valueId": "6104231",
+      "valueLabel": "Executive Leadership"
+    },
+    {
+      "fieldId": "633d99302e608549cea4ccca",
+      "fieldLabel": "Brands",
+      "valueId": "default",
+      "valueLabel": "OECD"
+    },
+    {
+      "fieldId": "64882104a519d256d6751438",
+      "fieldLabel": "Grade",
+      "valueId": "EL1",
+      "valueLabel": "EL1"
+    }
+  ],
+  "releasedDate": "2026-10-02T14:19:16.019Z",
+  "postingUrl": "https://jobs.smartrecruiters.com/OECD/744000153200039-head-of-paris21-secretariat",
+  "applyUrl": "https://jobs.smartrecruiters.com/OECD/744000153200039-head-of-paris21-secretariat?oga=true",
+  "referralUrl": "https://jobs.smartrecruiters.com/external-referrals/company/OECD/publication/2fc924b5-faf0-4b02-95cc-3e5e7339a34e?dcr_ci=OECD",
+  "jobAd": {
+    "sections": {
+      "companyDescription": {
+        "title": "Company Description",
+        "text": "<p><strong>THE OECD – Who we are, what we do</strong>&#xa0;</p><p>The Organisation for Economic Co-operation and Development (<a href=\"http://www.oecd.org/about/\" rel=\"noopener noreferrer\" target=\"_blank\">OECD</a>) is an international organisation&#xa0;comprised&#xa0;of 38&#xa0;member countries,&#xa0;whose mission is&#xa0;to build better policies for better lives.&#xa0;We&#xa0;promote policies tha"
+      },
+      "jobDescription": {
+        "title": "Job Description",
+        "text": "<p><strong>Main Responsibilities</strong></p><p><strong>Strategic Leadership</strong></p><ul><li>Provide strategic direction to the Partnership to enable the achievement of its objectives.</li><li>Ensure the effective delivery of advocacy messages and promote the culture of evidence-based policy-making and decision-making.</li><li>Engage with key stakeholders involved in statistical capacity devel"
+      },
+      "qualifications": {
+        "title": "Qualifications",
+        "text": "<p><strong>Ideal Candidate Profile</strong></p><p><strong>Academic and Professional Background</strong></p><ul><li>Advanced university degree (Master’s or PhD) in economics, statistics, development studies or another relevant discipline.</li><li>Minimum ten years of experience related to managing statistical activities with direct experience in statistical capacity development in developing countr"
+      },
+      "additionalInformation": {
+        "title": "Additional Information",
+        "text": "<p><strong>Communication and Languages </strong></p><ul><li>Fluency in one of the two OECD official languages (English and French) and knowledge of, or a willingness to learn, the other.</li><li>Knowledge of other languages would be an asset.</li></ul><p>&#xa0;</p><p><strong>Core Competencies</strong><strong> </strong></p><p>Staff in Executive Leadership are expected to demonstrate behaviours alig"
+      }
+    }
+  },
+  "active": true,
+  "visibility": "PUBLIC",
+  "industry": {
+    "id": "international_affairs",
+    "label": "International Affairs"
+  },
+  "function": {
+    "id": "other",
+    "label": "Other"
+  },
+  "department": {
+    "id": 6104231,
+    "label": "Executive Leadership"
+  },
+  "experienceLevel": {
+    "id": "executive",
+    "label": "Executive"
+  },
+  "typeOfEmployment": {
+    "id": "permanent",
+    "label": "Full-time"
+  },
+  "language": {
+    "code": "en",
+    "label": "English",
+    "labelNative": "English (US)"
+  }
+}

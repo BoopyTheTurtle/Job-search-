@@ -136,3 +136,29 @@
 - title: Head Chef
   description: ""
   expected: other
+# Ties among impact-finance families go to the earliest in `tie_break`.
+- title: Investment Analyst - Private Equity
+  description: ""
+  expected: private_equity
+- title: Chargé(e) d'investissement capital-développement
+  description: ""
+  expected: private_equity
+- title: Associate - Infrastructure Investments
+  description: ""
+  expected: private_equity
+- title: Coordinateur/trice de programme
+  description: ""
+  expected: intl_development
+- title: Impact Measurement Manager
+  description: ""
+  expected: finance_investment
+# A tie that involves an IT family stays ambiguous.
+- title: Data Analyst, Project Finance
+  description: ""
+  expected: other
+- title: Junior Economist – Capital Markets
+  description: ""
+  expected: intl_development
+- title: Économiste principal(e)
+  description: ""
+  expected: intl_development

@@ -1,0 +1,104 @@
+{
+  "id": "744000153193529",
+  "name": "Chef Exécutif du Secrétariat de PARIS21",
+  "uuid": "59cf3d6a-1ab3-4bc0-b36a-5799d0f60826",
+  "jobId": "67fa3436-05e5-41ed-a12a-e9ddf99bd60c",
+  "jobAdId": "91493219-108d-4ef0-8dea-118cab1f88dd",
+  "defaultJobAd": false,
+  "refNumber": "REF3431F",
+  "company": {
+    "name": "OECD",
+    "identifier": "OECD"
+  },
+  "location": {
+    "city": "Paris",
+    "region": "Île-de-France Region",
+    "country": "fr",
+    "remote": false,
+    "hybrid": false,
+    "fullLocation": "Paris, Île-de-France Region, France"
+  },
+  "customField": [
+    {
+      "fieldId": "648821a3b6b69322b51f3093",
+      "fieldLabel": "Directorate",
+      "valueId": "10001187",
+      "valueLabel": "SDD"
+    },
+    {
+      "fieldId": "COUNTRY",
+      "fieldLabel": "Country/Region",
+      "valueId": "fr",
+      "valueLabel": "France"
+    },
+    {
+      "fieldId": "633d99302e608549cea4cccb",
+      "fieldLabel": "Department",
+      "valueId": "6104231",
+      "valueLabel": "Executive Leadership"
+    },
+    {
+      "fieldId": "633d99302e608549cea4ccca",
+      "fieldLabel": "Brands",
+      "valueId": "default",
+      "valueLabel": "OECD"
+    },
+    {
+      "fieldId": "64882104a519d256d6751438",
+      "fieldLabel": "Grade",
+      "valueId": "EL1",
+      "valueLabel": "EL1"
+    }
+  ],
+  "releasedDate": "2026-10-02T13:58:27.561Z",
+  "postingUrl": "https://jobs.smartrecruiters.com/OECD/744000153193529-chef-executif-du-secretariat-de-paris21",
+  "applyUrl": "https://jobs.smartrecruiters.com/OECD/744000153193529-chef-executif-du-secretariat-de-paris21?oga=true",
+  "referralUrl": "https://jobs.smartrecruiters.com/external-referrals/company/OECD/publication/59cf3d6a-1ab3-4bc0-b36a-5799d0f60826?dcr_ci=OECD",
+  "jobAd": {
+    "sections": {
+      "companyDescription": {
+        "title": "Description de l'entreprise",
+        "text": "<p><strong>L’OCDE – Qui nous sommes et ce que nous faisons </strong></p><p>L’Organisation de coopération et de développement économiques (<a href=\"https://www.oecd.org/en/about.html\" rel=\"noopener noreferrer\">OCDE</a>) est une organisation internationale regroupant 38&#xa0;pays Membres, qui œuvre pour la mise en place de politiques meilleures pour une vie meilleure. Notre mission consiste à promou"
+      },
+      "jobDescription": {
+        "title": "Description du poste",
+        "text": "<p><strong>Responsabilités principales</strong></p><p><strong>Direction stratégique</strong></p><ul><li>Fournir une orientation stratégique au Partenariat afin de permettre la réalisation de ses objectifs.</li><li>Assurer la dissémination efficace de messages de plaidoyer et promouvoir une culture d’élaboration de politiques et de prise de décision fondée sur des données probantes.</li><li>Collabo"
+      },
+      "qualifications": {
+        "title": "Qualifications",
+        "text": "<p><strong>Profil Idéal </strong></p><p><strong>Parcours professionnel et académique </strong></p><ul><li>Diplôme universitaire supérieur (master ou doctorat) en économie, statistiques, études du développement ou dans une autre discipline pertinente.</li><li>Un minimum de dix ans d'expérience dans la gestion d'activités statistiques, incluant une expérience directe du renforcement des capacités st"
+      },
+      "additionalInformation": {
+        "title": "Informations supplémentaires",
+        "text": "<p><strong>Communication et langues</strong></p><ul><li>Maîtrise de l’une des deux langues officielles de l’OCDE (anglais et français) et connaissance de l’autre langue, ou volonté de l’apprendre.</li><li>La connaissance d'autres langues constituerait un atout.</li></ul><p>&#xa0;</p><p><strong>Compétences clés</strong>&#xa0;&#xa0;&#xa0;</p><ul><li>Les employés avec un rôle exécutif doivent adopter"
+      }
+    }
+  },
+  "active": true,
+  "visibility": "PUBLIC",
+  "industry": {
+    "id": "international_affairs",
+    "label": "International Affairs"
+  },
+  "function": {
+    "id": "other",
+    "label": "Other"
+  },
+  "department": {
+    "id": 6104231,
+    "label": "Executive Leadership"
+  },
+  "experienceLevel": {
+    "id": "executive",
+    "label": "Executive"
+  },
+  "typeOfEmployment": {
+    "id": "permanent",
+    "label": "Full-time"
+  },
+  "language": {
+    "code": "fr",
+    "label": "French",
+    "labelNative": "français"
+  }
+}

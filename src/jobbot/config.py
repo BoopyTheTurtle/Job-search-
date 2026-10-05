@@ -22,9 +22,7 @@ class DigestConfig(BaseModel):
 
 
 class Profile(BaseModel):
-    eligible_regions: list[str] = Field(
-        default_factory=lambda: ["WORLDWIDE", "EU", "EEA", "EUROPE"]
-    )
+    eligible_regions: list[str] = Field(default_factory=lambda: ["WORLDWIDE", "EU", "EEA", "CH"])
     """Where a remote job must allow working from."""
     home_country: str | None = None
     hybrid_regions: list[str] | None = None
@@ -124,3 +122,22 @@ def load_searches(directory: Path | None = None, names: list[str] | None = None)
 
 def load_sources(path: Path | None = None) -> SourcesConfig:
     return SourcesConfig.model_validate(_read_yaml(path or CONFIG_DIR / "sources.yaml"))
+
+
+class Company(BaseModel):
+    """One employer on the ATS watchlist (config/companies.yaml)."""
+
+    name: str
+    ats: str
+    slug: str
+    enabled: bool = True
+    notes: str | None = None
+
+
+class CompaniesConfig(BaseModel):
+    companies: list[Company] = Field(default_factory=list)
+
+
+def load_companies(path: Path | None = None) -> list[Company]:
+    data = _read_yaml(path or CONFIG_DIR / "companies.yaml")
+    return CompaniesConfig.model_validate(data).companies

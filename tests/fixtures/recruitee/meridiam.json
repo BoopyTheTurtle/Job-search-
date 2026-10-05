@@ -1,0 +1,90 @@
+{
+  "offers": [
+    {
+      "id": 2769762,
+      "slug": "accounting-associate-france-2027",
+      "title": "Accounting Associate - France - 2027",
+      "careers_url": "https://careers.meridiam.com/o/accounting-associate-france-2027",
+      "location": "Paris, Île-de-France, France",
+      "city": "Paris",
+      "country_code": "FR",
+      "remote": false,
+      "hybrid": true,
+      "on_site": false,
+      "published_at": "2026-10-02 15:52:39 UTC",
+      "created_at": "2026-10-02 14:27:58 UTC",
+      "employment_type_code": "fulltime_permanent",
+      "company_name": "Meridiam",
+      "department": "Finance",
+      "salary": {
+        "max": null,
+        "min": "43000",
+        "period": null,
+        "currency": "EUR"
+      },
+      "experience_code": "entry_level",
+      "tags": [],
+      "description": "<p class=\"MsoNormal\" style=\"text-align:justify;\"><span style=\"color:#121317\">The Accounting Associate will support the Senior Accountant and Accounting Manager in the day-to-day accounting and financial close activities of several entities. The role requires a good level of autonomy, ownership of assigned accounting processes, and regular coordination with operational teams and other support functions. The &nbsp;Accounting Associate will report to the Accounting Manager and will be based in the ",
+      "requirements": "<ul><li><p class=\"MsoListParagraph\"><span style=\"color:#121317\">Higher education qualification in Accounting, Finance or Business Administration, such as a Master’s Degree (DSCG or Master CCA)</span></p></li><li><p class=\"MsoListParagraph\"><span style=\"color:#121317\">Two to four years of relevant ac",
+      "status": "published"
+    },
+    {
+      "id": 2762227,
+      "slug": "corporate-compliance-associate",
+      "title": "Corporate Compliance Associate",
+      "careers_url": "https://careers.meridiam.com/o/corporate-compliance-associate",
+      "location": "Washington, D.C, District of Columbia, United States",
+      "city": "Washington, D.C",
+      "country_code": "US",
+      "remote": false,
+      "hybrid": false,
+      "on_site": true,
+      "published_at": "2026-09-28 18:28:00 UTC",
+      "created_at": "2026-09-28 18:14:32 UTC",
+      "employment_type_code": "fulltime_permanent",
+      "company_name": "Meridiam",
+      "department": "Corporate & Compliance",
+      "salary": {
+        "max": "150.00",
+        "min": "130.00",
+        "period": null,
+        "currency": "USD"
+      },
+      "experience_code": "mid_level",
+      "tags": [],
+      "description": "<p class=\"MsoNormal\" style=\"text-align:justify;\">Meridiam is looking to reinforce its compliance program by adding a Corporate Compliance Associate&nbsp;to its team at Meridiam Infrastructure North America Corporation (“MINA Corp.” or “RIA”) based in Washington, DC. The qualified candidate will focus on Corporate Governance and SEC Compliance matters pertaining to Meridiam’s activities in the Americas. In addition, the candidate will assist with the administration of the regulatory compliance pr",
+      "requirements": "<p class=\"MsoNormal\"><strong><u>Key Responsibilities:</u></strong></p><ul><li><p>Maintenance of Corporate Governance documents and corporate life (LLCAs, LPA, Resolution, etc.)</p></li><li><p>Support in corporate contractual management, and provide support to business development</p></li><li><p>Assi",
+      "status": "published"
+    },
+    {
+      "id": 2749887,
+      "slug": "senior-office-administrator-luxembourg-2026",
+      "title": "Senior Office Administrator - Luxembourg - 2026",
+      "careers_url": "https://careers.meridiam.com/o/senior-office-administrator-luxembourg-2026",
+      "location": "Luxembourg, Luxembourg, Luxembourg",
+      "city": "Luxembourg",
+      "country_code": "LU",
+      "remote": false,
+      "hybrid": true,
+      "on_site": false,
+      "published_at": "2026-09-18 10:39:00 UTC",
+      "created_at": "2026-09-17 13:57:41 UTC",
+      "employment_type_code": "fulltime_permanent",
+      "company_name": "Meridiam",
+      "department": "Administration/Office Management",
+      "salary": {
+        "max": "50000",
+        "min": null,
+        "period": "year",
+        "currency": "EUR"
+      },
+      "experience_code": "mid_level",
+      "tags": [
+        "Luxembourg"
+      ],
+      "description": "<p class=\"MsoNormal\" style=\"text-align:justify;\"><strong><span style=\"color:#00CC99\">About Meridiam</span></strong></p><p class=\"MsoNormal\" style=\"text-align:justify;\">&nbsp;</p><p class=\"MsoNormal\" style=\"text-align:justify;\">Meridiam was founded in 2005 by Thierry Déau, with the belief that the alignment of interests between the public and private sector can provide critical solutions to the collective needs of communities. Meridiam is an independent investment Benefit Corporation and an asset",
+      "requirements": "<p class=\"MsoListParagraphCxSpFirst\" style=\"text-align:justify;\">Job Requirements</p><p class=\"MsoListParagraphCxSpFirst\" style=\"text-align:justify;\">·&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Bachelor’s degree in Business Administration, Office Management, or a related field.</p><p class=\"MsoListParagra",
+      "status": "published"
+    }
+  ]
+}

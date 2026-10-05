@@ -13,13 +13,28 @@ boards, not on general job sites. One connector per ATS reaches many employers.
 
 | Source | Access | Status | Reaches |
 |---|---|---|---|
-| SAP SuccessFactors career sites | RSS: `https://<site>/services/rss/job/?locale=en_GB&keywords=` | tested live | EBRD (`jobs.ebrd.com`), UNESCO (`careers.unesco.org`), ILO, FMO |
 | Workday | JSON: `POST https://<tenant>.<wdN>.myworkdayjobs.com/wday/cxs/<tenant>/<site>/jobs` with `{"limit":20,"offset":0,"searchText":""}` | tested live | Ardian (`ardian.wd103`, site `ArdianCareers`), Triton (`tritonpartners.wd3`, `External`), Global Fund (`theglobalfund.wd1`, `External`) |
 | Greenhouse | `GET https://boards-api.greenhouse.io/v1/boards/<slug>/jobs` | tested live | EQT (`eqtpartners`) |
 | SmartRecruiters | `GET https://api.smartrecruiters.com/v1/companies/<id>/postings` | tested live | OECD (`OECD`) |
 | Recruitee | `GET https://<slug>.recruitee.com/api/offers/` | tested live | Meridiam (`meridiam`) |
 
-Greenhouse, SmartRecruiters and Recruitee are already planned in Phase 3.
+Greenhouse, SmartRecruiters and Recruitee connectors exist since 2026-10-05; the employers
+they crawl are listed in `config/companies.yaml`.
+
+## SAP SuccessFactors career sites: blocked by robots.txt
+
+The RSS feed (`/services/rss/job/`) works on every site tested, but every site's
+robots.txt disallows `/services/` for all user agents, so ADR-0001 rules it out. Each site
+also publishes `/sitemap.xml`, which robots.txt allows. On EBRD it is a full Google Jobs
+feed with descriptions (one request per employer). Elsewhere it lists job URLs only, and
+reading a job means fetching its HTML page under `/job/` (allowed by robots.txt). That page
+carries schema.org `itemprop` markup for title, date, location and description. Fetching
+HTML pages is a Tier E source and needs the owner's approval in the PR.
+
+Sites found (checked 2026-10-05): EBRD (`jobs.ebrd.com`), UNESCO (`careers.unesco.org`),
+ILO (`jobs.ilo.org`), ICRC (`careers.icrc.org`), CEB (`jobs.coebank.org`), Partners Group
+(`jobs.partnersgroup.com`), Enabel (`jobs.enabel.be`), FMO (`fmo.jobs.hr.cloud.sap`),
+Triodos (`careers.triodos.com`).
 
 ## Approved by the owner: unofficial endpoints
 
@@ -37,9 +52,17 @@ Greenhouse, SmartRecruiters and Recruitee are already planned in Phase 3.
 
 ## Keyword queries on existing sources
 
-Adzuna (`be`, `nl`, `fr`, `es`, `ch` and others) and France Travail take a second set of
-queries through the impact-finance search's `queries` (next PR). Reed is UK-only and the
-search excludes UK office jobs, so it stays out.
+The impact-finance search queries Adzuna and France Travail through its own `queries`
+(`config/searches/impact-finance.yaml`); both connectors take a list of queries and run
+each one separately.
+
+- **Adzuna:** 14 English queries in the FR, BE, NL, ES, CH and DE indexes, plus six French
+  queries in FR and BE, one page each, every category: 96 calls a week at 2.5 s apart.
+  Adzuna has no Portugal or Luxembourg index.
+- **France Travail:** 13 French queries across all domains, one page (150 offers) each.
+
+Reed is UK-only and the search excludes UK office jobs, so it stays out. JobTech is mostly
+Swedish and stays out too.
 
 ## Rejected
 
@@ -55,15 +78,31 @@ search excludes UK office jobs, so it stays out.
 | Impactpool | robots.txt allows crawling, but no terms page found; ask before use |
 | World Bank Group (Cornerstone, `worldbankgroup.csod.com`) | Job list renders only through JavaScript; revisit later |
 
-## Employer watchlist candidates
+## Employer watchlist
 
-Check each one's ATS before adding it to `config/companies.yaml`.
+`config/companies.yaml` holds every employer a connector can read: Ardian, Triton and the
+Global Fund (Workday), EQT (Greenhouse), OECD (SmartRecruiters), Meridiam and PAI Partners
+(Recruitee). A live crawl on 2026-10-05 found 19 postings from the past week, six of them
+strong matches for the impact-finance search.
 
-- **Development banks and finance institutions:** EIB, EIF, CEB, AFD and Proparco, BIO
-  (Belgium), FMO (Netherlands, SuccessFactors), Cofides (Spain), SOFID (Portugal),
-  LuxDev, Enabel, EBRD (SuccessFactors).
-- **International organisations:** OECD (SmartRecruiters), UNESCO (SuccessFactors), ILO
-  (SuccessFactors), Global Fund (Workday), Gavi, WHO, UNHCR.
-- **Private equity and infrastructure funds:** Ardian (Workday), EQT (Greenhouse),
-  Triton (Workday), Meridiam (Recruitee), Eurazeo, PAI Partners, Tikehau, Partners Group,
-  CVC, Cinven, Permira, Mirova.
+Checked on 2026-10-05 and not reachable yet:
+
+| Employer | Where its jobs are | Why not |
+|---|---|---|
+| EBRD, UNESCO, ILO, ICRC, CEB, Partners Group, Enabel, FMO, Triodos | SuccessFactors | See the SuccessFactors section above |
+| Tikehau, Eurazeo | Welcome to the Jungle, JobTeaser | Terms forbid scraping |
+| Antin | Teamtailor | No connector yet |
+| BlueOrchard | BambooHR | No connector yet |
+| Apax | Lever (one New York posting) | No connector yet |
+| EIB, EIF, AFD, Proparco, IFAD | Own portals | Pages blocked (HTTP 403) or no public feed found |
+| LuxDev | Own site, Moovijob | No feed; Moovijob blocks bots |
+| SOFID | Own site with an RSS link | Not yet checked |
+
+Not yet researched or unresolved:
+
+- **Development finance:** BIO (Belgium), Cofides (Spain).
+- **International organisations:** Gavi, WHO, UNHCR, UNICEF.
+- **Private equity, infrastructure and impact funds:** CVC, Cinven, Permira, Mirova,
+  Bridgepoint, Astorg, Wendel, InfraVia, Incofin, responsAbility, Symbiotics, I&P,
+  Oikocredit, Triple Jump. Their careers pages either load job lists through JavaScript or
+  moved; none matched a public API under the slugs tried.

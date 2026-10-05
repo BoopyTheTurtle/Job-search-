@@ -1,6 +1,6 @@
 from datetime import UTC, datetime, timedelta
 
-from jobbot.config import Profile
+from jobbot.config import Profile, load_searches
 from jobbot.filter import Section, evaluate, exclusion_reason, score
 from jobbot.models import EmploymentType, Job, RemoteType, RoleFamily, Seniority
 
@@ -203,3 +203,18 @@ def test_preferred_country_scores_like_remote() -> None:
     assert paris - berlin == 15
     assert paris == remote
     assert not any("preferred" in r for r in reasons)
+
+
+def test_it_search_rejects_uk_only_remote_jobs() -> None:
+    it = load_searches(names=["it"])[0]
+    uk_only = _job(
+        title="Remote Software Engineer - Fully remote from the UK", regions_allowed=["GB"]
+    )
+    assert exclusion_reason(uk_only, it) == "not eligible: GB"
+
+
+def test_it_search_accepts_jobs_open_across_europe() -> None:
+    it = load_searches(names=["it"])[0]
+    assert exclusion_reason(_job(regions_allowed=["EUROPE"]), it) is None
+    assert exclusion_reason(_job(regions_allowed=["CH"]), it) is None
+    assert evaluate(_job(regions_allowed=["EUROPE"]), it, NOW).section is Section.STRONG

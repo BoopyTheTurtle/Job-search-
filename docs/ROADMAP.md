@@ -50,15 +50,18 @@ one PR. Items are ordered by dependency within a phase.
 ## Phase 2b — Impact-finance search (ADR-0004)
 - [x] Parallel searches in `config/searches/`, one digest and email each; new role families
 - [x] Source research: `docs/inventory/impact-finance-sources.md`
-- [ ] Impact-finance queries for Adzuna (FR BE NL ES CH + remote) and France Travail
-- [ ] Connectors: SuccessFactors career-site RSS, Workday job API
+- [x] Impact-finance queries for Adzuna (FR BE NL ES CH DE) and France Travail
+- [ ] Owner: run `weekly-crawl` by hand with `searches: impact-finance` and review the first digest
+- [x] Connector: Workday job API (Ardian, Triton, Global Fund)
+- [ ] Connector: SuccessFactors sites (RSS blocked by robots.txt; sitemap + job pages needs owner approval)
 - [ ] Connector: UN Careers (approved 2026-10-05, unofficial endpoint)
-- [ ] Watchlist seed: development banks, international organisations, PE and infrastructure funds
+- [x] Watchlist seed: every researched employer a connector can read (7 employers)
 - [ ] Later, maybe: ReliefWeb API (needs an approved appname), Jooble (needs a key)
 
 ## Phase 3 — Employer-direct (ATS)
-- [ ] Generic ATS connectors: Greenhouse, Lever, Ashby, Workable, Recruitee, Personio, SmartRecruiters, Teamtailor
-- [ ] `config/companies.yaml` watchlist schema and loader
+- [x] ATS connectors: Greenhouse, SmartRecruiters, Recruitee (live dry-run 2026-10-05)
+- [ ] ATS connectors: Lever, Ashby, Workable, Personio, Teamtailor
+- [x] `config/companies.yaml` watchlist schema and loader (seeded with EQT, OECD, Meridiam)
 - [ ] Seed watchlist from public "remote-friendly European companies" lists
 - [ ] ATS auto-detection helper: given a careers URL, guess the ATS and slug
 
