@@ -61,3 +61,9 @@ def arrangement(remote: Any, hybrid: Any, location: str | None) -> tuple[bool | 
     if remote is False:
         return False, location
     return None, location
+
+
+def names(ats: str) -> dict[str, str]:
+    """slug → display name from the watchlist, for ATSs whose own company field holds a
+    legal entity ("Corporate and Acquisition Services AB") rather than the brand."""
+    return {c.slug: c.name for c in load_companies() if c.ats == ats}

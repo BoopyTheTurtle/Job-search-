@@ -52,9 +52,10 @@ one PR. Items are ordered by dependency within a phase.
 - [x] Source research: `docs/inventory/impact-finance-sources.md`
 - [x] Impact-finance queries for Adzuna (FR BE NL ES CH DE) and France Travail
 - [ ] Owner: run `weekly-crawl` by hand with `searches: impact-finance` and review the first digest
-- [ ] Connectors: SuccessFactors career-site RSS, Workday job API
+- [x] Connector: Workday job API (Ardian, Triton, Global Fund)
+- [ ] Connector: SuccessFactors sites (RSS blocked by robots.txt; sitemap + job pages needs owner approval)
 - [ ] Connector: UN Careers (approved 2026-10-05, unofficial endpoint)
-- [ ] Watchlist seed: development banks, international organisations, PE and infrastructure funds
+- [x] Watchlist seed: every researched employer a connector can read (7 employers)
 - [ ] Later, maybe: ReliefWeb API (needs an approved appname), Jooble (needs a key)
 
 ## Phase 3 — Employer-direct (ATS)

@@ -121,3 +121,11 @@ sources:
     terms: https://docs.recruitee.com/reference/intro-to-careers-site-api   # public Careers Site API, no key
     rate_limit_rps: 1.0     # none published; one request per company
     params: {}
+  workday:
+    enabled: true           # live dry-run crawl passed 2026-10-05; fixture is a trimmed real response
+    tier: D
+    terms: https://ardian.wd103.myworkdayjobs.com/robots.txt   # career-site JSON API; robots.txt allows it, no published API terms
+    rate_limit_rps: 2.0     # none published; list pages of 20 + one detail per new posting, 0.5 s apart
+    params:
+      max_pages: 10
+      page_delay: 0.5

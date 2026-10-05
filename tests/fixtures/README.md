@@ -31,6 +31,7 @@ that should the source be flipped to `enabled: true` in `config/sources.yaml`.
 | greenhouse | `greenhouse/eqtpartners.json` | **real**, trimmed (2026-10-05; three jobs, content cut to 600 chars) |
 | smartrecruiters | `smartrecruiters/oecd_list.json`, `smartrecruiters/oecd_<id>.json` | **real**, trimmed (2026-10-05; `creator` removed, sections cut to 400 chars) |
 | recruitee | `recruitee/meridiam.json` | **real**, trimmed (2026-10-05; mailbox, questions and translations removed) |
+| workday | `workday/ardian_list.json`, `workday/ardian_detail_<n>.json` | **real**, trimmed (2026-10-05; descriptions cut to 600 chars) |
 
 
 Live check 2026-10-03: the manual-smoke run on `main` returned real postings from all six
