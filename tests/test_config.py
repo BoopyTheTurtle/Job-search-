@@ -18,6 +18,7 @@ def test_it_search_keeps_the_original_profile() -> None:
     it = load_searches(names=["it"])[0]
     assert it.title == "IT"
     assert "EU" in it.eligible_regions
+    assert "EUROPE" not in it.eligible_regions, "EUROPE would let UK-only jobs through"
     assert it.languages == ["en", "fr", "lv", "es"]
     assert RoleFamily.SOFTWARE_DEV in it.role_families
     assert it.effective_hybrid_regions == ["LV"]
