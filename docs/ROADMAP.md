@@ -58,8 +58,9 @@ one PR. Items are ordered by dependency within a phase.
 - [ ] Later, maybe: ReliefWeb API (needs an approved appname), Jooble (needs a key)
 
 ## Phase 3 — Employer-direct (ATS)
-- [ ] Generic ATS connectors: Greenhouse, Lever, Ashby, Workable, Recruitee, Personio, SmartRecruiters, Teamtailor
-- [ ] `config/companies.yaml` watchlist schema and loader
+- [x] ATS connectors: Greenhouse, SmartRecruiters, Recruitee (live dry-run 2026-10-05)
+- [ ] ATS connectors: Lever, Ashby, Workable, Personio, Teamtailor
+- [x] `config/companies.yaml` watchlist schema and loader (seeded with EQT, OECD, Meridiam)
 - [ ] Seed watchlist from public "remote-friendly European companies" lists
 - [ ] ATS auto-detection helper: given a careers URL, guess the ATS and slug
 

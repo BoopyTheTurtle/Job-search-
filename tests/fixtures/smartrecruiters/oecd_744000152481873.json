@@ -1,0 +1,111 @@
+{
+  "id": "744000152481873",
+  "name": "Statisticien(ne)s-Analystes de données",
+  "uuid": "71723bab-8917-44d0-ab78-9090e4e54481",
+  "jobId": "0243c33c-eef8-4212-b6a5-f41bc5c29b93",
+  "jobAdId": "a2b36034-5cbc-4066-b27c-d5e99b76aa9c",
+  "defaultJobAd": false,
+  "refNumber": "REF3250C",
+  "company": {
+    "name": "OECD",
+    "identifier": "OECD"
+  },
+  "location": {
+    "city": "Paris",
+    "region": "Île-de-France Region",
+    "country": "fr",
+    "remote": false,
+    "hybrid": false,
+    "fullLocation": "Paris, Île-de-France Region, France"
+  },
+  "customField": [
+    {
+      "fieldId": "648821a3b6b69322b51f3093",
+      "fieldLabel": "Directorate",
+      "valueId": "10000444",
+      "valueLabel": "ECO"
+    },
+    {
+      "fieldId": "COUNTRY",
+      "fieldLabel": "Country/Region",
+      "valueId": "fr",
+      "valueLabel": "France"
+    },
+    {
+      "fieldId": "633d99302e608549cea4cccb",
+      "fieldLabel": "Department",
+      "valueId": "6106611",
+      "valueLabel": "Policy Analysis and Legal"
+    },
+    {
+      "fieldId": "633d99302e608549cea4ccca",
+      "fieldLabel": "Brands",
+      "valueId": "default",
+      "valueLabel": "OECD"
+    },
+    {
+      "fieldId": "64882104a519d256d6751438",
+      "fieldLabel": "Grade",
+      "valueId": "PAL3",
+      "valueLabel": "PAL3"
+    }
+  ],
+  "releasedDate": "2026-09-29T15:46:32.359Z",
+  "postingUrl": "https://jobs.smartrecruiters.com/OECD/744000152481873-statisticien-ne-s-analystes-de-donnees",
+  "applyUrl": "https://jobs.smartrecruiters.com/OECD/744000152481873-statisticien-ne-s-analystes-de-donnees?oga=true",
+  "referralUrl": "https://jobs.smartrecruiters.com/external-referrals/company/OECD/publication/71723bab-8917-44d0-ab78-9090e4e54481?dcr_ci=OECD",
+  "jobAd": {
+    "sections": {
+      "companyDescription": {
+        "title": "Description de l'entreprise",
+        "text": "<p>L’Organisation de coopération et de développement économiques (<a href=\"https://www.oecd.org/fr/about.html\" rel=\"noopener noreferrer\">OCDE</a>) est une organisation internationale regroupant 38 pays membres, qui a pour mission de mettre en place des politiques meilleures pour une vie meilleure. Nous promouvons des politiques de nature à améliorer le bien-être économique et social des population"
+      },
+      "jobDescription": {
+        "title": "Description du poste",
+        "text": "<p><strong>Responsabilités principales</strong></p><p>Collecte de données et gestion d’ensembles de données</p><ul><li>Rassembler des données auprès de pays membres et non membres de l’OCDE, élaborer et mettre en œuvre des approches innovantes et efficientes de la collecte de données, y compris l’utilisation de sources de données numériques, la collecte automatisée de données et les solutions de t"
+      },
+      "qualifications": {
+        "title": "Qualifications",
+        "text": "<p><strong>Profil du/de la candidat(e) idéal(e)</strong></p><p>Formation</p><ul><li>Diplôme universitaire de niveau supérieur ou équivalent, de préférence en statistiques, en économie, en mathématiques, en sciences de l’ingénieur ou dans une autre discipline scientifique, et bonne connaissance des bases de données statistiques et des technologies de l’information (y compris des notions de programm"
+      },
+      "additionalInformation": {
+        "title": "Informations supplémentaires",
+        "text": "<p><strong>Date de clôture</strong></p><ul><li>Le poste décrit ci-dessus sera pourvu dès que possible, et les candidatures devront nous parvenir au plus tard avant <strong>le 20&#xa0;octobre&#xa0;2026 à 23:59</strong> (CEST).&#xa0;</li></ul><p><strong>Durée du contrat </strong></p><ul><li>La présente offre d’emploi pourrait servir à la constitution d’un vivier de candidat·es jugé·es aptes à exerce"
+      },
+      "videos": {
+        "title": "Videos To Watch",
+        "urls": [
+          "https://youtu.be/BmOgGeUO0LA"
+        ],
+        "text": null
+      }
+    }
+  },
+  "active": true,
+  "visibility": "PUBLIC",
+  "industry": {
+    "id": "public_policy",
+    "label": "Public Policy"
+  },
+  "function": {
+    "id": "other",
+    "label": "Other"
+  },
+  "department": {
+    "id": 6106611,
+    "label": "Policy Analysis and Legal"
+  },
+  "experienceLevel": {
+    "id": "associate",
+    "label": "Associate"
+  },
+  "typeOfEmployment": {
+    "id": "permanent",
+    "label": "Full-time"
+  },
+  "language": {
+    "code": "fr",
+    "label": "French",
+    "labelNative": "français"
+  }
+}

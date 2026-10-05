@@ -1,0 +1,67 @@
+{
+  "jobs": [
+    {
+      "id": 4936187101,
+      "title": "AI Architect",
+      "absolute_url": "https://job-boards.eu.greenhouse.io/eqtpartners/jobs/4936187101",
+      "location": {
+        "name": "Stockholm, Stockholm, Sweden"
+      },
+      "updated_at": "2026-10-05T04:26:47-04:00",
+      "first_published": "2026-09-28T11:15:23-04:00",
+      "company_name": "EQT Group",
+      "requisition_id": "JR3892",
+      "language": "en",
+      "content": "&lt;div class=&quot;content-intro&quot;&gt;&lt;p&gt;&lt;em&gt;&amp;nbsp;&lt;/em&gt;&lt;/p&gt;&lt;/div&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt;\n&lt;p&gt;&lt;strong&gt;AI Engineer&lt;/strong&gt;&lt;/p&gt;\n&lt;p&gt;As an AI Engineer, you will help build and scale the AI infrastructure used across EQT Real Estate, enabling investors and operators to create and remix tools ranging from process automation to advanced analytics and interactive applications. You will work directly with users, own projects end-to-end and help turn successful experiments into shared platform capabilities.&lt;/p&gt;\n&lt;p&gt;&lt;strong&gt;About the AI team&lt;/strong&gt;&lt;/p&gt;\n&lt;p&gt;The team builds the technological foundations that allow people acros",
+      "departments": [
+        {
+          "id": 4030304101,
+          "name": "Real Estate Europe Logistics Investments (Cost Center)"
+        }
+      ]
+    },
+    {
+      "id": 4917831101,
+      "title": "Application Security Engineer",
+      "absolute_url": "https://job-boards.eu.greenhouse.io/eqtpartners/jobs/4917831101",
+      "location": {
+        "name": "Stockholm, Stockholm, Sweden"
+      },
+      "updated_at": "2026-10-05T04:26:47-04:00",
+      "first_published": "2026-07-04T06:57:04-04:00",
+      "company_name": "EQT Group",
+      "requisition_id": "JR3845",
+      "language": "en",
+      "content": "&lt;div class=&quot;content-intro&quot;&gt;&lt;p&gt;&lt;em&gt;&amp;nbsp;&lt;/em&gt;&lt;/p&gt;&lt;/div&gt;&lt;p&gt;EQT is looking for an Application Security Engineer to join our Cyber Security Engineering team, owning the security posture of our hosted applications and container platforms. This is a hands-on engineering role where you will build automated guardrails and real-time visibility — making the secure path the easy path across a modern, globally distributed technology landscape. Over time, this role will grow to include ownership of our AI and agentic platform security as that discipline matures at EQT.&lt;/p&gt;\n&lt;h2&gt;&lt;strong&gt;About the Team&lt;/stro",
+      "departments": [
+        {
+          "id": 4030265101,
+          "name": "Digital Employee Experience (Cost Center)"
+        }
+      ]
+    },
+    {
+      "id": 4947522101,
+      "title": "Applied AI Lead",
+      "absolute_url": "https://job-boards.eu.greenhouse.io/eqtpartners/jobs/4947522101",
+      "location": {
+        "name": "Warszawa, Masovian Voivodeship, Poland"
+      },
+      "updated_at": "2026-10-05T04:26:47-04:00",
+      "first_published": "2026-08-06T06:14:50-04:00",
+      "company_name": "EQT Group",
+      "requisition_id": "JR3917",
+      "language": "en",
+      "content": "&lt;div class=&quot;content-intro&quot;&gt;&lt;p&gt;&lt;em&gt;&amp;nbsp;&lt;/em&gt;&lt;/p&gt;&lt;/div&gt;&lt;p&gt;EQT is looking for an Applied AI Lead — a delivery-focused engineering leader who brings together technical depth, product instinct, and the credibility to partner with investment professionals, operators, and engineers to turn generative AI from prototype into production. This role sits at the heart of EQT&#x27;s ambition to become the most AI-literate firm in private markets.&lt;/p&gt;\n&lt;h2&gt;&lt;strong&gt;About the Team&lt;/strong&gt;&lt;/h2&gt;\n&lt;p&gt;You will lead EQT&#x27;s Applied AI function, a multidisciplinary team of applied AI engineers, ML engineers, and full-stac",
+      "departments": [
+        {
+          "id": 4030267101,
+          "name": "Technology Management (Cost Center)"
+        }
+      ]
+    }
+  ],
+  "meta": {
+    "total": 3
+  }
+}
