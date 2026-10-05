@@ -66,7 +66,7 @@ sources:
     enabled: true           # manual-smoke passed 2026-10-03 (AT, 5 live postings)
     tier: B
     terms: https://developer.adzuna.com/docs/terms_of_service   # "Jobs by Adzuna" credit required
-    rate_limit_rps: 0.4     # terms: 25/min, 250/day, 1000/week; 13 countries x 2 pages = 26 calls
+    rate_limit_rps: 0.4     # terms: 25/min, 250/day, 1000/week; IT 26 calls + impact-finance 96
     env: [ADZUNA_APP_ID, ADZUNA_APP_KEY]
     params:
       countries: [at, be, de, es, fr, it, nl, pl, gb, us, ca, au, nz]
@@ -94,7 +94,7 @@ sources:
     enabled: true           # manual-smoke passed 2026-10-03 (5 live postings)
     tier: B
     terms: https://francetravail.io/data/api/offres-emploi   # francetravail.io CGU; attribution, no reselling
-    rate_limit_rps: 3.0     # documented 3 req/s; 1 token call + up to 3 pages
+    rate_limit_rps: 3.0     # documented 3 req/s; per search 1 token call + its queries' pages
     env: [FRANCE_TRAVAIL_CLIENT_ID, FRANCE_TRAVAIL_CLIENT_SECRET]
     params:
       page_size: 150

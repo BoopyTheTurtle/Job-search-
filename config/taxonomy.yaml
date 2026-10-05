@@ -77,6 +77,7 @@ families:
     title:
       - "international development|development (?:cooperation|programmes?|programs?|specialist|officer|consultant|economist|practitioner|expert)"
       - "programme (?:officer|manager|coordinator|specialist|associate|analyst|assistant|director|lead)|program officer"
+      - "global health|resource mobili[sz]ation|(?:coordinat\\S*|responsable|chef) de programmes?"
       - "humanitarian|livelihoods?|food security"
       - "monitoring,? (?:and|&) evaluation|m&e|meal (?:officer|specialist|manager|coordinator|advisor|adviser)|mel (?:officer|specialist|manager)"
       - "grants? (?:manager|officer|management|coordinator|specialist|administrator|lead)|donor relations|fundraising|fundraiser"
@@ -94,6 +95,7 @@ families:
       - "investment (?:officer|analyst|manager|specialist|banker)|financial (?:analyst|modell?er|modell?ing)|credit (?:analyst|officer)"
       - "impact invest\\w*|green finance|sustainable finance|responsible investment|esg|sustainability (?:analyst|manager|specialist|officer|reporting|lead)|green bonds?"
       - "finance (?:transformation|projects?|project manager|business partner)|financial projects?"
+      - "impact (?:measurement|management|manager|analyst|officer)"
       - "financement (?:de projets?|structuré|climat)|charg\\S* d['’]investissements?|analyste (?:financi\\w*|crédit|investissement)"
       - "finance (?:durable|verte|climat|à impact|responsable)|investissement (?:responsable|à impact|durable)|isr"
     description:
@@ -105,7 +107,7 @@ families:
   private_equity:
     title:
       - "private equity|venture capital|growth equity|buy[- ]?outs?|private markets?|private capital|private debt|secondaries|co[- ]?investments?"
-      - "investment (?:associate|director|principal|partner)|infrastructure (?:fund|investment|equity)"
+      - "investment (?:associate|director|principal|partner)|infrastructure (?:funds?|investments?|equity)"
       - "portfolio (?:monitoring|valuation|operations)|value creation"
       - "fund (?:operations|administration|administrator|accountant|controller|finance|services|reporting)|investor relations|capital raising"
       - "capital[- ](?:investissement|risque|développement)|lbo|charg\\S* d['’]affaires (?:capital|investissement|private equity|lbo)"
@@ -129,6 +131,9 @@ families:
       - "budget (?:monitoring|tracking)|financial reporting|procurement|contracts? management"
       - "prince2|pmp|ipma|pmi|capm|pm²"
       - "gestion de projets?|suivi budgétaire|livrables|cahier des charges|marchés publics"
+# A title that hits these families equally (say "Investment Analyst - Private Equity")
+# goes to the earliest listed instead of `other`. IT families keep the strict rule.
+tie_break: [private_equity, finance_investment, intl_development, project_admin]
 exclude:
   # Titles no search wants. Exclusions that only one search needs live in that search's
   # `exclude_title_patterns` (config/searches/*.yaml).

@@ -28,6 +28,8 @@ class Taxonomy:
     title_patterns: dict[RoleFamily, list[re.Pattern[str]]]
     description_patterns: dict[RoleFamily, list[re.Pattern[str]]]
     exclude_title: list[re.Pattern[str]]
+    tie_break: tuple[RoleFamily, ...] = ()
+    """Families that may settle a full tie among themselves: the earliest listed wins."""
 
 
 def _as_list(value: object) -> list[str]:
@@ -60,7 +62,8 @@ def load_taxonomy(path: Path | None = None) -> Taxonomy:
     exclude = data.get("exclude") or {}
     if not isinstance(exclude, dict):
         raise ValueError("taxonomy.exclude must be a mapping")
-    return Taxonomy(title, description, _compile(_as_list(exclude.get("title"))))
+    tie_break = tuple(RoleFamily(name) for name in _as_list(data.get("tie_break")))
+    return Taxonomy(title, description, _compile(_as_list(exclude.get("title"))), tie_break)
 
 
 def _count(patterns: list[re.Pattern[str]], text: str) -> int:
@@ -89,7 +92,12 @@ def classify_role(
     # "Office Assistant" posting mentions WordPress and HTML without being a dev role.
     if best_title_hits == 0 and best_score < MIN_BODY_ONLY_HITS:
         return RoleFamily.OTHER
-    # Tie on score: the family with more title hits wins; a full tie is ambiguous → other.
-    if len(ranked) > 1 and ranked[1][1] == (best_score, best_title_hits):
+    # Tie on score: the family with more title hits wins. A full tie is ambiguous → other,
+    # unless every tied family is in `tie_break`, which then names the winner.
+    tied = [family for family, s in ranked if s == (best_score, best_title_hits)]
+    if len(tied) > 1:
+        order = taxonomy.tie_break
+        if all(family in order for family in tied):
+            return min(tied, key=order.index)
         return RoleFamily.OTHER
     return best

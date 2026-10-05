@@ -119,3 +119,22 @@ def test_published_window_picks_smallest_allowed_value() -> None:
     assert published_window(datetime(2026, 9, 30, 6, tzinfo=UTC), now) == 7
     assert published_window(datetime(2026, 9, 29, 6, tzinfo=UTC), now) == 14
     assert published_window(datetime(2026, 1, 1, tzinfo=UTC), now) == 31
+
+
+@respx.mock
+def test_francetravail_runs_each_keyword_without_duplicates() -> None:
+    _mock_token()
+    search = respx.get(API_URL).mock(side_effect=_search)
+    params = {**PARAMS, "keywords": ["private equity", "finance durable"], "domain": None}
+    with httpx.Client() as client:
+        jobs = list(build("francetravail", client, params).fetch(since=None))
+
+    sent = [(c.request.url.params["motsCles"], c.request.url.params["range"]) for c in search.calls]
+    assert sent == [
+        ("private equity", "0-2"),
+        ("private equity", "3-5"),
+        ("finance durable", "0-2"),
+        ("finance durable", "3-5"),
+    ]
+    assert "grandDomaine" not in search.calls[0].request.url.params
+    assert len(jobs) == 3, "the second keyword returns the same offers"
