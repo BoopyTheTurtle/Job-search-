@@ -50,7 +50,8 @@ one PR. Items are ordered by dependency within a phase.
 ## Phase 2b — Impact-finance search (ADR-0004)
 - [x] Parallel searches in `config/searches/`, one digest and email each; new role families
 - [x] Source research: `docs/inventory/impact-finance-sources.md`
-- [ ] Impact-finance queries for Adzuna (FR BE NL ES CH + remote) and France Travail
+- [x] Impact-finance queries for Adzuna (FR BE NL ES CH DE) and France Travail
+- [ ] Owner: run `weekly-crawl` by hand with `searches: impact-finance` and review the first digest
 - [ ] Connectors: SuccessFactors career-site RSS, Workday job API
 - [ ] Connector: UN Careers (approved 2026-10-05, unofficial endpoint)
 - [ ] Watchlist seed: development banks, international organisations, PE and infrastructure funds

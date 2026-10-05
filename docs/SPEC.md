@@ -216,7 +216,8 @@ Families: `software_dev`, `devops_cloud`, `data_ml_ai`, `it_ops_qa_product` (IT 
 `intl_development`, `finance_investment`, `private_equity`, `project_admin`
 (impact-finance search). Exclusions only one search needs live in that search's
 `exclude_title_patterns`.
-Title match weighs 3x description match. Ties → `other`. Jobs whose family is `other`
+Title match weighs 3x description match. Ties → `other`, except a tie among the families
+listed in `tie_break`, which goes to the earliest listed. Jobs whose family is `other`
 are excluded.
 
 ### 8.5 Seniority

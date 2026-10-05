@@ -26,5 +26,55 @@ digest:
   min_score: 50
   max_items: 150
   to: []
-# Source queries arrive in the next PR (Adzuna, France Travail).
-queries: {}
+# Per-source query parameters for this search, merged over `params` in sources.yaml. Each
+# query runs separately and returns the newest postings first, so one page per query is
+# plenty for a weekly run. Reed is UK-only and JobTech mostly Swedish, so neither is listed.
+queries:
+  adzuna:
+    # Adzuna has no Portugal or Luxembourg index. Postings come in each index's language;
+    # the language filter keeps the English and French ones.
+    countries: [fr, be, nl, es, ch, de]
+    category: null            # search every category, not just IT
+    what:                     # Adzuna ANDs the words of each query
+      - international development
+      - development finance
+      - project finance
+      - private equity
+      - venture capital
+      - investor relations
+      - fund operations
+      - impact investing
+      - sustainable finance
+      - esg analyst
+      - programme officer
+      - project officer
+      - grants manager
+      - monitoring evaluation
+    what_by_country:          # French-language queries for the French-speaking indexes
+      fr: &fr_queries
+        - solidarité internationale
+        - financement de projets
+        - capital investissement
+        - chargé d'investissement
+        - finance durable
+        - chargé de programme
+      be: *fr_queries
+    max_pages: 1
+    page_delay: 2.5           # 6 countries x 14 queries + 12 French = 96 calls, under 25/min
+  francetravail:
+    domain: null              # every domain, not just IT
+    keywords:
+      - solidarité internationale
+      - développement international
+      - coopération internationale
+      - chargé de programme
+      - suivi évaluation
+      - financement de projets
+      - chargé d'investissement
+      - capital investissement
+      - private equity
+      - finance durable
+      - ESG
+      - chargé de mission
+      - assistant chef de projet
+    max_pages: 1

@@ -37,9 +37,17 @@ Greenhouse, SmartRecruiters and Recruitee are already planned in Phase 3.
 
 ## Keyword queries on existing sources
 
-Adzuna (`be`, `nl`, `fr`, `es`, `ch` and others) and France Travail take a second set of
-queries through the impact-finance search's `queries` (next PR). Reed is UK-only and the
-search excludes UK office jobs, so it stays out.
+The impact-finance search queries Adzuna and France Travail through its own `queries`
+(`config/searches/impact-finance.yaml`); both connectors take a list of queries and run
+each one separately.
+
+- **Adzuna:** 14 English queries in the FR, BE, NL, ES, CH and DE indexes, plus six French
+  queries in FR and BE, one page each, every category: 96 calls a week at 2.5 s apart.
+  Adzuna has no Portugal or Luxembourg index.
+- **France Travail:** 13 French queries across all domains, one page (150 offers) each.
+
+Reed is UK-only and the search excludes UK office jobs, so it stays out. JobTech is mostly
+Swedish and stays out too.
 
 ## Rejected
 

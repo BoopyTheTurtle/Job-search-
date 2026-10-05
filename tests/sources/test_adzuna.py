@@ -148,3 +148,31 @@ def test_adzuna_caps_page_size_at_api_maximum() -> None:
     with httpx.Client() as client:
         src = build("adzuna", client, {"results_per_page": 500})
     assert getattr(src, "_page_size") == 50  # noqa: B009
+
+
+@respx.mock
+def test_adzuna_runs_each_query_and_country_extras_once_without_duplicates() -> None:
+    route = respx.get(url__regex=ROUTE).mock(side_effect=_serve)
+    params = {
+        **PARAMS,
+        "countries": ["de", "gb"],
+        "max_pages": 1,
+        "what": ["private equity", "project finance"],
+        "what_by_country": {"GB": ["investor relations"]},
+        "category": None,
+    }
+    with httpx.Client() as client:
+        jobs = list(build("adzuna", client, params).fetch(since=None))
+
+    sent = [(c.request.url.path.split("/")[4], c.request.url.params["what"]) for c in route.calls]
+    assert sent == [
+        ("de", "private equity"),
+        ("de", "project finance"),
+        ("gb", "private equity"),
+        ("gb", "project finance"),
+        ("gb", "investor relations"),
+    ]
+    assert "category" not in route.calls[0].request.url.params
+    # Every query returns the same fixture page: each posting is yielded once.
+    ids = [j.source_id for j in jobs]
+    assert len(ids) == len(set(ids)) == 4

@@ -38,6 +38,14 @@ def test_impact_finance_search() -> None:
     assert impact.onsite_regions == ["EU", "CH"]
     assert "GB" not in impact.preferred_countries
     assert "EUROPE" not in impact.eligible_regions, "EUROPE would let UK-only jobs through"
+    assert set(impact.queries) == {"adzuna", "francetravail"}
+    assert "gb" not in impact.queries["adzuna"]["countries"]
+    assert impact.queries["adzuna"]["category"] is None
+    assert (
+        impact.queries["adzuna"]["what_by_country"]["be"]
+        == (impact.queries["adzuna"]["what_by_country"]["fr"])
+    )
+    assert impact.queries["francetravail"]["domain"] is None
 
 
 def test_search_name_defaults_to_file_stem(tmp_path: Path) -> None:

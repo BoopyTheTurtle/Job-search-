@@ -12,8 +12,9 @@ Pages are `range=a-b`, 150 per page; the API answers 206 while more results rema
 on the last page and 204 (empty body) when nothing matches. Rate limit: 3 requests/s.
 Postings are French; the language filter accepts fr.
 
-params: `keywords` (default "télétravail"), `domain` (default "M18"), `page_size`
-(max 150), `max_pages` (default 3), `page_delay` (seconds, default 0.4).
+params: `keywords` (a query or a list of queries, each run separately; default
+"télétravail"), `domain` (default "M18"; null searches every domain), `page_size` (max
+150), `max_pages` (per query, default 3), `page_delay` (seconds, default 0.4).
 """
 
 from __future__ import annotations
@@ -66,7 +67,9 @@ class FranceTravail:
 
     def __init__(self, client: httpx.Client, params: dict[str, Any]) -> None:
         self._client = client
-        self._keywords = str(params.get("keywords", "télétravail"))
+        keywords = params.get("keywords", "télétravail")
+        items = keywords if isinstance(keywords, list) else [keywords]
+        self._keywords = [str(k) for k in items if str(k).strip()]
         self._domain = params.get("domain", "M18")
         size = int(params.get("page_size", MAX_PAGE_SIZE))
         self._page_size = max(1, min(size, MAX_PAGE_SIZE))
@@ -103,38 +106,41 @@ class FranceTravail:
             )
         headers = {"Authorization": f"Bearer {self._token(client_id, secret)}"}
         size = min(self._page_size, limit) if limit else self._page_size
-        query: dict[str, Any] = {
-            "motsCles": self._keywords,
-            "sort": 1,
-            "publieeDepuis": published_window(since),
-        }
+        base: dict[str, Any] = {"sort": 1, "publieeDepuis": published_window(since)}
         if self._domain:
-            query["grandDomaine"] = self._domain
+            base["grandDomaine"] = self._domain
         emitted = 0
-        for page in range(self._max_pages):
-            if page and self._page_delay > 0:
-                time.sleep(self._page_delay)
-            start = page * size
-            body = get_text(
-                self._client,
-                API_URL,
-                params={**query, "range": f"{start}-{start + size - 1}"},
-                headers=headers,
-            )
-            payload = json.loads(body) if body.strip() else {}
-            items = payload.get("resultats") or [] if isinstance(payload, dict) else []
-            for item in items:
-                if not isinstance(item, dict):
-                    continue
-                job = self._to_raw(item)
-                if is_older(job.posted_at, since):
-                    continue
-                yield job
-                emitted += 1
-                if limit and emitted >= limit:
-                    return
-            if len(items) < size:
-                return
+        seen: set[str] = set()
+        requests = 0
+        for keywords in self._keywords:
+            query = {**base, "motsCles": keywords}
+            for page in range(self._max_pages):
+                if requests and self._page_delay > 0:
+                    time.sleep(self._page_delay)
+                requests += 1
+                start = page * size
+                body = get_text(
+                    self._client,
+                    API_URL,
+                    params={**query, "range": f"{start}-{start + size - 1}"},
+                    headers=headers,
+                )
+                payload = json.loads(body) if body.strip() else {}
+                items = payload.get("resultats") or [] if isinstance(payload, dict) else []
+                for item in items:
+                    if not isinstance(item, dict):
+                        continue
+                    job = self._to_raw(item)
+                    # Overlapping queries return the same offer more than once.
+                    if job.source_id in seen or is_older(job.posted_at, since):
+                        continue
+                    seen.add(job.source_id)
+                    yield job
+                    emitted += 1
+                    if limit and emitted >= limit:
+                        return
+                if len(items) < size:
+                    break
 
     @staticmethod
     def _to_raw(item: dict[str, Any]) -> RawJob:
