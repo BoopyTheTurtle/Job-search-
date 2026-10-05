@@ -75,7 +75,8 @@ families:
   # French titles use "charg\\S*" so chargé, chargée and chargé(e) all match.
   intl_development:
     title:
-      - "international development|development (?:cooperation|programmes?|programs?|specialist|officer|consultant|economist|practitioner|expert)"
+      - "international development|development (?:cooperation|programmes?|programs?|specialist|officer|consultant|practitioner|expert)"
+      - "economists?|économistes?"   # owner wants economist roles (OECD, development banks)
       - "programme (?:officer|manager|coordinator|specialist|associate|analyst|assistant|director|lead)|program officer"
       - "global health|resource mobili[sz]ation|(?:coordinat\\S*|responsable|chef) de programmes?"
       - "humanitarian|livelihoods?|food security"
