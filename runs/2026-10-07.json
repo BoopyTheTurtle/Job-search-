@@ -1,0 +1,183 @@
+{
+  "run_id": "d2f9792d2037",
+  "status": "ok",
+  "new_jobs": 2635,
+  "digests": [
+    {
+      "search": "impact-finance",
+      "shown": 21,
+      "strong": 17,
+      "possible": 2,
+      "senior": 2,
+      "dropped": 2614,
+      "digest_path": "data/digests/impact-finance/2026-10-07.md",
+      "email": "sent:01a1168a-8084-7260-b456-4a00035d4b81"
+    },
+    {
+      "search": "it",
+      "shown": 150,
+      "strong": 24,
+      "possible": 45,
+      "senior": 81,
+      "dropped": 2475,
+      "digest_path": "data/digests/it/2026-10-07.md",
+      "email": "sent:01a1168a-81b2-785d-a759-5087d69649cd"
+    }
+  ],
+  "date": "2026-10-07T13:17:40.923797+00:00",
+  "sources": [
+    {
+      "source": "remotive",
+      "fetched": 1,
+      "new": 1,
+      "errors": 0,
+      "duration_ms": 276,
+      "error_message": null,
+      "skipped": false
+    },
+    {
+      "source": "arbeitnow",
+      "fetched": 579,
+      "new": 442,
+      "errors": 0,
+      "duration_ms": 7265,
+      "error_message": null,
+      "skipped": false
+    },
+    {
+      "source": "remoteok",
+      "fetched": 2,
+      "new": 2,
+      "errors": 0,
+      "duration_ms": 1203,
+      "error_message": null,
+      "skipped": false
+    },
+    {
+      "source": "himalayas",
+      "fetched": 400,
+      "new": 336,
+      "errors": 0,
+      "duration_ms": 4127,
+      "error_message": null,
+      "skipped": false
+    },
+    {
+      "source": "jobicy",
+      "fetched": 50,
+      "new": 43,
+      "errors": 0,
+      "duration_ms": 1316,
+      "error_message": null,
+      "skipped": false
+    },
+    {
+      "source": "weworkremotely",
+      "fetched": 13,
+      "new": 10,
+      "errors": 0,
+      "duration_ms": 1172,
+      "error_message": null,
+      "skipped": false
+    },
+    {
+      "source": "workingnomads",
+      "fetched": 6,
+      "new": 2,
+      "errors": 0,
+      "duration_ms": 726,
+      "error_message": null,
+      "skipped": false
+    },
+    {
+      "source": "adzuna:impact-finance",
+      "fetched": 1184,
+      "new": 708,
+      "errors": 0,
+      "duration_ms": 368748,
+      "error_message": null,
+      "skipped": false
+    },
+    {
+      "source": "adzuna:it",
+      "fetched": 1052,
+      "new": 678,
+      "errors": 0,
+      "duration_ms": 61295,
+      "error_message": null,
+      "skipped": false
+    },
+    {
+      "source": "jobtech:it",
+      "fetched": 10,
+      "new": 10,
+      "errors": 0,
+      "duration_ms": 1943,
+      "error_message": null,
+      "skipped": false
+    },
+    {
+      "source": "reed:it",
+      "fetched": 182,
+      "new": 23,
+      "errors": 0,
+      "duration_ms": 2640,
+      "error_message": null,
+      "skipped": false
+    },
+    {
+      "source": "francetravail:impact-finance",
+      "fetched": 319,
+      "new": 233,
+      "errors": 0,
+      "duration_ms": 12807,
+      "error_message": null,
+      "skipped": false
+    },
+    {
+      "source": "francetravail:it",
+      "fetched": 207,
+      "new": 142,
+      "errors": 0,
+      "duration_ms": 4448,
+      "error_message": null,
+      "skipped": false
+    },
+    {
+      "source": "greenhouse",
+      "fetched": 0,
+      "new": 0,
+      "errors": 0,
+      "duration_ms": 143,
+      "error_message": null,
+      "skipped": false
+    },
+    {
+      "source": "smartrecruiters",
+      "fetched": 4,
+      "new": 4,
+      "errors": 0,
+      "duration_ms": 2323,
+      "error_message": null,
+      "skipped": false
+    },
+    {
+      "source": "recruitee",
+      "fetched": 1,
+      "new": 0,
+      "errors": 0,
+      "duration_ms": 550,
+      "error_message": null,
+      "skipped": false
+    },
+    {
+      "source": "workday",
+      "fetched": 1,
+      "new": 1,
+      "errors": 0,
+      "duration_ms": 5803,
+      "error_message": null,
+      "skipped": false
+    }
+  ]
+}
